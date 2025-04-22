@@ -117,14 +117,16 @@ squeue
 
 ### 13.1 用意したスクリプト(.mypython/plot.py)で可視化されたプロット(data/****.png, data/gif/****.gif)を確認する
 
-![]
+```phisp_2d_xy.png```
+
+![phisp_2d_xy.png](imgs/phisp_2d_xy.png)
 
 ### 13.2 可視化してみる: dshield0/plot_example.ipynb
 
 可視化方法は以下を参照:
 
-- ![EMSES出力可視化ライブラリ: emout](https://github.com/Nkzono99/emout)
-- ![サンプルコード](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
+- [EMSES出力可視化ライブラリ: emout](https://github.com/Nkzono99/emout)
+- [サンプルコード](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
 ![alt text](imgs/13_2.png)
 
@@ -169,9 +171,9 @@ TODO: 適当な時間を見れるように```nstep```を増やして、再度実
 
 ## 参考文献等
 
-京大スパコン利用マニュアル（要認証）: http://web.kudpc.kyoto-u.ac.jp/manual-new/ja
+[京大スパコン利用マニュアル（要認証）](http://web.kudpc.kyoto-u.ac.jp/manual-new/ja)
 
-神大スパコン利用マニュアル）: http://www.eccse.kobe-u.ac.jp/pi-computer/
+[神大スパコン利用マニュアル）](http://www.eccse.kobe-u.ac.jp/pi-computer/)
 
 Miyake, Y., and H. Usui, New Electromagnetic Particle Simulation Code for the Analysis of Spacecraft-plasma Interactions, Phys. Plasmas, 16, 062904, 2009.
 https://doi.org/10.1063/1.3147922
