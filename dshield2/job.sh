@@ -26,4 +26,3 @@ date
 
 # Postprocessing(visualization code, etc.)
 mypython plot.py ./
-mypython plot_hole.py ./
