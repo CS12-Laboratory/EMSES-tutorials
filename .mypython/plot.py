@@ -89,26 +89,26 @@ def main():
 
             # 1d Animation plot
             tslice = slice(None, None, math.ceil((data.inp.nstep//data.inp.ifdiag)/10))
-            vals[tslice, z_center, y_center, :].gifplot(
-                action="save", filename=datadir/"gif"/f"{name}_1d_x.gif"
-            )
-            vals[tslice, z_center, :, x_center].gifplot(
-                action="save", filename=datadir/"gif"/f"{name}_1d_y.gif"
-            )
-            vals[tslice, :, y_center, x_center].gifplot(
-                action="save", filename=datadir/"gif"/f"{name}_1d_z.gif"
-            )
+            # vals[tslice, z_center, y_center, :].gifplot(
+            #     action="save", filename=datadir/"gif"/f"{name}_1d_x.gif"
+            # )
+            # vals[tslice, z_center, :, x_center].gifplot(
+            #     action="save", filename=datadir/"gif"/f"{name}_1d_y.gif"
+            # )
+            # vals[tslice, :, y_center, x_center].gifplot(
+            #     action="save", filename=datadir/"gif"/f"{name}_1d_z.gif"
+            # )
 
             # 2d map plot
             vals[tslice, z_center, :, :].gifplot(
                 action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_xy.gif"
             )
-            vals[tslice, :, y_center, :].gifplot(
-                action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_zx.gif"
-            )
-            vals[tslice, :, :, x_center].gifplot(
-                action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_yz.gif"
-            )
+            # vals[tslice, :, y_center, :].gifplot(
+            #     action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_zx.gif"
+            # )
+            # vals[tslice, :, :, x_center].gifplot(
+            #     action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_yz.gif"
+            # )
 
 
 def search_dirs(patterns):
