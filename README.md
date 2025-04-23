@@ -56,9 +56,9 @@ pip install -r requirements.txt
 
 ## 9. EMSES実行ファイルを```dshield*```ディレクトリにコピーする
 ```bash
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield2/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 ## 10. ```dshield0```を実行してみる
