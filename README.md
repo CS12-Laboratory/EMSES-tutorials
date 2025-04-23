@@ -14,6 +14,7 @@
 ## 4. データ領域を設定する：LARGE0
 
 ```bash
+mkdir /LARGE0/gr20001/（アカウント名）
 ln -s /LARGE0/gr20001/(アカウント名) ~/large0
 ```
 
