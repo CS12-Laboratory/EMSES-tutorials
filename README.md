@@ -39,9 +39,8 @@ export PATH="$PATH:$HOME/.local/bin"
 ```bash
 mkdir ~/large0/Github
 cd ~/large0/Github
-git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
+git clone -b stable https://github.com/CS12-Laboratory/MPIEMSES3D.git # 今回は安定高速版を使う
 cd MPIEMSES3D
-# git checkout 7073b3189784de71a4e366f5994dce0654e62a97 # 今回は安定高速版を使う
 make
 ```
 
