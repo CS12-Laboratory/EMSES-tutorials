@@ -9,3 +9,4 @@
 !*.py
 !requirements.txt
 !imgs/*.png
+!**/*.xlsx
