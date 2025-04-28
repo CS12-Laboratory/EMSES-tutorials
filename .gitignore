@@ -3,11 +3,10 @@
 
 !*.inp
 !LICENSE
-!README.md
 !job.sh
 !plot_example.ipynb
 !*.py
 !requirements.txt
 !imgs/*.png
 !**/*.xlsx
-!README_plasma_inp.md
+!**/*.md
