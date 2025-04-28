@@ -1,0 +1,118 @@
+!!key dx=[0.001],to_c=[10000.0]
+&real
+/
+
+&realcv
+/
+
+&esorem
+  emflag = 0
+/
+
+&jobcon
+  jobnum = 0,0,
+  nstep  = 110000
+/
+
+&digcon
+  hdfdigstart = 0,
+  intfoc   = 100,
+  ifdiag   = 10000,
+  ijdiag   = 10000,
+  daverg   = 2,
+  ipahdf(1)= 0,
+  ipadig(1)= 1024,
+  ipahdf(2)= 0,
+  ipadig(2)= 1024,
+  ipaxyz   = 0,0,0,0,0,0, 0,0,0,0,0,0,
+  ifxyz    = 1,1,1,1,1,1,1,
+  ijxyz    = 1,1,1
+/
+
+&plasma
+  wp(1)    =  5.950738d-1,
+  wp(2)    =  1.881789d-2,
+  wc       =  0.0d0,
+  cv       =  10000.0d0,
+  phiz     =  0.0d0,
+  phixy    =  0.0d0
+/
+
+&tmgrid
+  dt       = 0.01d0,
+  nx       = 128,
+  ny       = 128,
+  nz       = 126,
+/
+
+&system
+  nspec    = 2,
+  ionchg   = 0,
+  nfbnd    = 0,0,0,
+  npbnd    = 2,2,2, 2,2,2,
+  nflag_ecrct = 1,
+  mtd_vbnd = 1,1,1
+/
+
+&intp
+  qm(1)    = -1.0d0,
+  qm(2)    = 1.0d-3,
+  npin(1)  = 41943040,
+  npin(2)  = 41943040,
+  path(1)  = 4.106546d0,
+  peth(1)  = 4.106546d0,
+  vdri(1)  = 0.0d0,
+  vdthz(1) = 90.0d0,
+  vdthxy(1)= 0.0d0,
+  path(2)  = 1.124624d-1,
+  peth(2)  = 1.124624d-1,
+  vdri(2)  = 0.0d0,
+  vdthz(2) = 90.0d0,
+  vdthxy(2)= 0.0d0
+/
+
+&inp
+  inpf(1)     = 1,
+  inpb(1)     = 1,
+  injct(1)    = 1,
+  npr(1)      = 524288,
+  inpf(2)     = 1,
+  inpb(2)     = 1,
+  injct(2)    = 1,
+  npr(2)      = 524288,
+/
+
+&ptcond
+  npc         = 1,
+  npcg        = 1,
+  pcgs(1)     = 1,
+  ccgs(1)     = 1,
+  mtd_vchg(1) = -1,
+
+! parameters for potential sweep
+  pswper      = ****, etc.
+
+! parameters for object definition
+  geotype(1)  = ****, etc.
+
+  nflag_subcell(1) = 1,
+  sfecrrct    = 1,
+  modeww      = -2
+/
+
+&scrnt
+/
+
+&emissn
+/
+
+&dipole
+/
+
+&mpi
+  nodes        = 4,4,7
+/
+
+&verbose
+/
+
