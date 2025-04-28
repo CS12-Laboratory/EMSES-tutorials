@@ -4,15 +4,15 @@
 
 ## 1. vscode を立ち上げ, 拡張機能「Remote-SSH」をインストールする
 
-![alt text](imgs/1.png)
+![alt text](../imgs/1.png)
 
 ## 2. 京大のスパコンの camphor にログインする.
 
-![alt text](imgs/2.png)
+![alt text](../imgs/2.png)
 
 ## 3. TERMINAL を開く
 
-![alt text](imgs/3.png)
+![alt text](../imgs/3.png)
 
 ## 4. データ領域を設定する：LARGE0
 
@@ -25,7 +25,7 @@ ln -s /LARGE0/gr20001/(アカウント名) ~/large0
 
 ### 5.1 以下パス部分を ctrl+左クリック
 
-![alt text](imgs/4.png)
+![alt text](../imgs/4.png)
 
 ### 5.2 .bashrc に以下を追記し、再起動
 
@@ -36,7 +36,7 @@ export PATH="$PATH:$HOME/.local/bin"
 
 ## 6. 再接続後、"Open Folder"から`~/large0`を選択する => 再度パスワード入力
 
-![alt text](imgs/5.png)
+![alt text](../imgs/5.png)
 
 ## 7. 再接続後、TERMINAL を開き、EMSES のインストール
 
@@ -124,7 +124,7 @@ squeue
 
 `phisp_2d_xy.png`
 
-![phisp_2d_xy.png](imgs/phisp_2d_xy.png)
+![phisp_2d_xy.png](../imgs/phisp_2d_xy.png)
 
 ### 13.2 可視化してみる: dshield0/plot_example.ipynb
 
@@ -133,7 +133,7 @@ squeue
 - [EMSES 出力可視化ライブラリ: emout](https://github.com/Nkzono99/emout)
 - [サンプルコード](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-![alt text](imgs/13_2.png)
+![alt text](../imgs/13_2.png)
 
 ## 14. 時間を長くして実行する & 他のシミュレーション設定も実行する
 
