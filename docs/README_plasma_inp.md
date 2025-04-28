@@ -1,6 +1,6 @@
 ## key for ```emout``` library
-- **`!!key dx=[0.5]`**: grid spacing in physical units [m]
-- **`!!key to_c=[10000.0]`**: conversion factor to speed-of-light units
+- **<mark>`!!key dx=[0.5]`</mark>**: grid spacing in physical units [m]
+- **<mark>`!!key to_c=[10000.0]`</mark>**: conversion factor to speed-of-light units
 
 ### &esorem
 - **`emflag`**  
@@ -8,14 +8,14 @@
   - `0` ⇒ Electrostatic approximation  
 
 ### &jobcon
-- **`jobnum`**: flag indicating whether this is a continuous job (`1`) or not (`0`)  
-- **`nstep`**: total number of time steps  
+- **<mark>`jobnum`</mark>**: flag indicating whether this is a continuous job (`1`) or not (`0`)  
+- **<mark>`nstep`</mark>**: total number of time steps  
 
 ### &digcon
 - **`hdfdigstart`**: step at which HDF diagnostics begin (`0` ⇒ from step 1)  
-- **`ifdiag`**: interval (in steps) between **field** data outputs  
+- **<mark>`ifdiag`</mark>**: interval (in steps) between **field** data outputs  
   - e.g. `100 000` ⇒ write electric/magnetic field, potential, density every 100 000 steps  
-- **`ijdiag`**: interval (in steps) between **current** data outputs  
+- **<mark>`ijdiag`</mark>**: interval (in steps) between **current** data outputs  
   - e.g. `100 000` ⇒ write current density every 100 000 steps  
 - **`daverg`**: averaging flag for diagnostics (`1` ⇒ time-averaged)  
 - **`ipahdf(1:3)`**: HDF output axes selection (0 = off)  
@@ -26,33 +26,33 @@
 - **`intfoc`**: focus interval for integrated diagnostics (`100`)
 
 ### &plasma
-- **`wp(1:2)`**: electron and ion plasma frequencies (EMSES-U)  
-- **`wc`**: electron cyclotron frequency (EMSES-U)  
+- **<mark>`wp(1:2)`</mark>**: electron and ion plasma frequencies (EMSES-U)  
+- **<mark>`wc`</mark>**: electron cyclotron frequency (EMSES-U)  
 - **`cv`**: speed of light (EMSES-U)  
 
 ### &tmgrid
-- **`dt`**: time step width (EMSES-U)  
-- **`nx, ny, nz`**: number of grid points in the _x_, _y_, and _z_ directions  
+- **<mark>`dt`</mark>**: time step width (EMSES-U)  
+- **<mark>`nx, ny, nz`</mark>**: number of grid points in the _x_, _y_, and _z_ directions  
 
 ### &intp
-- **`nspec`**: number of plasma species  
-- **`nfbnd, npbnd`**: boundary treatment flags for fields and particles  
+- **<mark>`nspec`</mark>**: number of plasma species  
+- **<mark>`nfbnd, npbnd`</mark>**: boundary treatment flags for fields and particles  
   - `0` ⇒ periodic  
   - `2` ⇒ free  
-- **`mtd_vbnd`**: boundary condition for potential  
+- **<mark>`mtd_vbnd`</mark>**: boundary condition for potential  
   - `0` ⇒ periodic  
   - `1` ⇒ Dirichlet  
   - `2` ⇒ Neumann  
-- **`qm(1:2)`**: charge-to-mass ratios (EMSES-U)  
-- **`npin(1:2)`**: initial number of macro-particles per species  
+- **<mark>`qm(1:2)`</mark>**: charge-to-mass ratios (EMSES-U)  
+- **<mark>`npin(1:2)`</mark>**: initial number of macro-particles per species  
 - **`np(1:2)`**: total macro-particles buffer size per species
-- **`path(1:2)`**: thermal velocities along the static _B_-field (EMSES-U)  
-- **`peth(1:2)`**: thermal velocities perpendicular to the _B_-field (EMSES-U)  
-- **`vdri(1:2)`**: magnitudes of bulk flow velocities (EMSES-U)  
-- **`vdthz(1:2), vdthxy(1:2)`**: flow direction angles (degrees)  
+- **<mark>`path(1:2)`</mark>**: thermal velocities along the static _B_-field (EMSES-U)  
+- **<mark>`peth(1:2)`</mark>**: thermal velocities perpendicular to the _B_-field (EMSES-U)  
+- **<mark>`vdri(1:2)`</mark>**: magnitudes of bulk flow velocities (EMSES-U)  
+- **<mark>`vdthz(1:2), vdthxy(1:2)`</mark>**: flow direction angles (degrees)  
 
 ### &ptcond
-#### Geotype Boundaries
+#### <mark>Geotype Boundaries</mark>
 - **`npc`**: number of solid bodies  
 - **`npcg`**: number of conducting bodies  
 - **`pcgs, ccgs`**: grouping definitions for bodies forming a single conductor  
@@ -75,7 +75,7 @@
 - **`rcurv`**: hyperboloid curvature ratio
 
 ### &mpi
-- **`nodes(1:3)`**: number of MPI processes along the _x_, _y_, and _z_ axes  
+- **<mark>`nodes(1:3)`</mark>**: number of MPI processes along the _x_, _y_, and _z_ axes  
 
 ### &gradema
 - **`grad_coef`**: acceleration coefficient for surface charging
