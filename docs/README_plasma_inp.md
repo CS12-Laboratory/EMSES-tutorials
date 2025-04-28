@@ -52,6 +52,7 @@
 - **`vdthz(1:2), vdthxy(1:2)`**: flow direction angles (degrees)  
 
 ### &ptcond
+#### Geotype Boundaries
 - **`npc`**: number of solid bodies  
 - **`npcg`**: number of conducting bodies  
 - **`pcgs, ccgs`**: grouping definitions for bodies forming a single conductor  
@@ -66,6 +67,7 @@
 - **`bdyalign, bdyradius, bdyedge, bdycoord`**: parameters defining cylinder/sphere geometry  
 - **`{x,y,z}{l,u}pc`**: lower/upper coordinates for rectangular geometry  
 
+#### [finbound](https://github.com/Nkzono99/finbound) Boundaries
 - **`boundary_type`**: inner boundary geometry  
   - `"flat-surface"` (others: `"rectangle-hole"`, `"cylinder-hole"`, …)  
 - **`zssurf`**: ground surface _z_-height
