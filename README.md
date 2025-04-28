@@ -213,3 +213,5 @@ http://fishercat.sr.unh.edu/psc/_downloads/lapenta.pdf
 http://www.astro.phys.s.chiba-u.ac.jp/pcans/
 
 過去の先輩の修論・卒論など
+
+[plasma.inpの説明](README_plasma_inp.md)

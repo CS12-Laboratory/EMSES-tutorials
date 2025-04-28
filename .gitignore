@@ -10,3 +10,4 @@
 !requirements.txt
 !imgs/*.png
 !**/*.xlsx
+!README_plasma_inp.md
