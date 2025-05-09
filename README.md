@@ -8,3 +8,6 @@
 - 詳細な手順や演習問題は後日公開予定です。
 
 - [plasma.inp の説明](docs/README_plasma_inp.md)
+
+- [単位変換について (preinpの項目)](https://github.com/Nkzono99/camptools)
+- [単位変換について (Working with Unitsの項目)](https://github.com/Nkzono99/emout)
