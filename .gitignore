@@ -10,3 +10,4 @@
 !imgs/*.png
 !**/*.xlsx
 !**/*.md
+!**/*.preinp
