@@ -5,7 +5,7 @@
 !!> var epsilon_0 = 8.85418782e-12
 !!> var e = 1.602176634e-19
 
-!!> var ion_to_electron_mass_ratio = 1836.152673426
+!!> var ion_to_electron_mass_ratio = 900
 !!> var ion_mass = electron_mass * ion_to_electron_mass_ratio
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -105,10 +105,10 @@
   !!> path(2)  = unit.v.trans(ion_thermal_speed)
   !!> peth(2)  = unit.v.trans(ion_thermal_speed)
 
-  !!> vdri(1)  = unit.v.trans(plasma_flow_speed_km_s)
+  !!> vdri(1)  = unit.v.trans(plasma_flow_speed_km_s*1e3)
   vdthz(1) = 90.0d0,
   vdthxy(1)= 0.0d0,
-  !!> vdri(2)  = unit.v.trans(plasma_flow_speed_km_s)
+  !!> vdri(2)  = unit.v.trans(plasma_flow_speed_km_s*1e3)
   vdthz(2) = 90.0d0,
   vdthxy(2)= 0.0d0
 /
