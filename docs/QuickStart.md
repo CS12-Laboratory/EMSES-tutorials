@@ -17,8 +17,8 @@
 ## 4. データ領域を設定する：LARGE0
 
 ```bash
-mkdir /LARGE0/gr20001/（アカウント名）
-ln -s /LARGE0/gr20001/(アカウント名) ~/large0
+mkdir /LARGE0/gr20001/$USER
+ln -s /LARGE0/gr20001/$USER ~/large0
 ```
 
 ## 4.5 Python3.11環境を構築する
