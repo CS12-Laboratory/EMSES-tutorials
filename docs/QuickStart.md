@@ -21,6 +21,12 @@ mkdir /LARGE0/gr20001/（アカウント名）
 ln -s /LARGE0/gr20001/(アカウント名) ~/large0
 ```
 
+## 4.5 Python3.11環境を構築する
+```
+cd ~/large0
+python3.11 -m venv venv
+```
+
 ## 5. .bashrc を編集する
 
 ### 5.1 以下パス部分を ctrl+左クリック
@@ -30,7 +36,7 @@ ln -s /LARGE0/gr20001/(アカウント名) ~/large0
 ### 5.2 .bashrc に以下を追記し、再起動
 
 ```bash
-module load intel-python
+export PATH="$PATH:$HOME/large0/.venv/bin"
 export PATH="$PATH:$HOME/.local/bin"
 ```
 
