@@ -212,5 +212,3 @@ Discuss the physical meaning of these results with your B4 group members and be 
 * 松本洋介, “pCANS ドキュメント,” *CANS プロジェクト*. [http://www.astro.phys.s.chiba-u.ac.jp/pcans/](http://www.astro.phys.s.chiba-u.ac.jp/pcans/)
 * Past graduate theses and dissertations from previous students
 
-```
-```
