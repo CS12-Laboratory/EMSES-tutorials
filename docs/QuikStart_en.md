@@ -1,4 +1,3 @@
-````markdown
 # First Tutorial
 
 Follow the steps below to get EMSES up and running for the first time.
