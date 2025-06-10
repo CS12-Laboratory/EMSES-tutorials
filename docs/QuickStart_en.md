@@ -21,13 +21,6 @@ mkdir /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
 ````
 
-## 4.5 Create a Python 3.11 environment
-
-```bash
-cd ~/large0
-python3.11 -m venv venv
-```
-
 ## 5. Edit your `.bashrc`
 
 ### 5.1 Ctrl + Left-click the path shown below
@@ -37,7 +30,7 @@ python3.11 -m venv venv
 ### 5.2 Add the following lines to your `.bashrc`, then log out and log back in
 
 ```bash
-export PATH="$PATH:$HOME/large0/venv/bin"
+module load intel-python
 export PATH="$PATH:$HOME/.local/bin"
 ```
 
