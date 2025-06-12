@@ -21,17 +21,11 @@ mkdir /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
 ````
 
-## 5. Edit your `.bashrc`
-
-### 5.1 Ctrl + Left-click the path shown below
-
-![alt text](../imgs/4.png)
-
-### 5.2 Add the following lines to your `.bashrc`, then log out and log back in
+### 5. Add the following lines to your `.bashrc`, then log out and log back in
 
 ```bash
-module load intel-python
-export PATH="$PATH:$HOME/.local/bin"
+grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
+grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 ```
 
 ## 6. After reconnecting, choose **Open Folder** → `~/large0` and re-enter your password
