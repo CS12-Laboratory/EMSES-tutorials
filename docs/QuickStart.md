@@ -21,17 +21,11 @@ mkdir /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
 ```
 
-## 5. .bashrc を編集する
-
-### 5.1 以下パス部分を ctrl+左クリック
-
-![alt text](../imgs/4.png)
-
-### 5.2 .bashrc に以下を追記し、再起動
+## 5. .bashrc に以下を追記し、再起動
 
 ```bash
-module load intel-python
-export PATH="$PATH:$HOME/.local/bin"
+grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
+grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 ```
 
 ## 6. 再接続後、"Open Folder"から`~/large0`を選択する => 再度パスワード入力
