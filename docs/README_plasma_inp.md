@@ -176,7 +176,7 @@ All following parameters belong to the **\&ptcond** group and are implemented vi
 
 * **boundary\_type** (character(30))
 
-  * Specifies the overall inner-boundary geometry for each body.
+  * Specifies the overall inner-boundary geometry for one body.
   * Supported values:
 
     * `none` (no special inner boundary)
@@ -188,15 +188,14 @@ All following parameters belong to the **\&ptcond** group and are implemented vi
     * `diskx`, `disky`, `diskz` (flat disk perpendicular to an axis)
     * `complex` (user-defined or combined shapes)
 
-* **nboundary\_types** (integer)
-
-  * Defines the maximum number of distinct sub-boundary regions (default: 10).
-  * Determines the fixed size of all geometry arrays below.
-
 * **boundary\_types(1\:nboundary\_types)** (character(30) array)
 
-  * Parsed tokens from `boundary_type`, e.g. splitting `rectangle-hole` into `"rectangle"` and `"hole"`.
+  * Specifies the overall inner-boundary geometry for each body.
   * Unused entries default to `"none"`.
+
+* **boundary\_conductor_id(1\:nboundary\_types)**
+
+  * Specifies the conductor number (`ipc` at `geotype(ipc)`) if this boundary condition constitute the conductor object.
 
 **Geometry Parameter Arrays** (each dimensioned by `nboundary_types`):
 
