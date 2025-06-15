@@ -1,0 +1,179 @@
+!!key dx=[0.5],to_c=[1000.0]
+
+!!!!!!!!!!!!!!! Physical constants !!!!!!!!!!!!!!!!!!!!!!!
+!!> var electron_mass = 9.1093837015e-31
+!!> var epsilon_0 = 8.85418782e-12
+!!> var e = 1.602176634e-19
+!!> var kb = 1.380649e-23
+
+!!> var ion_to_electron_mass_ratio = 1836.152673426
+!!> var ion_mass = electron_mass * ion_to_electron_mass_ratio
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! INPUT Parameters !!!!!!!!!!!!!!!!!!!!!!!
+!!> var plasma_density_cc = 10
+
+!!> var electron_temperature_eV = 10
+!!> var ion_temperature_eV = 10
+!!> var pe_temperature_eV = 2.2
+
+!!> var pe_current_density_A_m2 = 4.5e-6
+
+!!> var plasma_flow_speed_km_s = 400
+
+!!> var sphere_potential_V = 10
+
+!!> var sw_angle_deg = 0.0
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! Simulation Parameters !!!!!!!!!!!!!!!!!!!!!!!
+!!> var npcls_per_grid = 40
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! Tempolary variables !!!!!!!!!!!!!!!!!!!!!
+!!> var electron_frequency = sqrt(plasma_density_cc*1e6*e*e/electron_mass/epsilon_0)
+!!> var ion_frequency = sqrt(plasma_density_cc*1e6*e*e/ion_mass/epsilon_0)
+
+!!> var electron_thermal_speed = sqrt(e*electron_temperature_eV/electron_mass)
+!!> var ion_thermal_speed = sqrt(e*ion_temperature_eV/ion_mass)
+!!> var pe_thermal_speed = sqrt(e*pe_temperature_eV/electron_mass)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&real
+/
+
+&realcv
+/
+
+&esorem
+    emflag = 0
+/
+
+&jobcon
+    jobnum(1:2) = 0, 1
+    nstep = 50000
+/
+
+&digcon
+    hdfdigstart = 0
+    intfoc = 5000
+    ifdiag = 5000
+    ijdiag = 5000
+    daverg = 1
+    ipahdf(1:3) = 0, 0, 0
+    ipadig(1:3) = 1024, 1024, 1024
+    ipaxyz = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ifxyz(1:7) = 1, 1, 1, 1, 1, 1, 1
+    ijxyz(1:3) = 1, 1, 1
+/
+
+&plasma
+    wp(1:3) = 2.975369d-1, 6.943652d-3, 2.975369d-1
+    wc = 0.0d0
+    cv = 1000.0d0
+    phiz = 0.0d0
+    phixy = 0.0d0
+/
+
+&tmgrid
+    dt = 0.02d0
+    nx = 64
+    ny = 64
+    nz = 896
+/
+
+&system
+    nspec = 3
+    ionchg = 0
+    nfbnd(1:3) = 0, 0, 1
+    npbnd = 0, 0, 2, 0, 0, 2, 0, 0, 2
+    nflag_ecrct = 1
+    mtd_vbnd(1:3) = 0, 0, 1
+/
+
+&intp
+    !!> qm(1:3) = -1.0, 1/ion_to_electron_mass_ratio, -1.0
+
+    !!> npin(1:3) = nx*ny*nz*npcls_per_grid, nx*ny*nz*npcls_per_grid, 0
+
+    !!> path(1:3) = unit.v.trans(electron_thermal_speed), unit.v.trans(ion_thermal_speed), unit.v.trans(pe_thermal_speed)
+    !!> peth(1:3) = unit.v.trans(electron_thermal_speed), unit.v.trans(ion_thermal_speed), unit.v.trans(pe_thermal_speed)
+    
+    !!> vdri(1:3) = -1*unit.v.trans(plasma_flow_speed_km_s*1e3), -1*unit.v.trans(plasma_flow_speed_km_s*1e3), 0.0
+    
+    !!> vdthz(1:3) = sw_angle_deg, sw_angle_deg, 0.0
+    vdthxy(1:3) = 180.0d0, 180.0d0, 180.0d0
+    
+    !!> np(3) = nx*ny*nz*npcls_per_grid
+/
+
+&inp
+    inpf(1:3) = 1, 1, 1
+    inpb(1:3) = 1, 1, 1
+    injct(1:3) = 1, 1, 1
+    npr(1:3) = 524288, 524288, 524288
+/
+
+&ptcond
+    ! Set "complex" if you use multiple boundaries.
+    boundary_type = "complex"
+
+    ! Lunar surface boundary.
+    boundary_types(1) = "flat-surface"
+    zssurf = 200.0d0
+
+    ! Conductor boundary
+ 
+    boundary_types(2) = "sphere"
+    boundary_conductor_id(2) = 1
+    sphere_origin(2, 1:3) = 32, 32, 220
+    sphere_radius(2) = 1.0d0
+
+    npc = 1
+    npcg = 1
+
+    pcgs(1) = 1
+    ccgs(1) = 1
+    mtd_vchg(1) = 1
+
+    !!> pfixed(1) = unit.phi.trans(sphere_potential_V)
+
+    geotype(1)  = 3
+    bdyradius(1)  = 1.0d0,
+    bdycoord(1,1) = 32.0d0,
+    bdycoord(2,1) = 32.0d0,
+    bdycoord(3,1) = 220.0d0,
+    biasp(1)      = 0.0d0,
+    dscaled(1)    = 1.0d0,
+
+    nflag_subcell(1) = 1
+    sfecrrct    = 1
+    modeww      = -2
+/
+
+&scrnt
+/
+
+&emissn
+    pe_ray_cast = .true.
+    nflag_emit(1:3) = 0, 0, 2
+    imarea = 0.0d0, 0.0d0, 0.0d0
+    plreloc = 0.0d0
+
+    !!> curf(3) = unit.J.trans(pe_current_density_A_m2)
+    
+    !!> dnsf(3) = npcls_per_grid
+/
+
+&dipole
+/
+
+&mpi
+    nodes(1:3) = 8, 4, 7
+/
+
+&verbose
+/

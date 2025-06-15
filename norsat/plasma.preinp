@@ -1,0 +1,211 @@
+!!key dx=[0.005],to_c=[10000.0]
+
+!!!!!!!!!!!!!!! Physical constants !!!!!!!!!!!!!!!!!!!!!!!
+!!> var electron_mass = 9.1093837015e-31
+!!> var epsilon_0 = 8.85418782e-12
+!!> var e = 1.602176634e-19
+!!> var kb = 1.380649e-23
+
+!!> var ion_to_electron_mass_ratio = 1000
+!!> var ion_mass = electron_mass * ion_to_electron_mass_ratio
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! INPUT Parameters !!!!!!!!!!!!!!!!!!!!!!!
+!!> var plasma_density_cc = 1e5
+
+!!> var electron_temperature_K = 1000
+!!> var ion_temperature_K = 750
+
+!!> var plasma_flow_speed_km_s = 0.0
+
+!!> var magnetic_field_nT = 0.0
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! Simulation Parameters !!!!!!!!!!!!!!!!!!!!!!!
+!!> var npcls_per_grid = 40
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!! Tempolary variables !!!!!!!!!!!!!!!!!!!!!
+!!> var electron_frequency = sqrt(plasma_density_cc*1e6*e*e/electron_mass/epsilon_0)
+!!> var ion_frequency = sqrt(plasma_density_cc*1e6*e*e/ion_mass/epsilon_0)
+
+!!> var electron_thermal_speed = sqrt(kb*electron_temperature_K/electron_mass)
+!!> var ion_thermal_speed = sqrt(kb*ion_temperature_K/ion_mass)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&real
+/
+
+&realcv
+/
+
+&esorem
+  emflag = 0
+/
+
+&jobcon
+  jobnum(1:2) = 0, 1
+  nstep = 20000
+/
+
+&digcon
+  hdfdigstart = 0
+  intfoc = 100
+  ifdiag = 1000
+  ijdiag = 1000
+  daverg = 1
+  ipahdf(1:2) = 0, 0
+  ipadig(1:2) = 1024, 1024
+  ipaxyz = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  ifxyz(1:7) = 1, 1, 1, 1, 1, 1, 1
+  ijxyz(1:3) = 1, 1, 1
+/
+
+&plasma
+  !!> wp(1) = unit.f.trans(electron_frequency)
+  !!> wp(2) = unit.f.trans(ion_frequency)
+  !!> wc = unit.B.trans(magnetic_field_nT*1e-9)
+  cv = 10000.0d0
+  phiz = 90.0d0
+  phixy = 0.0d0
+/
+
+&tmgrid
+  dt = 0.02d0
+  nx = 160
+  ny = 160
+  nz = 154
+/
+
+&system
+  nspec = 2
+  ionchg = 0
+  nfbnd(1:3) = 0, 0, 0
+  npbnd(1:6) = 2, 2, 2, 2, 2, 2
+  nflag_ecrct = 1
+  mtd_vbnd(1:3) = 1, 1, 1
+/
+
+&intp
+  !!> qm(1:2) = -1.0, 1.0/ion_to_electron_mass_ratio
+
+  !!> npin(1:2) = nx*ny*nz*npcls_per_grid, nx*ny*nz*npcls_per_grid
+
+  !!> path(1:2) = unit.v.trans(electron_thermal_speed), unit.v.trans(ion_thermal_speed)
+  !!> peth(1:2) = unit.v.trans(electron_thermal_speed), unit.v.trans(ion_thermal_speed)
+
+  !!> vdri(1:2) = unit.v.trans(plasma_flow_speed_km_s*1e3), unit.v.trans(plasma_flow_speed_km_s*1e3)
+
+  vdthz(1:2) = 90.0d0, 90.0d0
+  vdthxy(1:2)= 0.0d0, 0.0d0
+/
+
+&inp
+  inpf(1:2) = 1, 1
+  inpb(1:2) = 1, 1
+  injct(1:2) = 1, 1
+  npr(1:2) = 524288, 524288
+/
+
+&ptcond
+  npc = 9
+  npcg = 1
+
+  pcgs(1) = 9
+  ccgs(1) = 9
+  mtd_vchg(1) = 0
+
+  geotype(1) = 1
+  xlpc(1) = 59.0d0
+  xupc(1) = 80.0d0
+  ylpc(1) = 74.0d0
+  yupc(1) = 86.0d0
+  zlpc(1) = 63.0d0
+  zupc(1) = 93.0d0
+
+  geotype(2) = 0
+  xlpc(2) = 59.0d0
+  xupc(2) = 60.0d0
+  ylpc(2) = 62.0d0
+  yupc(2) = 74.0d0
+  zlpc(2) = 63.0d0
+  zupc(2) = 93.0d0
+  !!> biasp(2) = unit.phi.trans(0.0)
+
+  geotype(3) = 0
+  xlpc(3) = 59.0d0
+  xupc(3) = 60.0d0
+  ylpc(3) = 86.0d0
+  yupc(3) = 98.0d0
+  zlpc(3) = 63.0d0
+  zupc(3) = 93.0d0
+  !!> biasp(3) = unit.phi.trans(0.0)
+
+  geotype(4) = 2
+  bdyalign(4) = 2
+  bdyradius(4)  = 0.5d0
+  bdycoord(1,4) = 63.0d0
+  bdycoord(2,4) = 80.0d0
+  bdyedge(1,4)  = 51.0d0
+  bdyedge(2,4)  = 109.0d0
+  !!> biasp(4) = unit.phi.trans(0.0)
+
+  geotype(5) = 2
+  bdyalign(5) = 2
+  bdyradius(5)  = 0.5d0
+  bdycoord(1,5) = 93.0d0
+  bdycoord(2,5) = 80.0d0
+  bdyedge(1,5)  = 51.0d0
+  bdyedge(2,5)  = 109.0d0
+  !!> biasp(5) = unit.phi.trans(0.0)
+
+  geotype(6) = 3
+  bdyradius(6) = 0.5d0
+  bdycoord(1,6) = 80.0d0
+  bdycoord(2,6) = 110.0d0
+  bdycoord(3,6) = 63.0d0
+  !!> biasp(6) = unit.phi.trans(0.0)
+
+  geotype(7) = 3
+  bdyradius(7) = 0.5d0
+  bdycoord(1,7) = 80.0d0
+  bdycoord(2,7) = 110.0d0
+  bdycoord(3,7) = 93.0d0
+  !!> biasp(7) = unit.phi.trans(0.0)
+
+  geotype(8) = 3
+  bdyradius(8) = 0.5d0
+  bdycoord(1,8) = 80.0d0
+  bdycoord(2,8) = 50.0d0
+  bdycoord(3,8) = 63.0d0
+  !!> biasp(8) = unit.phi.trans(0.0)
+
+  geotype(9) = 3
+  bdyradius(9) = 0.5d0
+  bdycoord(1,9) = 80.0d0
+  bdycoord(2,9) = 50.0d0
+  bdycoord(3,9) = 93.0d0
+  !!> biasp(9) = unit.phi.trans(0.0)
+
+  nflag_subcell = 1
+  modeww = -2
+/
+
+&scrnt
+/
+
+&emissn
+/
+
+&dipole
+/
+
+&mpi
+  nodes(1:3) = 8, 4, 7
+/
+
+&verbose
+/

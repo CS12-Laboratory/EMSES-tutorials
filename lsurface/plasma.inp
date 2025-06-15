@@ -1,0 +1,128 @@
+!!key dx=[0.5],to_c=[1000.0]
+&real
+/
+
+&realcv
+/
+
+&esorem
+    emflag = 0
+/
+
+&jobcon
+    jobnum(1:2) = 0, 1
+    nstep = 50000
+/
+
+&digcon
+    hdfdigstart = 0
+    intfoc = 5000
+    ifdiag = 5000
+    ijdiag = 5000
+    daverg = 1
+    ipahdf(1:3) = 0, 0, 0
+    ipadig(1:3) = 1024, 1024, 1024
+    ipaxyz = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ifxyz(1:7) = 1, 1, 1, 1, 1, 1, 1
+    ijxyz(1:3) = 1, 1, 1
+/
+
+&plasma
+    wp(1:3) = 2.975369d-1, 6.943652d-3, 2.975369d-1
+    wc = 0.0d0
+    cv = 1000.0d0
+    phiz = 0.0d0
+    phixy = 0.0d0
+/
+
+&tmgrid
+    dt = 0.02d0
+    nx = 64
+    ny = 64
+    nz = 896
+/
+
+&system
+    nspec = 3
+    ionchg = 0
+    nfbnd(1:3) = 0, 0, 1
+    npbnd = 0, 0, 2, 0, 0, 2, 0, 0, 2
+    nflag_ecrct = 1
+    mtd_vbnd(1:3) = 0, 0, 1
+/
+
+&intp
+    qm(1:3) = -1.0d0, 5.446208d-4, -1.0d0
+    npin(1:3) = 146800640, 146800640, 0
+    path(1:3) = 4.423744d0, 1.032374d-1, 2.074920d0
+    peth(1:3) = 4.423744d0, 1.032374d-1, 2.074920d0
+    vdri(1:3) = -1.334256d0, -1.334256d0, 0.0d0
+    vdthz(1:3) = 0.0d0, 0.0d0, 0.0d0
+    vdthxy(1:3) = 180.0d0, 180.0d0, 180.0d0
+    np(3) = 146800640
+/
+
+&inp
+    inpf(1:3) = 1, 1, 1
+    inpb(1:3) = 1, 1, 1
+    injct(1:3) = 1, 1, 1
+    npr(1:3) = 524288, 524288, 524288
+/
+
+&ptcond
+    ! Set "complex" if you use multiple boundaries.
+    boundary_type = "complex"
+
+    ! Lunar surface boundary.
+    boundary_types(1) = "flat-surface"
+    zssurf = 200.0d0
+
+    ! Conductor boundary
+ 
+    boundary_types(2) = "sphere"
+    boundary_conductor_id(2) = 1
+    sphere_origin(2, 1:3) = 32, 32, 220
+    sphere_radius(2) = 1.0d0
+
+    npc = 1
+    npcg = 1
+
+    pcgs(1) = 1
+    ccgs(1) = 1
+    mtd_vchg(1) = 1
+    pfixed(1) = 1.956951d1 ! 10V
+
+    geotype(1)  = 3
+    bdyradius(1)  = 1.0d0,
+    bdycoord(1,1) = 32.0d0,
+    bdycoord(2,1) = 32.0d0,
+    bdycoord(3,1) = 220.0d0,
+    biasp(1)      = 0.0d0,
+    dscaled(1)    = 1.0d0,
+
+    nflag_subcell(1) = 1
+    sfecrrct    = 1
+    modeww      = -2
+/
+
+&scrnt
+/
+
+&emissn
+    pe_ray_cast = .true.
+    nflag_emit(1:3) = 0, 0, 2
+    imarea = 0.0d0, 0.0d0, 0.0d0
+    plreloc = 0.0d0
+    curf(3) = 8.293983d-1
+    dnsf(3) = 40
+/
+
+&dipole
+/
+
+&mpi
+    nodes(1:3) = 8, 4, 7
+/
+
+&verbose
+/

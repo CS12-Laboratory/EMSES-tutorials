@@ -7,9 +7,9 @@
 
 # set -x
 
-module load intel/2022.3 intelmpi/2022.3
-module load hdf5/1.12.2_intel-2022.3-impi
-module load fftw/3.3.10_intel-2022.3-impi
+module load intel intelmpi
+module load hdf5/1.12.2_intel-2023.2-impi
+module load fftw
 
 if [ -f ./plasma.preinp ]; then
     preinp
