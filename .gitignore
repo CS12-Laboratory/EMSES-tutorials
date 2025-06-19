@@ -11,3 +11,4 @@
 !**/*.xlsx
 !**/*.md
 !**/*.preinp
+!.vscode/*
