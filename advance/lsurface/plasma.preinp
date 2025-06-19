@@ -71,7 +71,9 @@
 /
 
 &plasma
-    wp(1:3) = 2.975369d-1, 6.943652d-3, 2.975369d-1
+    !!> wp(1) = unit.f.trans(electron_frequency)
+    !!> wp(2) = unit.f.trans(ion_frequency)
+    !!> wp(3) = unit.f.trans(electron_frequency)
     wc = 0.0d0
     cv = 1000.0d0
     phiz = 0.0d0

@@ -67,7 +67,7 @@
 &plasma
   !!> wp(1) = unit.f.trans(electron_frequency)
   !!> wp(2) = unit.f.trans(ion_frequency)
-  !!> wc = unit.B.trans(magnetic_field_nT*1e-9)
+  !!> wc = -unit.B.trans(magnetic_field_nT*1e-9)
   cv = 10000.0d0
   phiz = 90.0d0
   phixy = 0.0d0
