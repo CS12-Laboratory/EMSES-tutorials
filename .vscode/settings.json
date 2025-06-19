@@ -35,5 +35,20 @@
         "**/*.obj": true,
         "**/*.smod": true,
         "**/SNAPSHOT1": true,
-    }
+        "**/plasma.out": true,
+    },
+    "files.associations": {
+        "*.inp": "FortranFreeForm",
+        "*.preinp": "FortranFreeForm",
+        "*.xdmf": "xml",
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "plot_example.ipynb": "*.ipynb",
+        ".logs": "*.log",
+        "job.sh": "job.sh, myjob.sh",
+        "plasma.preinp": "plasma.inp, plasma.preinp, *.xlsx",
+    },
+    "explorer.fileNesting.expand": false,
+    "workbench.tree.indent": 15,
 }
