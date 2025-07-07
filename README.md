@@ -8,7 +8,7 @@
 - [初回チュートリアル（English)](docs/QuickStart_en.md)
 - 詳細な手順や演習問題は後日公開予定です。
 
-- [plasma.inp の説明](docs/README_plasma_inp.md)
+- [plasma.inp の説明](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/Parameters.md)
 - [plasma.preinpの説明 (preinpの項目)](https://github.com/Nkzono99/camptools)
 
 - [単位変換について (preinpの項目)](https://github.com/Nkzono99/camptools)
