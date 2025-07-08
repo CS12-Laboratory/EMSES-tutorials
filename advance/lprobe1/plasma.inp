@@ -19,7 +19,7 @@
   intfoc   = 100,
   ifdiag   = 10000,
   ijdiag   = 10000,
-  daverg   = 2,
+  daverg   = 1
   ipahdf(1)= 0,
   ipadig(1)= 1024,
   ipahdf(2)= 0,
