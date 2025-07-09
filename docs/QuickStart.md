@@ -37,7 +37,7 @@ grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH=
 ```bash
 mkdir ~/large0/Github
 cd ~/large0/Github
-git clone -b stable https://github.com/CS12-Laboratory/MPIEMSES3D.git # 今回は安定高速版を使う
+git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
 ```
