@@ -14,44 +14,38 @@
 
 ![alt text](../imgs/3.png)
 
-## 4. データ領域を設定する：LARGE0
+## 4. 以下をコピー&ペーストで実行する
 
 ```bash
+# データ領域を設定する：LARGE0
 mkdir /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
-```
 
-## 5. .bashrc に以下を追記し、再起動
-
-```bash
+# .bashrc に追記し、再起動
 grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
 grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
-```
 
-## 6. 再接続後、"Open Folder"から`~/large0`を選択する => 再度パスワード入力
+exec $SHELL -l
 
-![alt text](../imgs/5.png)
-
-## 7. 再接続後、TERMINAL を開き、EMSES のインストール
-
-```bash
+# EMSES のインストール
 mkdir ~/large0/Github
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
-```
 
-## 8. 本リポジトリをクローンし、必要な python ライブラリをインストールする
-
-```bash
+# 本リポジトリをクローンし、必要な python ライブラリをインストールする
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
 cd EMSES-tutorials
 pip install -r requirements.txt
+
+# EMSES-tutorialsリポジトリを開く
+code --reuse-window ~/large0/Github/EMSES-tutorials
+
 ```
 
-## 9. EMSES 実行ファイルを`dshield*`ディレクトリにコピーする
+## 5. EMSES 実行ファイルを`dshield*`ディレクトリにコピーする
 
 ```bash
 cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
@@ -59,7 +53,7 @@ cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
 cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
-## 10. `dshield0`を実行してみる
+## 6. `dshield0`を実行してみる
 
 ```bash
 cd ~/large0/Github/EMSES-tutorials/dshield0
@@ -72,7 +66,7 @@ mysbatch: カスタムコマンド (camptools: https://github.com/Nkzono99/campt
 plasma.inpに記述されたnodes(:)を参照し、job.shにプロセス数を設定し sbatch job.shを実行する
 ```
 
-## 11. 実行状況を確認する
+## 7. 実行状況を確認する
 
 ```
 qs: ジョブの実行状況を確認する
@@ -99,28 +93,28 @@ latestjob: カスタムコマンド (camptools: https://github.com/Nkzono99/camp
 > - `stdout.****.log` : 標準出力
 > - `stderr.****.log` : 標準エラー
 
-## 12. ジョブの終了を確認する
+## 8. ジョブの終了を確認する
 
-### 12.1 以下で該当ジョブの ID が、非表示 or FINISH になれば終了
+### 8.1 以下で該当ジョブの ID が、非表示 or FINISH になれば終了
 
 ```bash
 squeue
 ```
 
-### 12.2 正常終了か確認する
+### 8.2 正常終了か確認する
 
 - `stdout.*****.log`や`stderr.****.log`を確認する
 - 可視化した結果を確認する
 
-## 13. 可視化
+## 9. 可視化
 
-### 13.1 用意したスクリプト(.mypython/plot.py)で可視化されたプロット(data/\***\*.png, data/gif/\*\***.gif)を確認する
+### 10.1 用意したスクリプト(.mypython/plot.py)で可視化されたプロット(data/\***\*.png, data/gif/\*\***.gif)を確認する
 
 `phisp_2d_xy.png`
 
 ![phisp_2d_xy.png](../imgs/phisp_2d_xy.png)
 
-### 13.2 可視化してみる: dshield0/plot_example.ipynb
+### 10.2 可視化してみる: dshield0/plot_example.ipynb
 
 可視化方法は以下を参照:
 
@@ -129,9 +123,9 @@ squeue
 
 ![alt text](../imgs/13_2.png)
 
-## 14. 時間を長くして実行する & 他のシミュレーション設定も実行する
+## 11. 時間を長くして実行する & 他のシミュレーション設定も実行する
 
-### 14.1 時間を長くして実行する
+### 11.1 時間を長くして実行する
 
 `dshield0/plasma.inp`を見ると、`nstep`が`100`となっている。
 
@@ -139,13 +133,13 @@ squeue
 
 TODO: 適当な時間を見れるように`nstep`を増やして、再度実行してみる。
 
-### 14.2 他のシミュレーション設定も実行する
+### 11.2 他のシミュレーション設定も実行する
 
 `dshield1`や`dshield2`についても、パラメータファイル`plasma.inp`を見て、実行してみる
 
 ※どこが変わっているか確認すること
 
-### 14.3 TODO: シミュレーションが終了したら、`dshield0`と同様に可視化し、結果を考察する
+### 11.3 TODO: シミュレーションが終了したら、`dshield0`と同様に可視化し、結果を考察する
 
 ## 結果を見る前に予想してみよう
 
