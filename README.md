@@ -17,7 +17,7 @@
 
 EMSESの実行に必要な主要な入力ファイルについて、以下の資料をご参照ください。
 
-* 📄 [`plasma.inp` の各パラメータの説明](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/Parameters.md)
+* 📄 [`plasma.inp` の各パラメータの説明](docs/Parameters.md)
   シミュレーション設定に関する主要なパラメータを解説しています。
 
 * 📄 [`plasma.preinp` の構成項目に関する説明](https://github.com/Nkzono99/camptools)
