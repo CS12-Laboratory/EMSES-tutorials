@@ -4,3 +4,4 @@ scipy
 emout
 camptools
 git+https://github.com/Nkzono99/mypython.git
+fpm
