@@ -116,7 +116,21 @@ squeue
 
 ### 10.2 可視化してみる: dshield0/plot_example.ipynb
 
-可視化方法は以下を参照:
+#### 10.2.1 python interpreterを設定する. (初回のみ?）
+
+##### 10.2.1.1 Vscode上で「Ctrl + Shift + P」を同時押しし、出てきた入力フォームに「Python: Select Interpreter」を入力
+   
+![alt text](../imgs/select_interpreter.png)
+   
+##### 10.2.1.2 Enter interpreter path...をクリック
+   
+![alt text](../imgs/enter_interpreter_path.png)
+   
+#### 10.2.1.3 選択するPython interpreterのパスを入力 (camphorの場合の例: /opt/system/app/intelpython/2024.2.0/bin/python)
+
+![alt text](../imgs/input_interpreter.png)
+
+#### 10.2.2. 可視化方法は以下を参照:
 
 - [EMSES 出力可視化ライブラリ: emout](https://github.com/Nkzono99/emout)
 - [サンプルコード](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
