@@ -118,6 +118,9 @@ mysbatch job.sh
      ```bash
      cd ~/large0
      /usr/bin/python3.11 -m venv .venv
+     # 再インストール
+     ~/large0/.venv/bin/python -m pip install -r ~/large0/Github/EMSES-tutorials/requirements.txt
+     ~/large0/.venv/bin/python -m pip install -U emout
      ```
 
      VSCode で `~/large0/.venv/bin/python` を選択
