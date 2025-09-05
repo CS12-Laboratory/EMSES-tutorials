@@ -108,38 +108,50 @@ squeue
 
 ## 9. 可視化
 
-### 10.1 用意したスクリプト(.mypython/plot.py)で可視化されたプロット(data/\***\*.png, data/gif/\*\***.gif)を確認する
+### 9.1 用意したスクリプト(.mypython/plot.py)で可視化されたプロット(data/\***\*.png, data/gif/\*\***.gif)を確認する
 
 `phisp_2d_xy.png`
 
 ![phisp_2d_xy.png](../imgs/phisp_2d_xy.png)
 
-### 10.2 可視化してみる: dshield0/plot_example.ipynb
+### 9.2 可視化してみる: dshield0/plot_example.ipynb
 
-#### 10.2.1 python interpreterを設定する. (初回のみ?）
+#### 9.2.1 python interpreterを設定する. (初回のみ?）
 
-##### 10.2.1.1 Vscode上で「Ctrl + Shift + P」を同時押しし、出てきた入力フォームに「Python: Select Interpreter」を入力
+<details>
+<summary>Python3.11を使用する場合 (仮想環境を作成する)</summary>
+
+```bash
+cd ~/large0
+/usr/bin/python3.11 -m venv .venv
+```
+
+以下の「Python: Select Interpreter」で ```<user-name>/large0/.venv/bin/python```を選択する。
+
+</details>
+
+##### 9.2.1.1 Vscode上で「Ctrl + Shift + P」を同時押しし、出てきた入力フォームに「Python: Select Interpreter」を入力
    
 ![alt text](../imgs/select_interpreter.png)
    
-##### 10.2.1.2 Enter interpreter path...をクリック
+##### 9.2.1.2 Enter interpreter path...をクリック
    
 ![alt text](../imgs/enter_interpreter_path.png)
    
-#### 10.2.1.3 選択するPython interpreterのパスを入力 (camphorの場合の例: /opt/system/app/intelpython/2024.2.0/bin/python)
+#### 9.2.1.3 選択するPython interpreterのパスを入力 (camphorの場合の例: /opt/system/app/intelpython/2024.2.0/bin/python)
 
 ![alt text](../imgs/input_interpreter.png)
 
-#### 10.2.2. 可視化方法は以下を参照:
+#### 9.2.2. 可視化方法は以下を参照:
 
 - [EMSES 出力可視化ライブラリ: emout](https://github.com/Nkzono99/emout)
 - [サンプルコード](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
 ![alt text](../imgs/13_2.png)
 
-## 11. 時間を長くして実行する & 他のシミュレーション設定も実行する
+## 10. 時間を長くして実行する & 他のシミュレーション設定も実行する
 
-### 11.1 時間を長くして実行する
+### 10.1 時間を長くして実行する
 
 `dshield0/plasma.inp`を見ると、`nstep`が`100`となっている。
 
@@ -147,13 +159,13 @@ squeue
 
 TODO: 適当な時間を見れるように`nstep`を増やして、再度実行してみる。
 
-### 11.2 他のシミュレーション設定も実行する
+### 10.2 他のシミュレーション設定も実行する
 
 `dshield1`や`dshield2`についても、パラメータファイル`plasma.inp`を見て、実行してみる
 
 ※どこが変わっているか確認すること
 
-### 11.3 TODO: シミュレーションが終了したら、`dshield0`と同様に可視化し、結果を考察する
+### 10.3 TODO: シミュレーションが終了したら、`dshield0`と同様に可視化し、結果を考察する
 
 ## 結果を見る前に予想してみよう
 
