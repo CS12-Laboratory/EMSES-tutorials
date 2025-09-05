@@ -118,7 +118,9 @@ squeue
 
 #### 9.2.1 python interpreterを設定する. (初回のみ?）
 
-##### 9.2.1.1 Python3.11仮想環境を使用する場合はvenvを実行する
+<details>
+
+<summary>Python3.11仮想環境を使用する場合はvenvを実行する</summary>
 
 ```bash
 cd ~/large0
@@ -127,16 +129,18 @@ cd ~/large0
 
 以下の「Python: Select Interpreter」で ```<user-name>/large0/.venv/bin/python```を選択する。
 
+</details>
 
-##### 9.2.1.2 Vscode上で「Ctrl + Shift + P」を同時押しし、出てきた入力フォームに「Python: Select Interpreter」を入力
+
+##### 9.2.1.1 Vscode上で「Ctrl + Shift + P」を同時押しし、出てきた入力フォームに「Python: Select Interpreter」を入力
    
 ![alt text](../imgs/select_interpreter.png)
    
-##### 9.2.1.3 Enter interpreter path...をクリック
+##### 9.2.1.2 Enter interpreter path...をクリック
    
 ![alt text](../imgs/enter_interpreter_path.png)
    
-#### 9.2.1.4 選択するPython interpreterのパスを入力 (camphorの場合の例: /opt/system/app/intelpython/2024.2.0/bin/python)
+#### 9.2.1.3 選択するPython interpreterのパスを入力 (camphorの場合の例: /opt/system/app/intelpython/2024.2.0/bin/python)
 
 ![alt text](../imgs/input_interpreter.png)
 
