@@ -79,7 +79,7 @@ pip install -e . # runs make
 * Copy executables:
 
 ```bash
-emses-cp dshield0/
+emses-cp dshield0/ # = cpem dshield0/
 emses-cp dshield1/
 emses-cp dshield2/
 ```
