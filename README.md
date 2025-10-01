@@ -20,7 +20,7 @@ EMSESの実行に必要な主要な入力ファイルについて、以下の資
 * 📄 [`plasma.inp` の各パラメータの説明](docs/Parameters.md)
   シミュレーション設定に関する主要なパラメータを解説しています。
 
-* 📄 [`plasma.preinp` の構成項目に関する説明](https://github.com/Nkzono99/camptools)
+* 📄 [`plasma.preinp` の構成項目に関する説明](https://github.com/Nkzono99/camptools?tab=readme-ov-file#preinp)
   補助的な設定ファイルである `preinp` の各項目について説明しています。
 
 ---
@@ -29,8 +29,8 @@ EMSESの実行に必要な主要な入力ファイルについて、以下の資
 
 EMSES内部の規格化単位系と物理単位系との相互変換について、以下の資料をご参照ください。
 
-* 🔁 [単位変換（`preinp` の項目に関する説明）](https://github.com/Nkzono99/camptools)
-* 🔁 [単位変換（`Working with Units` の説明）](https://github.com/Nkzono99/emout)
+* 🔁 [単位変換（`preinp` の項目に関する説明）](https://github.com/Nkzono99/camptools?tab=readme-ov-file#preinp)
+* 🔁 [単位変換（`Working with Units` の説明）](https://github.com/Nkzono99/emout?tab=readme-ov-file#working-with-units)
 
 ---
 
