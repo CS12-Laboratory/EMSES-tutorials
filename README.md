@@ -1,6 +1,6 @@
 # [EMSES-tutorials](https://cs12-laboratory.github.io/EMSES-tutorials/)
 
-本リポジトリは、電磁粒子コード **EMSES**（ElectroMagnetic Simulation for the Earth and Space）の利用方法を学ぶためのチュートリアルを提供するものです。
+本リポジトリは、電磁粒子コード [**EMSES**（ElectroMagnetic Simulation for the Earth and Space）](https://github.com/CS12-Laboratory/MPIEMSES3D)の利用方法を学ぶためのチュートリアルを提供するものです。
 
 初めてEMSESを使用される方は、まず以下の「初回チュートリアル」にお進みください。
 
