@@ -34,7 +34,7 @@ grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH=
 
 exec $SHELL -l
 
-# チュートリアルリポジトリの導入
+# チュートリアルリポジトリの導入 & EMSES の導入
 mkdir ~/large0/Github
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
