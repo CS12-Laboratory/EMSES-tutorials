@@ -34,22 +34,38 @@ grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH=
 
 exec $SHELL -l
 
-# EMSES (MPIEMSES3D) の導入
-mkdir ~/large0/Github
-cd ~/large0/Github
-git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
-cd MPIEMSES3D
-make
-
 # チュートリアルリポジトリの導入
+mkdir ~/large0/Github
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
 cd EMSES-tutorials
-pip install -r requirements.txt
+pip install -r requirements.txt # include: git+https://github.com/CS12-Laboratory/MPIEMSES3D.git
 
 # VSCode で開く
 code --reuse-window ~/large0/Github/EMSES-tutorials
-````
+```
+
+<details>
+<summary>EMSES (MPIEMSES3D) の導入の詳細</summary>
+
+**For end-user (non-developer)**
+
+今回はこちらでインストールされている (`pip install -r reqquirements.txt` 時)
+
+```bash
+pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git
+```
+
+**For developer**
+
+```
+cd ~/large0/Github
+git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
+cd MPIEMSES3D
+pip install -e . # run make
+```
+
+</details>
 
 ---
 
@@ -60,9 +76,9 @@ code --reuse-window ~/large0/Github/EMSES-tutorials
 * 実行ファイルのコピー
 
 ```bash
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+emses-cp dshield0/
+emses-cp dshield1/
+emses-cp dshield2/
 ```
 
 * `dshield0` ディレクトリでテスト実行
