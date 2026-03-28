@@ -55,7 +55,7 @@ emses-cp dshield1/
 emses-cp dshield2/
 ```
 
-`job.sh` は `plasma.toml` のみを実行入力として使います。legacy な `plasma.inp.old` / `plasma.preinp.old` は参照用の archive です。
+`job.sh` は `plasma.toml` のみを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は各ケースの `.old/` 配下に参照用として置いてあります。
 
 ## 5. `plasma.toml` を編集したら `emu apply` する
 
@@ -74,7 +74,7 @@ cd ~/large0/Github/EMSES-tutorials/dshield0
 mysbatch job.sh
 ```
 
-このリポジトリでは `mysbatch` は `plasma.toml` の `[mpi].nodes` を使う前提です。legacy な入力は `*.old` として残しているだけで、投入には使いません。
+このリポジトリでは `mysbatch` は `plasma.toml` の `[mpi].nodes` を使う前提です。legacy な入力は `.old/` に残しているだけで、投入には使いません。
 
 ## 7. ジョブを確認する
 

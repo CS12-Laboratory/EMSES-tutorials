@@ -13,7 +13,7 @@ module list
 
 input_file=./plasma.toml
 if [ ! -f "$input_file" ]; then
-    echo "plasma.toml is required for this tutorial. Legacy plasma.inp/preinp files are archived as *.old." >&2
+    echo "plasma.toml is required for this tutorial. Legacy plasma.inp/preinp files are archived under .old/." >&2
     exit 1
 fi
 

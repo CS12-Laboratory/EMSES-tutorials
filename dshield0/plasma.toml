@@ -31,7 +31,7 @@ potential_V = -7.5
 [memo]
 case = "dshield0"
 description = "No-plasma baseline sphere charging case for the first tutorial."
-legacy_input = "plasma.inp.old"
+legacy_input = ".old/plasma.inp"
 
 [[species]]
 ipahdf = 0

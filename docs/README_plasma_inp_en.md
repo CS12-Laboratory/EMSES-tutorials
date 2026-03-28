@@ -2,7 +2,7 @@ Lang: [日本語](README_plasma_inp.md) | [English](README_plasma_inp_en.md)
 
 # Legacy `plasma.inp`
 
-`EMSES-tutorials` now treats `plasma.toml` as the recommended input format. Legacy inputs are archived as `plasma.inp.old` / `plasma.preinp.old`, and new edits should be made in `plasma.toml`.
+`EMSES-tutorials` now treats `plasma.toml` as the recommended input format. Legacy inputs are archived as `.old/plasma.inp` / `.old/plasma.preinp` in each case, and new edits should be made in `plasma.toml`.
 
 ## Read This First
 
@@ -14,11 +14,11 @@ Lang: [日本語](README_plasma_inp.md) | [English](README_plasma_inp_en.md)
 
 ## Converting from Legacy Inputs
 
-Use `inp2toml` from `MPIEMSES3D` to convert the archived `plasma.inp.old` into a `format_version = 2` `plasma.toml`.
+Use `inp2toml` from `MPIEMSES3D` to convert the archived `.old/plasma.inp` into a `format_version = 2` `plasma.toml`.
 
 ```bash
 PYTHONPATH=~/large0/Github/MPIEMSES3D \
-python -m mpiemses3d_tools.inp2toml plasma.inp.old --format-version 2 -o plasma.toml
+python -m mpiemses3d_tools.inp2toml .old/plasma.inp --format-version 2 -o plasma.toml
 ```
 
-If you previously relied on `plasma.preinp.old` for physical-unit input and unit conversion, the recommended replacement is `[meta.physical]` in `plasma.toml` together with `emu apply`.
+If you previously relied on `.old/plasma.preinp` for physical-unit input and unit conversion, the recommended replacement is `[meta.physical]` in `plasma.toml` together with `emu apply`.

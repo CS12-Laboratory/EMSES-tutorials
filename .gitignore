@@ -9,8 +9,9 @@
 !imgs/*.png
 !**/*.xlsx
 !**/*.md
-!**/*.inp.old
-!**/*.preinp.old
+!**/.old/
+!**/.old/*.inp
+!**/.old/*.preinp
 !**/plasma.toml
 !.vscode/*
 !**/.logs
