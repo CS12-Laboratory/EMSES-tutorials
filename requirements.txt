@@ -1,6 +1,8 @@
 matplotlib
 numpy
 scipy
-emout
+emout==2.3.4
 camptools
 git+https://github.com/Nkzono99/mypython.git
+fpm
+git+https://github.com/CS12-Laboratory/MPIEMSES3D.git

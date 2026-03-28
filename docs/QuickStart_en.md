@@ -1,214 +1,144 @@
 Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
 
-# First Tutorial
+# Quick Start
 
-Follow the steps below to get EMSES up and running for the first time.
+Follow the steps below to get the `dshield*` tutorials running on Kyoto University’s *camphor* supercomputer.
 
-## 1. Launch VS Code and install the “Remote – SSH” extension
+## 1. Connect to camphor from VS Code
 
-![alt text](../imgs/1.png)
+- Launch VS Code and install the **Remote-SSH** extension
+  ![remote-ssh](../imgs/1.png)
+- Log in to *camphor*
+  ![login](../imgs/2.png)
+- Open a TERMINAL
+  ![terminal](../imgs/3.png)
 
-## 2. Log in to Kyoto University’s supercomputer “camphor”
-
-![alt text](../imgs/2.png)
-
-## 3. Open a TERMINAL
-
-![alt text](../imgs/3.png)
-
-## 4. Set up your data area: LARGE0
+## 2. Prepare your workspace and Python environment
 
 ```bash
-mkdir /LARGE0/gr20001/$USER
+mkdir -p /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
-```
 
-### 5. Add the following lines to your `.bashrc`, then log out and log back in
-
-```bash
 grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
 grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
-```
 
-## 6. After reconnecting, choose **Open Folder** → `~/large0` and re-enter your password
+exec "$SHELL" -l
 
-![alt text](../imgs/5.png)
-
-## 7. After reconnecting and opening a TERMINAL, install EMSES
-
-```bash
 mkdir -p ~/large0/Github
-cd ~/large0/Github
-git clone -b stable https://github.com/CS12-Laboratory/MPIEMSES3D.git  # We’ll use the stable high-performance version
-cd MPIEMSES3D
-make
-```
-
-## 8. Clone this tutorial repository and install the required Python libraries
-
-```bash
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
 cd EMSES-tutorials
 pip install -r requirements.txt
+code --reuse-window ~/large0/Github/EMSES-tutorials
 ```
 
-## 9. Copy the EMSES executable into each `dshield*` directory
+`requirements.txt` also installs `MPIEMSES3D`, so helper commands such as `emu`, `inp2toml`, and `emses-cp` become available.
+
+## 3. How to install MPIEMSES3D
+
+- For normal tutorial use, `pip install -r requirements.txt` is enough.
+- If you want a developer checkout, clone `MPIEMSES3D` separately and use `pip install -e .`.
 
 ```bash
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+cd ~/large0/Github
+git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
+cd MPIEMSES3D
+pip install -e .
 ```
 
-The `dshield*` cases now use `plasma.toml` as the primary input file. If you edit `[meta.physical]`, apply it before submission:
+## 4. Copy the executable into each case
+
+```bash
+cd ~/large0/Github/EMSES-tutorials
+emses-cp dshield0/
+emses-cp dshield1/
+emses-cp dshield2/
+```
+
+`job.sh` prefers `plasma.toml` and falls back to legacy `plasma.inp` / `plasma.preinp` when needed.
+
+## 5. Run `emu apply` after editing `plasma.toml`
+
+The `dshield*` tutorials use `plasma.toml` as the primary input file. If you edit `[meta.physical]` or `[meta.unit_conversion]`, apply the conversion before submitting the job.
 
 ```bash
 cd ~/large0/Github/EMSES-tutorials/dshield1
-PYTHONPATH=~/large0/Github/MPIEMSES3D \
-python -m mpiemses3d_tools.cli.emses_unit apply plasma.toml
+emu apply plasma.toml --dry-run
+emu apply plasma.toml
 ```
 
-## 10. Try running `dshield0`
+## 6. Run `dshield0`
 
 ```bash
 cd ~/large0/Github/EMSES-tutorials/dshield0
 mysbatch job.sh
 ```
 
-```
-mysbatch: Custom command (camptools: https://github.com/Nkzono99/camptools)
+If `plasma.toml` exists, `mysbatch` reads `[mpi].nodes`; otherwise it falls back to `nodes(:)` in legacy `plasma.inp`, then submits `sbatch job.sh`.
 
-If `plasma.toml` exists, it reads `[mpi].nodes`; otherwise it falls back to the legacy `plasma.inp` `nodes(:)` entry, updates the process count in job.sh, and runs `sbatch job.sh`.
-```
-
-## 11. Check the job status
-
-```
-qs         # Check job status (custom camptools command)
-squeue     # Check job status (Slurm)
-qgroup     # Check resource availability
-latestjob  # Custom command (camptools: https://github.com/Nkzono99/camptools)
-           #   Shows the latest job’s log file (= tail -n 5 stdout.*****.log)
-```
-
-> **NOTE:**
-> To cancel a submitted job, run
->
-> ```bash
-> scancel <job-id>
-> ```
-
-> **NOTE:**
-> To view the stdout & stderr of a running job:
->
-> * `stdout.****.log` : standard output
-> * `stderr.****.log` : standard error
-
-## 12. Confirm the job has finished
-
-### 12.1 Run the following; if your job ID no longer appears or its state is “FINISHED,” it has completed
+## 7. Monitor the job
 
 ```bash
+qs
 squeue
+qgroup
+latestjob
 ```
 
-### 12.2 Verify normal completion
+- Cancel a job: `scancel <job-id>`
+- Standard output: `stdout.****.log`
+- Standard error: `stderr.****.log`
 
-* Check `stdout.*****.log` and `stderr.****.log` for errors.
-* Examine the visualized results.
+## 8. Visualize the results
 
-## 13. Visualization
+- After the batch run, `.mypython/plot.py` generates files such as `data/*.png` and `data/gif/*.gif`.
+- For notebook-based visualization, open `dshield0/plot_example.ipynb`.
+  Example: `phisp_2d_xy.png`
+  ![plot](../imgs/phisp_2d_xy.png)
 
-### 13.1 Inspect the plots generated by the provided script (`.mypython/plot.py`)
+### Set a Python interpreter for notebooks
 
-These should be saved as `data/*.png` and `data/gif/*.gif`. For example:
+```bash
+cd ~/large0
+/usr/bin/python3.11 -m venv .venv
+~/large0/.venv/bin/python -m pip install -r ~/large0/Github/EMSES-tutorials/requirements.txt
+```
 
-`phisp_2d_xy.png`
+1. Open `Python: Select Interpreter` in VS Code
+   ![select-interpreter](../imgs/select_interpreter.png)
+2. Choose `Enter Interpreter Path`
+   ![enter-interpreter](../imgs/enter_interpreter_path.png)
+3. Select `~/large0/.venv/bin/python` or `/opt/system/app/intelpython/2024.2.0/bin/python`
+   ![input-interpreter](../imgs/input_interpreter.png)
 
-![phisp\_2d\_xy.png](../imgs/phisp_2d_xy.png)
+References:
 
-### 13.2 Try visualizing interactively: open `dshield0/plot_example.ipynb`
+- [emout](https://github.com/Nkzono99/emout)
+- [Sample notebook for emout](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-See the following references for how to visualize:
+## 9. Try different conditions
 
-* **EMSES output visualization library: [emout](https://github.com/Nkzono99/emout)**
-* **Sample code:**
-  [https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
+- Increase `jobcon.nstep` in `dshield0/plasma.toml` to watch a longer evolution
+- Run `dshield1` and `dshield2` and compare the differences
+- When visualizing `ds0` with `emout`, temporarily set `[[species]].wp` to a nonzero value if needed
 
-![alt text](../imgs/13_2.png)
+For the former `advance/` examples, see [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) in the `MPIEMSES3D` repository.
 
-## 14. Run for a longer time & try other simulation settings
+## 10. Think about the physics
 
-### 14.1 Increase the runtime
+- `ds0`: a negative charge in vacuum
+- `ds1`: plasma with density `10^7 /cm^3` and electron temperature `3 eV`
+- `ds2`: the same setup as `ds1`, but with 1/16 density
 
-In `dshield0/plasma.toml`, `nstep` is set to `10`.
-This only captures the very early interaction between plasma and the object.
+Questions to check:
 
-> **TODO:** Increase `nstep` to simulate over a longer time, then run again.
-
-### 14.2 Run other simulation configurations
-
-For `dshield1` and `dshield2`, open their respective `plasma.toml` files and run each one.
-Compare what changes between the cases.
-
-If you edit `[meta.physical]`, rerun `emu apply plasma.toml` before submitting the job.
-
-### 14.3 **TODO:** After each simulation finishes, visualize it just like in `dshield0` and discuss the results.
-
----
-
-## Before You Look at the Results, Make Predictions
-
-An isolated negative charge in various plasma environments:
-
-* **ds0:** No plasma present
-* **ds1:** Plasma with density 10⁷ /cm³ and electron temperature 3 eV
-* **ds2:** A tenuous plasma at 1/16 the density of ds1
-
-1. **Q1.** In ds0, what does the spatial charge‐potential distribution around the negative charge look like?
-2. **Q2.** In ds1, how does the potential around the negative charge differ compared to ds0?
-3. **Q3.** In ds1, how do the plasma electrons and ions behave around the negative charge?
-4. **Q4.** In ds2, how does the potential around the negative charge differ compared to ds1?
-5. **Q5.** If you change plasma temperature instead of density, how will the results differ?
-
----
-
-## Practice Exercises
-
-> **NOTE:**
-> If you set `wp = 0.0d0` in ds0, the visualization library **emout** will not work properly.
-> Therefore, when visualizing ds0, temporarily set the `wp` entries in `plasma.toml` `[[species]]` to something like `1.0d0` before running the visualization.
-
-* Perform the three “Debye shielding” example runs (dshield0 – dshield2) following the steps above, then visualize each case.
-* Compare your predictions (Q1 – Q5) to the actual simulation results. If your predictions differ, consider why.
-
-> **NOTE:**
-> If you run into issues following the simulation steps, first explain your situation to an M1 student and get advice. If you still can’t resolve the problem and need to ask your advisor or instructors, include all of the following information:
->
-> 1. What you asked the senior student
-> 2. What answer you received
-> 3. What you actually did based on that answer
-> 4. What still remains unresolved
-
-After running the simulations, at minimum check:
-
-* Electron density (`nd1p`)
-* Ion density (`nd2p`)
-* Potential distribution (`phisp`)
-
-Discuss the physical meaning of these results with your B4 group members and be prepared to share your thoughts in the next tutorial.
-
-The advanced examples formerly stored under `advance/` have moved to `MPIEMSES3D/parameter_examples`.
-
----
+- How does the potential distribution change around the charged object?
+- How do electrons and ions respond?
+- What changes mainly when you vary density or temperature?
 
 ## References
 
-* [Kyoto U. Supercomputer Usage Manual (require login)](http://web.kudpc.kyoto-u.ac.jp/manual-new/ja)
-* [Kobe U. Supercomputer Usage Manual](http://www.eccse.kobe-u.ac.jp/pi-computer/)
-* Miyake, Y., and H. Usui, “New Electromagnetic Particle Simulation Code for the Analysis of Spacecraft-plasma Interactions,” *Phys. Plasmas*, 16, 062904 (2009). [https://doi.org/10.1063/1.3147922](https://doi.org/10.1063/1.3147922)
-* 三宅洋平, 臼井英之, 桐山武士, 白川遼, 田川雅人, “宇宙機近傍プラズマ現象の数値シミュレーション,” *混相流*, Vol. 33, No. 3, 258–266 (2019). [https://doi.org/10.3811/jjmf.2019.T011](https://doi.org/10.3811/jjmf.2019.T011)
-* Lapenta, G., “Particle In Cell Methods With Application to Simulations in Space Weather,” *The Plasma Simulation Code (PSC) Project*. [http://fishercat.sr.unh.edu/psc/\_downloads/lapenta.pdf](http://fishercat.sr.unh.edu/psc/_downloads/lapenta.pdf)
-* 松本洋介, “pCANS ドキュメント,” *CANS プロジェクト*. [http://www.astro.phys.s.chiba-u.ac.jp/pcans/](http://www.astro.phys.s.chiba-u.ac.jp/pcans/)
-* Past graduate theses and dissertations from previous students
+- [Kyoto University supercomputer manual (restricted)](http://web.kudpc.kyoto-u.ac.jp/manual-new/ja)
+- [Kobe University supercomputer manual](http://www.eccse.kobe-u.ac.jp/pi-computer/)
+- [MPIEMSES3D Parameters](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.en.md)
+- [MPIEMSES3D Customization](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.en.md)
