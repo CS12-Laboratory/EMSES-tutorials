@@ -1,3 +1,5 @@
+Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
+
 # First Tutorial
 
 Follow the steps below to get EMSES up and running for the first time.

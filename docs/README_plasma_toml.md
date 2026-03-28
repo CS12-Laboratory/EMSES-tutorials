@@ -1,3 +1,5 @@
+Lang: [日本語](README_plasma_toml.md) | [English](README_plasma_toml_en.md)
+
 # EMSES Parameter File: `plasma.toml`
 
 `EMSES-tutorials` では、入力ファイルの標準を `plasma.toml` に移行しました。`plasma.inp` / `plasma.preinp` は後方互換のために一部残っていますが、今後の編集は `plasma.toml` を起点にする想定です。

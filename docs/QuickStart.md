@@ -1,3 +1,5 @@
+Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
+
 # 初回チュートリアル
 
 以下の手順で、まずは EMSES が動くところまでお試しください。

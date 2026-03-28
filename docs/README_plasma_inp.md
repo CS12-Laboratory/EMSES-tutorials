@@ -1,3 +1,5 @@
+Lang: [日本語](README_plasma_inp.md) | [English](README_plasma_inp_en.md)
+
 # Legacy `plasma.inp`
 
 `EMSES-tutorials` では `plasma.toml` を推奨形式に切り替えました。`plasma.inp` は後方互換のために一部残っていますが、新規編集は `plasma.toml` を使ってください。

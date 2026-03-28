@@ -1,3 +1,5 @@
+Lang: [日本語](README.md) | [English](README_en.md)
+
 # [EMSES-tutorials](https://cs12-laboratory.github.io/EMSES-tutorials/)
 
 ```EMSES-tutorials```リポジトリへようこそ。 
