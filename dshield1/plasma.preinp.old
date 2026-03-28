@@ -50,47 +50,47 @@
 /
 
 &jobcon
-  jobnum = 0,1,
-  nstep  = 20000
+  jobnum = 0,1
+  nstep  = 20
 /
 
 &digcon
-  hdfdigstart = 0,
-  intfoc   = 100,
-  ifdiag   = 2000,
-  ijdiag   = 2000,
-  daverg   = 2,
-  ipahdf(1)= 0,
-  ipadig(1)= 1024,
-  ipahdf(2)= 0,
-  ipadig(2)= 1024,
-  ipaxyz   = 0,0,0,0,0,0, 0,0,0,0,0,0,
-  ifxyz    = 1,1,1,1,1,1,1,
+  hdfdigstart = 0
+  intfoc   = 10
+  ifdiag   = 5
+  ijdiag   = 5
+  daverg   = 1
+  ipahdf(1)= 0
+  ipadig(1)= 1024
+  ipahdf(2)= 0
+  ipadig(2)= 1024
+  ipaxyz   = 0,0,0,0,0,0, 0,0,0,0,0,0
+  ifxyz    = 1,1,1,1,1,1,1
   ijxyz    = 1,1,1
 /
 
 &plasma
   !!> wp(1)    =  unit.f.trans(electron_frequency)
   !!> wp(2)    =  unit.f.trans(ion_frequency)
-  wc       = -0.0d0,
-  cv       =  1000.0d0,
-  phiz     =  0.0d0,
+  wc       = -0.0d0
+  cv       =  1000.0d0
+  phiz     =  0.0d0
   phixy    =  0.0d0
 /
 
 &tmgrid
-  dt       = 0.05d0,
-  nx       = 128,
-  ny       = 128,
-  nz       = 126,
+  dt       = 0.05d0
+  nx       = 128
+  ny       = 128
+  nz       = 126
 /
 
 &system
-  nspec    = 2,
-  ionchg   = 0,
-  nfbnd    = 0,0,0,
-  npbnd    = 2,2,2, 2,2,2,
-  nflag_ecrct = 1,
+  nspec    = 2
+  ionchg   = 0
+  nfbnd    = 0,0,0
+  npbnd    = 2,2,2, 2,2,2
+  nflag_ecrct = 1
   mtd_vbnd = 1,1,1
 /
 
@@ -106,42 +106,42 @@
   !!> peth(2)  = unit.v.trans(ion_thermal_speed)
 
   !!> vdri(1)  = unit.v.trans(plasma_flow_speed_km_s*1e3)
-  vdthz(1) = 90.0d0,
-  vdthxy(1)= 0.0d0,
+  vdthz(1) = 90.0d0
+  vdthxy(1)= 0.0d0
   !!> vdri(2)  = unit.v.trans(plasma_flow_speed_km_s*1e3)
-  vdthz(2) = 90.0d0,
+  vdthz(2) = 90.0d0
   vdthxy(2)= 0.0d0
 /
 
 &inp
-  inpf(1)     = 1,
-  inpb(1)     = 1,
-  injct(1)    = 1,
-  npr(1)      = 524288,
-  inpf(2)     = 1,
-  inpb(2)     = 1,
-  injct(2)    = 1,
-  npr(2)      = 524288,
+  inpf(1)     = 1
+  inpb(1)     = 1
+  injct(1)    = 1
+  npr(1)      = 524288
+  inpf(2)     = 1
+  inpb(2)     = 1
+  injct(2)    = 1
+  npr(2)      = 524288
 /
 
 &ptcond
-  npc         = 1,
-  npcg        = 1,
-  pcgs(1)     = 1,
-  ccgs(1)     = 1,
-  mtd_vchg(1) = -1,
+  npc         = 1
+  npcg        = 1
+  pcgs(1)     = 1
+  ccgs(1)     = 1
+  mtd_vchg(1) = -1
   !!> pfixed(1)   = unit.phi.trans(sphere_potential_V)
 
-  geotype(1)  = 3,
-  bdyradius(1)  = 2.0d0,
-  bdycoord(1,1) = 64.0d0,
-  bdycoord(2,1) = 64.0d0,
-  bdycoord(3,1) = 63.0d0,
+  geotype(1)  = 3
+  bdyradius(1)  = 2.0d0
+  bdycoord(1,1) = 64.0d0
+  bdycoord(2,1) = 64.0d0
+  bdycoord(3,1) = 63.0d0
   biasp(1)      = 0.0d0
-  dscaled(1)    = 1.0d0,
+  dscaled(1)    = 1.0d0
 
-  nflag_subcell(1) = 1,
-  sfecrrct    = 1,
+  nflag_subcell(1) = 1
+  sfecrrct    = 1
   modeww      = -2
 /
 

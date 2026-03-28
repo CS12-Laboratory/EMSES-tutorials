@@ -32,7 +32,8 @@ potential_V = -7.5
 [memo]
 case = "dshield2"
 description = "Lower-density Debye shielding tutorial case."
-legacy_input = "plasma.inp"
+legacy_input = "plasma.inp.old"
+legacy_preinput = "plasma.preinp.old"
 
 [[species]]
 ipahdf = 0

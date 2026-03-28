@@ -2,7 +2,7 @@ Lang: [日本語](README_plasma_toml.md) | [English](README_plasma_toml_en.md)
 
 # EMSES Parameter File: `plasma.toml`
 
-`EMSES-tutorials` では、入力ファイルの標準を `plasma.toml` に移行しました。`plasma.inp` / `plasma.preinp` は後方互換のために一部残っていますが、今後の編集は `plasma.toml` を起点にする想定です。
+`EMSES-tutorials` では、入力ファイルの標準を `plasma.toml` に移行しました。legacy な `plasma.inp` / `plasma.preinp` は `*.old` として archive してあり、今後の編集は `plasma.toml` を起点にする想定です。
 
 ## 基本方針
 
@@ -45,6 +45,8 @@ peth = 2.422984430556998
 2. 物理条件を変えるときは `[meta.physical]` を編集する。
 3. 変更後に `emu apply plasma.toml` を実行する。
 4. `mysbatch job.sh` または `sbatch job.sh` で投入する。
+
+このリポジトリの `job.sh` は `plasma.toml` のみを実行入力として使います。`*.old` は参照用です。
 
 `emu` を PATH に入れていない場合は、`MPIEMSES3D` の開発リポジトリを使って次のように実行できます。
 

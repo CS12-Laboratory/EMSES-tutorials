@@ -55,7 +55,7 @@ emses-cp dshield1/
 emses-cp dshield2/
 ```
 
-`job.sh` prefers `plasma.toml` and falls back to legacy `plasma.inp` / `plasma.preinp` when needed.
+`job.sh` uses `plasma.toml` as the only runtime input. Legacy `plasma.inp.old` / `plasma.preinp.old` files are kept only as archived references.
 
 ## 5. Run `emu apply` after editing `plasma.toml`
 
@@ -74,7 +74,7 @@ cd ~/large0/Github/EMSES-tutorials/dshield0
 mysbatch job.sh
 ```
 
-If `plasma.toml` exists, `mysbatch` reads `[mpi].nodes`; otherwise it falls back to `nodes(:)` in legacy `plasma.inp`, then submits `sbatch job.sh`.
+In this repository, `mysbatch` is expected to use `[mpi].nodes` from `plasma.toml`. The legacy inputs remain only as `*.old` reference files and are not part of the submission flow.
 
 ## 7. Monitor the job
 

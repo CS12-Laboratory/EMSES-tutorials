@@ -1,7 +1,6 @@
 *
 !*/
 
-!*.inp
 !LICENSE
 !job.sh
 !plot_example.ipynb
@@ -10,7 +9,8 @@
 !imgs/*.png
 !**/*.xlsx
 !**/*.md
-!**/*.preinp
+!**/*.inp.old
+!**/*.preinp.old
 !**/plasma.toml
 !.vscode/*
 !**/.logs

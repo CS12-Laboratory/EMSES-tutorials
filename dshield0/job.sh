@@ -11,11 +11,10 @@ module load hdf5/1.12.2_intel-2023.2-impi
 module load fftw/3.3.10_intel-2022.3-impi
 module list
 
-input_file=./plasma.inp
-if [ -f ./plasma.toml ]; then
-    input_file=./plasma.toml
-elif [ -f ./plasma.preinp ]; then
-    preinp
+input_file=./plasma.toml
+if [ ! -f "$input_file" ]; then
+    echo "plasma.toml is required for this tutorial. Legacy plasma.inp/preinp files are archived as *.old." >&2
+    exit 1
 fi
 
 export EMSES_DEBUG=no

@@ -15,7 +15,7 @@ Lang: [日本語](README.md) | [English](README_en.md)
 - [legacy な `plasma.inp` / `plasma.preinp` から `plasma.toml` への移行](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md)
 - [MPIEMSES3D の TOML / `emu` ガイド](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.md)
 
-このリポジトリの `dshield*` では `plasma.toml` を標準入力として使います。`[meta.physical]` を編集した場合は、投入前に `emu apply plasma.toml` を実行してください。legacy な `plasma.inp` / `plasma.preinp` は後方互換のため残しています。
+このリポジトリの `dshield*` では `plasma.toml` を標準入力として使います。`[meta.physical]` を編集した場合は、投入前に `emu apply plasma.toml` を実行してください。legacy な `plasma.inp` / `plasma.preinp` は参照用に `*.old` へ隔離してあります。
 
 ## 補助ツール
 
