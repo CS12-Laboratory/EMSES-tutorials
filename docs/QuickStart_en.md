@@ -19,7 +19,7 @@ Follow the steps below to get EMSES up and running for the first time.
 ```bash
 mkdir /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
-````
+```
 
 ### 5. Add the following lines to your `.bashrc`, then log out and log back in
 
@@ -54,9 +54,17 @@ pip install -r requirements.txt
 ## 9. Copy the EMSES executable into each `dshield*` directory
 
 ```bash
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3d dshield2/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+```
+
+The `dshield*` cases now use `plasma.toml` as the primary input file. If you edit `[meta.physical]`, apply it before submission:
+
+```bash
+cd ~/large0/Github/EMSES-tutorials/dshield1
+PYTHONPATH=~/large0/Github/MPIEMSES3D \
+python -m mpiemses3d_tools.cli.emses_unit apply plasma.toml
 ```
 
 ## 10. Try running `dshield0`
@@ -69,7 +77,7 @@ mysbatch job.sh
 ```
 mysbatch: Custom command (camptools: https://github.com/Nkzono99/camptools)
 
-Reads the “nodes(:)” entry in plasma.inp, sets the number of processes in job.sh, and then runs sbatch job.sh.
+If `plasma.toml` exists, it reads `[mpi].nodes`; otherwise it falls back to the legacy `plasma.inp` `nodes(:)` entry, updates the process count in job.sh, and runs `sbatch job.sh`.
 ```
 
 ## 11. Check the job status
@@ -132,15 +140,17 @@ See the following references for how to visualize:
 
 ### 14.1 Increase the runtime
 
-In `dshield0/plasma.inp`, `nstep` is set to `100`.
+In `dshield0/plasma.toml`, `nstep` is set to `10`.
 This only captures the very early interaction between plasma and the object.
 
 > **TODO:** Increase `nstep` to simulate over a longer time, then run again.
 
 ### 14.2 Run other simulation configurations
 
-For `dshield1` and `dshield2`, open their respective `plasma.inp` files and run each one.
+For `dshield1` and `dshield2`, open their respective `plasma.toml` files and run each one.
 Compare what changes between the cases.
+
+If you edit `[meta.physical]`, rerun `emu apply plasma.toml` before submitting the job.
 
 ### 14.3 **TODO:** After each simulation finishes, visualize it just like in `dshield0` and discuss the results.
 
@@ -166,7 +176,7 @@ An isolated negative charge in various plasma environments:
 
 > **NOTE:**
 > If you set `wp = 0.0d0` in ds0, the visualization library **emout** will not work properly.
-> Therefore, when visualizing ds0, set `wp` to something like `1.0d0` in `plasma.inp` before running the visualization.
+> Therefore, when visualizing ds0, temporarily set the `wp` entries in `plasma.toml` `[[species]]` to something like `1.0d0` before running the visualization.
 
 * Perform the three “Debye shielding” example runs (dshield0 – dshield2) following the steps above, then visualize each case.
 * Compare your predictions (Q1 – Q5) to the actual simulation results. If your predictions differ, consider why.
@@ -187,6 +197,8 @@ After running the simulations, at minimum check:
 
 Discuss the physical meaning of these results with your B4 group members and be prepared to share your thoughts in the next tutorial.
 
+The advanced examples formerly stored under `advance/` have moved to `MPIEMSES3D/parameter_examples`.
+
 ---
 
 ## References
@@ -198,4 +210,3 @@ Discuss the physical meaning of these results with your B4 group members and be 
 * Lapenta, G., “Particle In Cell Methods With Application to Simulations in Space Weather,” *The Plasma Simulation Code (PSC) Project*. [http://fishercat.sr.unh.edu/psc/\_downloads/lapenta.pdf](http://fishercat.sr.unh.edu/psc/_downloads/lapenta.pdf)
 * 松本洋介, “pCANS ドキュメント,” *CANS プロジェクト*. [http://www.astro.phys.s.chiba-u.ac.jp/pcans/](http://www.astro.phys.s.chiba-u.ac.jp/pcans/)
 * Past graduate theses and dissertations from previous students
-

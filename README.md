@@ -8,8 +8,8 @@
 - [初回チュートリアル（English)](docs/QuickStart_en.md)
 - 詳細な手順や演習問題は後日公開予定です。
 
-- [plasma.inp の説明](docs/README_plasma_inp.md)
-- [plasma.preinpの説明 (preinpの項目)](https://github.com/Nkzono99/camptools)
+- [MPIEMSES3D のパラメータ仕様](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md)
+- [legacy な `plasma.inp` / `plasma.preinp` から `plasma.toml` への移行](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md)
+- [MPIEMSES3D の TOML / `emu` ガイド](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.md)
 
-- [単位変換について (preinpの項目)](https://github.com/Nkzono99/camptools)
-- [単位変換について (Working with Unitsの項目)](https://github.com/Nkzono99/emout)
+`advance/` に置いていた上級例は、`MPIEMSES3D` 側の [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) へ移行しました。

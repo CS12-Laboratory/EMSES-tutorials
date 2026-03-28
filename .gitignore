@@ -11,5 +11,6 @@
 !**/*.xlsx
 !**/*.md
 !**/*.preinp
+!**/plasma.toml
 !.vscode/*
 !**/.logs

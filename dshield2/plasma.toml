@@ -1,0 +1,122 @@
+#:schema https://raw.githubusercontent.com/CS12-Laboratory/mpiemses3d-schema/refs/heads/main/plasma.schema.json
+
+[meta]
+format_version = 2
+
+[meta.unit_conversion]
+dx = 0.001
+to_c = 1000.0
+
+[meta.physical]
+density_m3 = 6.25e11 # 6.25e5 cm^-3
+particles_per_cell = 50
+
+[[meta.physical.species]]
+label = "electron"
+mass_ratio = 1.0
+qm_sign = -1
+temperature_eV = 3.0
+drift_velocity_m_s = 0.0
+
+[[meta.physical.species]]
+label = "ion"
+mass_ratio = 900.0
+qm_sign = 1
+temperature_eV = 0.03
+drift_velocity_m_s = 0.0
+
+[[meta.physical.conductors]]
+group = "group_1"
+potential_V = -7.5
+
+[memo]
+case = "dshield2"
+description = "Lower-density Debye shielding tutorial case."
+legacy_input = "plasma.inp"
+
+[[species]]
+ipahdf = 0
+ipadig = 1024
+ipaxyz = [0, 0, 0, 0, 0, 0, 0]
+wp = 0.14876844935175268
+npbnd = [2, 2, 2]
+qm = -1.0
+npin = 103219200
+path = 2.422984428907874
+peth = 2.422984428907874
+vdri = 0.0
+vdthz = 90.0
+vdthxy = 0.0
+inpf = 1
+inpb = 1
+injct = 1
+npr = 524288
+
+[[species]]
+ipahdf = 0
+ipadig = 1024
+wp = 0.004958948311725089
+npbnd = [2, 2, 2]
+qm = 0.0011111111111111111
+npin = 103219200
+path = 0.008076614763026246
+peth = 0.008076614763026246
+vdri = 0.0
+vdthz = 90.0
+vdthxy = 0.0
+inpf = 1
+inpb = 1
+injct = 1
+npr = 524288
+
+[esorem]
+emflag = 0
+
+[jobcon]
+jobnum = [0, 1]
+nstep = 20000
+
+[digcon]
+hdfdigstart = 0
+intfoc = 100
+ifdiag = 2000
+ijdiag = 2000
+daverg = 2
+ifxyz = [1, 1, 1, 1, 1, 1, 1]
+ijxyz = [1, 1, 1]
+
+[plasma]
+wc = -0.0
+cv = 1000.0
+phiz = 0.0
+phixy = 0.0
+
+[tmgrid]
+dt = 0.05
+nx = 128
+ny = 128
+nz = 126
+
+[system]
+ionchg = 0
+nfbnd = [0, 0, 0]
+nflag_ecrct = 1
+mtd_vbnd = [1, 1, 1]
+
+[ptcond.conductor_groups.group_1]
+mtd_vchg = -1
+pfixed = -14.677133856825044
+
+[[ptcond.objects]]
+conductor = "group_1"
+geotype = 3
+bdyradius = 2.0
+bdycoord = [64.0, 64.0, 63.0]
+nflag_subcell = 1
+
+[ptcond]
+sfecrrct = 1
+modeww = -2
+
+[mpi]
+nodes = [4, 4, 7]
