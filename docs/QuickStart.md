@@ -7,10 +7,13 @@ Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
 ## 1. VS Code から camphor に接続する
 
 - VS Code を起動し、拡張機能 **Remote-SSH** をインストールする
+  
   ![remote-ssh](../imgs/1.png)
 - 京大スパコン *camphor* にログインする
+  
   ![login](../imgs/2.png)
 - TERMINAL を開く
+  
   ![terminal](../imgs/3.png)
 
 ## 2. 作業領域と Python 環境を準備する
