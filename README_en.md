@@ -19,7 +19,7 @@ The `dshield*` cases in this repository use `plasma.toml` as the primary input f
 
 ## Helper Tools
 
-`pip install -r requirements.txt` installs the visualization packages as well as `MPIEMSES3D` itself and helper commands such as `emu`, `inp2toml`, and `emses-cp`.
+`pip install -r requirements.txt` installs the visualization packages as well as `MPIEMSES3D` helper commands such as `emu`, `inp2toml`, and `emses-cp`.
 
 ## Advanced Examples
 
