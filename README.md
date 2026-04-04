@@ -19,7 +19,7 @@ Lang: [日本語](README.md) | [English](README_en.md)
 
 ## 補助ツール
 
-`pip install -r requirements.txt` で、可視化に使う Python パッケージに加えて `MPIEMSES3D` 本体と `emu` / `inp2toml` / `emses-cp` などの補助コマンドも導入されます。
+`pip install -r requirements.txt` で、可視化に使う Python パッケージに加えて `MPIEMSES3D` 関連ツール `emu` / `inp2toml` / `emses-cp` などの補助コマンドも導入されます。
 
 ## 上級例
 
