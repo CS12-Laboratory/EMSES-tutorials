@@ -32,27 +32,22 @@ pip install -r requirements.txt
 code --reuse-window ~/large0/Github/EMSES-tutorials
 ```
 
-`requirements.txt` には `MPIEMSES3D` も含まれているため、`emu` / `inp2toml` / `emses-cp` などの補助コマンドも使えるようになります。
-
 ## 3. MPIEMSES3D の導入方法
-
-- 普通に使うだけなら、上の `pip install -r requirements.txt` で十分です。
-- 開発版を手元で追いたい場合は、別途 `MPIEMSES3D` を clone して `pip install -e .` を使ってください。
 
 ```bash
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
-pip install -e .
+make
 ```
 
 ## 4. 実行ファイルを各ケースへ配置する
 
 ```bash
 cd ~/large0/Github/EMSES-tutorials
-emses-cp dshield0/
-emses-cp dshield1/
-emses-cp dshield2/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` は `plasma.toml` のみを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は各ケースの `.old/` 配下に参照用として置いてあります。
