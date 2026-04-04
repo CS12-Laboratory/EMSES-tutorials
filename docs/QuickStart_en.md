@@ -103,10 +103,13 @@ cd ~/large0
 ```
 
 1. Open `Python: Select Interpreter` in VS Code
+   
    ![select-interpreter](../imgs/select_interpreter.png)
 2. Choose `Enter Interpreter Path`
+   
    ![enter-interpreter](../imgs/enter_interpreter_path.png)
 3. Select `~/large0/.venv/bin/python` or `/opt/system/app/intelpython/2024.2.0/bin/python`
+   
    ![input-interpreter](../imgs/input_interpreter.png)
 
 References:
