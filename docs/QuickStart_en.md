@@ -7,10 +7,13 @@ Follow the steps below to get the `dshield*` tutorials running on Kyoto Universi
 ## 1. Connect to camphor from VS Code
 
 - Launch VS Code and install the **Remote-SSH** extension
+
   ![remote-ssh](../imgs/1.png)
 - Log in to *camphor*
+
   ![login](../imgs/2.png)
 - Open a TERMINAL
+
   ![terminal](../imgs/3.png)
 
 ## 2. Prepare your workspace and Python environment
