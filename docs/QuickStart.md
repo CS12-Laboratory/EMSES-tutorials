@@ -103,10 +103,13 @@ cd ~/large0
 ```
 
 1. VS Code で `Python: Select Interpreter` を開く
+   
    ![select-interpreter](../imgs/select_interpreter.png)
 2. `Enter Interpreter Path` を選ぶ
+   
    ![enter-interpreter](../imgs/enter_interpreter_path.png)
 3. `~/large0/.venv/bin/python` もしくは `/opt/system/app/intelpython/2024.2.0/bin/python` を指定する
+   
    ![input-interpreter](../imgs/input_interpreter.png)
 
 参考:
