@@ -32,27 +32,22 @@ pip install -r requirements.txt
 code --reuse-window ~/large0/Github/EMSES-tutorials
 ```
 
-`requirements.txt` also installs `MPIEMSES3D`, so helper commands such as `emu`, `inp2toml`, and `emses-cp` become available.
-
 ## 3. How to install MPIEMSES3D
-
-- For normal tutorial use, `pip install -r requirements.txt` is enough.
-- If you want a developer checkout, clone `MPIEMSES3D` separately and use `pip install -e .`.
 
 ```bash
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
-pip install -e .
+make
 ```
 
 ## 4. Copy the executable into each case
 
 ```bash
 cd ~/large0/Github/EMSES-tutorials
-emses-cp dshield0/
-emses-cp dshield1/
-emses-cp dshield2/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` uses `plasma.toml` as the only runtime input. Legacy `plasma.inp` / `plasma.preinp` files are kept under each case's `.old/` directory as archived references.
