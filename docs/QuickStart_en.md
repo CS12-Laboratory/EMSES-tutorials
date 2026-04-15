@@ -18,24 +18,70 @@ Follow the steps below to get the `dshield*` tutorials running on Kyoto Universi
 
 ## 2. Prepare your workspace and Python environment
 
+Run the substeps below in order.
+
+### 2-1. Create a workspace under `/LARGE0` and symlink it from `~/large0`
+
 ```bash
 mkdir -p /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
+```
 
-grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
-grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
+### 2-2. Create a Python 3.12 venv under `$HOME`
 
-exec "$SHELL" -l
+```bash
+/usr/bin/python3.12 -m venv $HOME/.venv
+```
 
+### 2-3. Activate the venv
+
+```bash
+source $HOME/.venv/bin/activate
+```
+
+If you want the venv to be activated automatically on every login, append the line below to `~/.bashrc` (recommended for now so that batch jobs can also find `mypython` and other commands):
+
+```bash
+echo 'source $HOME/.venv/bin/activate' >> ~/.bashrc
+```
+
+> NOTE: Once you no longer need this venv, remove the line you appended above from `~/.bashrc`.
+
+### 2-4. Clone the repository
+
+```bash
 mkdir -p ~/large0/Github
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
-cd EMSES-tutorials
+```
+
+### 2-5. Install the dependencies into the venv
+
+```bash
+cd ~/large0/Github/EMSES-tutorials
 pip install -r requirements.txt
+```
+
+`requirements.txt` also pulls in the `MPIEMSES3D`-side helpers (`emu`, `inp2toml`, `mysbatch`, `latestjob`, ...), so they all land inside the venv.
+
+### 2-6. Open the repository in VS Code
+
+```bash
 code --reuse-window ~/large0/Github/EMSES-tutorials
 ```
 
 ## 3. How to install MPIEMSES3D
+
+The recommended path is to install via pip. It builds with OpenMP enabled and also pulls in `mpiemses3d-tools` (`emu`, `inp2toml`, `emses-cp`, `mysbatch`, `latestjob`, ...) as a dependency.
+
+```bash
+MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
+```
+
+<details>
+<summary>For developers who edit the code (build with make)</summary>
+
+If you want to modify the source directly, clone the repository and build with `make`.
 
 ```bash
 cd ~/large0/Github
@@ -43,6 +89,16 @@ git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
 ```
+
+This path does not install the surrounding helpers (`emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob`, ...), so install `mpiemses3d-tools` separately with pip.
+
+```bash
+pip install mpiemses3d-tools
+```
+
+(When you install MPIEMSES3D itself via pip, this package is pulled in automatically as a dependency.)
+
+</details>
 
 ## 4. Copy the executable into each case
 
@@ -96,11 +152,7 @@ latestjob
 
 ### Set a Python interpreter for notebooks
 
-```bash
-cd ~/large0
-/usr/bin/python3.11 -m venv .venv
-~/large0/.venv/bin/python -m pip install -r ~/large0/Github/EMSES-tutorials/requirements.txt
-```
+You can reuse `~/.venv` created in Step 2.
 
 1. Open `Python: Select Interpreter` in VS Code
    
@@ -108,7 +160,7 @@ cd ~/large0
 2. Choose `Enter Interpreter Path`
    
    ![enter-interpreter](../imgs/enter_interpreter_path.png)
-3. Select `~/large0/.venv/bin/python` or `/opt/system/app/intelpython/2024.2.0/bin/python`
+3. Select `~/.venv/bin/python`
    
    ![input-interpreter](../imgs/input_interpreter.png)
 

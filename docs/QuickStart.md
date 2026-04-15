@@ -18,24 +18,70 @@ Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
 
 ## 2. 作業領域と Python 環境を準備する
 
+以下のサブステップを上から順に実行してください。
+
+### 2-1. `/LARGE0` 上に作業ディレクトリを作り、`~/large0` からシンボリックリンクを張る
+
 ```bash
 mkdir -p /LARGE0/gr20001/$USER
 ln -s /LARGE0/gr20001/$USER ~/large0
+```
 
-grep -qxF 'module load intel-python' ~/.bashrc || echo 'module load intel-python' >> ~/.bashrc
-grep -qxF 'export PATH="$PATH:$HOME/.local/bin"' ~/.bashrc || echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
+### 2-2. `$HOME` に Python 3.12 の venv を作る
 
-exec "$SHELL" -l
+```bash
+/usr/bin/python3.12 -m venv $HOME/.venv
+```
 
+### 2-3. venv をその場で有効化する
+
+```bash
+source $HOME/.venv/bin/activate
+```
+
+ログインのたびに自動で有効化したい場合は `~/.bashrc` にも追記しておきます（ジョブから `mypython` などを呼べるようにするためにも、当面は追記しておくのを推奨）。
+
+```bash
+echo 'source $HOME/.venv/bin/activate' >> ~/.bashrc
+```
+
+> NOTE: この venv が不要になったら、上で追記した行を `~/.bashrc` から削除してください。
+
+### 2-4. リポジトリを clone する
+
+```bash
 mkdir -p ~/large0/Github
 cd ~/large0/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
-cd EMSES-tutorials
+```
+
+### 2-5. 依存パッケージを venv に入れる
+
+```bash
+cd ~/large0/Github/EMSES-tutorials
 pip install -r requirements.txt
+```
+
+`requirements.txt` には `MPIEMSES3D` 関連の補助コマンド（`emu` / `inp2toml` / `mysbatch` / `latestjob` など）も含まれているので、これでまとめて venv に入ります。
+
+### 2-6. VS Code でリポジトリを開く
+
+```bash
 code --reuse-window ~/large0/Github/EMSES-tutorials
 ```
 
 ## 3. MPIEMSES3D の導入方法
+
+推奨は pip からのインストールです。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob` など）も依存として一緒に入ります。
+
+```bash
+MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
+```
+
+<details>
+<summary>開発・コード編集を行う人向け（make でビルドする場合）</summary>
+
+ソースを直接いじる開発用途では、リポジトリを clone して `make` でビルドします。
 
 ```bash
 cd ~/large0/Github
@@ -43,6 +89,16 @@ git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
 ```
+
+この方法では `emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob` などの周辺ツールは入らないので、別途 `mpiemses3d-tools` を pip で入れてください。
+
+```bash
+pip install mpiemses3d-tools
+```
+
+（pip 経由で MPIEMSES3D 本体を入れた場合は、こちらも依存として自動でインストールされます。）
+
+</details>
 
 ## 4. 実行ファイルを各ケースへ配置する
 
@@ -96,11 +152,7 @@ latestjob
 
 ### Notebook 用の Python interpreter を設定する
 
-```bash
-cd ~/large0
-/usr/bin/python3.11 -m venv .venv
-~/large0/.venv/bin/python -m pip install -r ~/large0/Github/EMSES-tutorials/requirements.txt
-```
+ステップ 2 で作った `~/.venv` をそのまま使えます。
 
 1. VS Code で `Python: Select Interpreter` を開く
    
@@ -108,7 +160,7 @@ cd ~/large0
 2. `Enter Interpreter Path` を選ぶ
    
    ![enter-interpreter](../imgs/enter_interpreter_path.png)
-3. `~/large0/.venv/bin/python` もしくは `/opt/system/app/intelpython/2024.2.0/bin/python` を指定する
+3. `~/.venv/bin/python` を指定する
    
    ![input-interpreter](../imgs/input_interpreter.png)
 
