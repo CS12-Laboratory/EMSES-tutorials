@@ -25,4 +25,4 @@ The `dshield*` cases in this repository use `plasma.toml` as the primary input f
 
 ## Advanced Examples
 
-The advanced examples formerly stored under `advance/` have moved to [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) in the `MPIEMSES3D` repository.
+The advanced examples formerly stored under `advance/` have moved to [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) in the `MPIEMSES3D` repository.

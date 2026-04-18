@@ -175,7 +175,7 @@ latestjob
 - `dshield1` / `dshield2` も実行して違いを比べる
 - `ds0` を `emout` で可視化するときは、必要に応じて `[[species]]` の `wp` を一時的に非ゼロへ変更する
 
-旧 `advance/` の例は、`MPIEMSES3D` 側の [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) を参照してください。
+旧 `advance/` の例は、`MPIEMSES3D` 側の [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) を参照してください。
 
 ## 10. 結果を考える
 

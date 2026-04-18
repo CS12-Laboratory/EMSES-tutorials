@@ -25,4 +25,4 @@ Lang: [日本語](README.md) | [English](README_en.md)
 
 ## 上級例
 
-旧 `advance/` に置いていた上級例は、`MPIEMSES3D` 側の [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) に移行しました。
+旧 `advance/` に置いていた上級例は、`MPIEMSES3D` 側の [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) に移行しました。

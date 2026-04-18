@@ -180,7 +180,7 @@ References:
 - Run `dshield1` and `dshield2` and compare the differences
 - When visualizing `ds0` with `emout`, temporarily set `[[species]].wp` to a nonzero value if needed
 
-For the former `advance/` examples, see [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) in the `MPIEMSES3D` repository.
+For the former `advance/` examples, see [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) in the `MPIEMSES3D` repository.
 
 ## 10. Think about the physics
 
