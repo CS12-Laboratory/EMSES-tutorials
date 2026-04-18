@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p gr10451a
-#SBATCH --rsc p=32:t=1:c=1
+#SBATCH --rsc p=112:t=1:c=1
 #SBATCH -t 120:00:00
 #SBATCH -o stdout.%J.log
 #SBATCH -e stderr.%J.log

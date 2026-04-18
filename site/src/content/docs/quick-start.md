@@ -69,7 +69,7 @@ cd ~/large1/Github/EMSES-tutorials
 pip install -r requirements.txt
 ```
 
-`requirements.txt` には `MPIEMSES3D` 関連の補助コマンド（`emu` / `inp2toml` / `mysbatch` / `latestjob` など）も含まれているので、これでまとめて venv に入ります。
+`requirements.txt` には可視化・解析用の Python パッケージ（`emout` / `camptools` / `mypython` など）が入っています。ジョブ投入系のコマンド（`mysbatch` / `latestjob` など）は `camptools` 由来でここで入ります。`MPIEMSES3D` 本体（`mpiemses3D`）と入力変換系のコマンド（`emu` / `inp2toml` / `emses-cp`）は次の Step 3 で `mpiemses3d-tools` ごと入ります。
 
 ### 2-6. VS Code でリポジトリを開く
 
@@ -79,7 +79,7 @@ code --reuse-window ~/large1/Github/EMSES-tutorials
 
 ## 3. MPIEMSES3D の導入方法
 
-推奨は pip からのインストールです。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob` など）も依存として一緒に入ります。
+推奨は pip からのインストールです。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp`）も依存として一緒に入ります。
 
 ```bash
 MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
@@ -97,7 +97,7 @@ cd MPIEMSES3D
 make
 ```
 
-この方法では `emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob` などの周辺ツールは入らないので、別途 `mpiemses3d-tools` を pip で入れてください。
+この方法では `emu` / `inp2toml` / `emses-cp` などの周辺ツールは入らないので、別途 `mpiemses3d-tools` を pip で入れてください。
 
 ```bash
 pip install mpiemses3d-tools

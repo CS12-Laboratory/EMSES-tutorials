@@ -64,7 +64,7 @@ cd ~/large1/Github/EMSES-tutorials
 pip install -r requirements.txt
 ```
 
-`requirements.txt` also pulls in the `MPIEMSES3D`-side helpers (`emu`, `inp2toml`, `mysbatch`, `latestjob`, ...), so they all land inside the venv.
+`requirements.txt` contains the visualization / analysis Python packages (`emout`, `camptools`, `mypython`, ...). The job-submission commands (`mysbatch`, `latestjob`, ...) come from `camptools` and are installed here. `MPIEMSES3D` itself (`mpiemses3D`) and the input-conversion commands (`emu`, `inp2toml`, `emses-cp`) are installed alongside `mpiemses3d-tools` in Step 3.
 
 ### 2-6. Open the repository in VS Code
 
@@ -74,7 +74,7 @@ code --reuse-window ~/large1/Github/EMSES-tutorials
 
 ## 3. How to install MPIEMSES3D
 
-The recommended path is to install via pip. It builds with OpenMP enabled and also pulls in `mpiemses3d-tools` (`emu`, `inp2toml`, `emses-cp`, `mysbatch`, `latestjob`, ...) as a dependency.
+The recommended path is to install via pip. It builds with OpenMP enabled and also pulls in `mpiemses3d-tools` (`emu`, `inp2toml`, `emses-cp`) as a dependency.
 
 ```bash
 MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
@@ -92,7 +92,7 @@ cd MPIEMSES3D
 make
 ```
 
-This path does not install the surrounding helpers (`emu` / `inp2toml` / `emses-cp` / `mysbatch` / `latestjob`, ...), so install `mpiemses3d-tools` separately with pip.
+This path does not install the surrounding helpers (`emu` / `inp2toml` / `emses-cp`), so install `mpiemses3d-tools` separately with pip.
 
 ```bash
 pip install mpiemses3d-tools

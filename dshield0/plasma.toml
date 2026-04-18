@@ -115,7 +115,6 @@ nflag_subcell = 1
 
 [ptcond]
 sfecrrct = 1
-modeww = -2
 
 [mpi]
 nodes = [4, 4, 7]
