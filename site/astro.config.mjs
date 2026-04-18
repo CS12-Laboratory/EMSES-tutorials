@@ -12,9 +12,9 @@ export default defineConfig({
       title: 'EMSES tutorials',
       description:
         'MPIEMSES3D / EMSES を使い始めるためのチュートリアル集 — Tutorials for getting started with the MPIEMSES3D / EMSES electromagnetic particle code.',
-      defaultLocale: 'ja',
+      defaultLocale: 'root',
       locales: {
-        ja: { label: '日本語', lang: 'ja' },
+        root: { label: '日本語', lang: 'ja' },
         en: { label: 'English', lang: 'en' },
       },
       social: [

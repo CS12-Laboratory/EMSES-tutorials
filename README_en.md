@@ -4,10 +4,12 @@ Lang: [日本語](README.md) | [English](README_en.md)
 
 This repository provides tutorials for getting started with [MPIEMSES3D / EMSES](https://github.com/CS12-Laboratory/MPIEMSES3D).
 
+Documentation site (GitHub Pages): <https://cs12-laboratory.github.io/EMSES-tutorials/>
+
 ## Quick Start
 
-- [Quick Start Tutorial](docs/QuickStart_en.md)
-- [初回チュートリアル (Japanese)](docs/QuickStart.md)
+- Published site: [Quick Start](https://cs12-laboratory.github.io/EMSES-tutorials/en/quick-start/) / [初回チュートリアル (Japanese)](https://cs12-laboratory.github.io/EMSES-tutorials/quick-start/)
+- In-repo Markdown: [docs/QuickStart_en.md](docs/QuickStart_en.md) / [docs/QuickStart.md](docs/QuickStart.md)
 
 ## Parameters and Input Files
 
