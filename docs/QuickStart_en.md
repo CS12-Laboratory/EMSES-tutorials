@@ -20,12 +20,14 @@ Follow the steps below to get the `dshield*` tutorials running on Kyoto Universi
 
 Run the substeps below in order.
 
-### 2-1. Create a workspace under `/LARGE0` and symlink it from `~/large0`
+### 2-1. Create a workspace under `/LARGE1` and symlink it from `~/large1`
 
 ```bash
-mkdir -p /LARGE0/gr20001/$USER
-ln -s /LARGE0/gr20001/$USER ~/large0
+mkdir -p /LARGE1/gr20001/$USER
+ln -s /LARGE1/gr20001/$USER ~/large1
 ```
+
+> NOTE: `/LARGE0` was the previous default and is still usable, but it has recently been filling up and occasionally cannot accept new output files, so we now recommend `/LARGE1` for new work. If you stick with `/LARGE0`, replace the paths above with `/LARGE0/gr20001/$USER` and `~/large0`.
 
 ### 2-2. Create a Python 3.12 venv under `$HOME`
 
@@ -50,15 +52,15 @@ echo 'source $HOME/.venv/bin/activate' >> ~/.bashrc
 ### 2-4. Clone the repository
 
 ```bash
-mkdir -p ~/large0/Github
-cd ~/large0/Github
+mkdir -p ~/large1/Github
+cd ~/large1/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
 ```
 
 ### 2-5. Install the dependencies into the venv
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials
+cd ~/large1/Github/EMSES-tutorials
 pip install -r requirements.txt
 ```
 
@@ -67,7 +69,7 @@ pip install -r requirements.txt
 ### 2-6. Open the repository in VS Code
 
 ```bash
-code --reuse-window ~/large0/Github/EMSES-tutorials
+code --reuse-window ~/large1/Github/EMSES-tutorials
 ```
 
 ## 3. How to install MPIEMSES3D
@@ -84,7 +86,7 @@ MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3
 If you want to modify the source directly, clone the repository and build with `make`.
 
 ```bash
-cd ~/large0/Github
+cd ~/large1/Github
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
@@ -103,10 +105,10 @@ pip install mpiemses3d-tools
 ## 4. Copy the executable into each case
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+cd ~/large1/Github/EMSES-tutorials
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` uses `plasma.toml` as the only runtime input. Legacy `plasma.inp` / `plasma.preinp` files are kept under each case's `.old/` directory as archived references.
@@ -116,7 +118,7 @@ cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 The `dshield*` tutorials use `plasma.toml` as the primary input file. If you edit `[meta.physical]` or `[meta.unit_conversion]`, apply the conversion before submitting the job.
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials/dshield1
+cd ~/large1/Github/EMSES-tutorials/dshield1
 emu apply plasma.toml --dry-run
 emu apply plasma.toml
 ```
@@ -124,7 +126,7 @@ emu apply plasma.toml
 ## 6. Run `dshield0`
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials/dshield0
+cd ~/large1/Github/EMSES-tutorials/dshield0
 mysbatch job.sh
 ```
 

@@ -51,7 +51,7 @@ peth = 2.422984430556998
 `emu` を PATH に入れていない場合は、`MPIEMSES3D` の開発リポジトリを使って次のように実行できます。
 
 ```bash
-PYTHONPATH=~/large0/Github/MPIEMSES3D \
+PYTHONPATH=~/large1/Github/MPIEMSES3D \
 python -m mpiemses3d_tools.cli.emses_unit apply plasma.toml
 ```
 

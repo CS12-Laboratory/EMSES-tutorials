@@ -21,12 +21,16 @@ description: 京大スパコン camphor 上で dshield* を動かすまでの手
 
 以下のサブステップを上から順に実行してください。
 
-### 2-1. `/LARGE0` 上に作業ディレクトリを作り、`~/large0` からシンボリックリンクを張る
+### 2-1. `/LARGE1` 上に作業ディレクトリを作り、`~/large1` からシンボリックリンクを張る
 
 ```bash
-mkdir -p /LARGE0/gr20001/$USER
-ln -s /LARGE0/gr20001/$USER ~/large0
+mkdir -p /LARGE1/gr20001/$USER
+ln -s /LARGE1/gr20001/$USER ~/large1
 ```
+
+:::note
+以前は `/LARGE0` を使っていました。`/LARGE0` も引き続き利用可能ですが、最近ストレージが逼迫していて出力ファイルを書き込めないことがたまにあるため、新規には `/LARGE1` を推奨します。`/LARGE0` を使う場合は上記のパスを `/LARGE0/gr20001/$USER` / `~/large0` に読み替えてください。
+:::
 
 ### 2-2. `$HOME` に Python 3.12 の venv を作る
 
@@ -53,15 +57,15 @@ echo 'source $HOME/.venv/bin/activate' >> ~/.bashrc
 ### 2-4. リポジトリを clone する
 
 ```bash
-mkdir -p ~/large0/Github
-cd ~/large0/Github
+mkdir -p ~/large1/Github
+cd ~/large1/Github
 git clone https://github.com/CS12-Laboratory/EMSES-tutorials.git
 ```
 
 ### 2-5. 依存パッケージを venv に入れる
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials
+cd ~/large1/Github/EMSES-tutorials
 pip install -r requirements.txt
 ```
 
@@ -70,7 +74,7 @@ pip install -r requirements.txt
 ### 2-6. VS Code でリポジトリを開く
 
 ```bash
-code --reuse-window ~/large0/Github/EMSES-tutorials
+code --reuse-window ~/large1/Github/EMSES-tutorials
 ```
 
 ## 3. MPIEMSES3D の導入方法
@@ -87,7 +91,7 @@ MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3
 ソースを直接いじる開発用途では、リポジトリを clone して `make` でビルドします。
 
 ```bash
-cd ~/large0/Github
+cd ~/large1/Github
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make
@@ -106,10 +110,10 @@ pip install mpiemses3d-tools
 ## 4. 実行ファイルを各ケースへ配置する
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+cd ~/large1/Github/EMSES-tutorials
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` は `plasma.toml` のみを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は各ケースの `.old/` 配下に参照用として置いてあります。
@@ -119,7 +123,7 @@ cp ~/large0/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 `dshield*` は `plasma.toml` が標準入力です。`[meta.physical]` や `[meta.unit_conversion]` を変更した場合は、投入前に変換を反映してください。
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials/dshield1
+cd ~/large1/Github/EMSES-tutorials/dshield1
 emu apply plasma.toml --dry-run
 emu apply plasma.toml
 ```
@@ -127,7 +131,7 @@ emu apply plasma.toml
 ## 6. `dshield0` を実行する
 
 ```bash
-cd ~/large0/Github/EMSES-tutorials/dshield0
+cd ~/large1/Github/EMSES-tutorials/dshield0
 mysbatch job.sh
 ```
 

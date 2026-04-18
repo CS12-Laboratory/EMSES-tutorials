@@ -17,7 +17,7 @@ Lang: [日本語](README_plasma_inp.md) | [English](README_plasma_inp_en.md)
 `MPIEMSES3D` の `inp2toml` を使えば、archive してある `.old/plasma.inp` を `format_version = 2` の `plasma.toml` へ変換できます。
 
 ```bash
-PYTHONPATH=~/large0/Github/MPIEMSES3D \
+PYTHONPATH=~/large1/Github/MPIEMSES3D \
 python -m mpiemses3d_tools.inp2toml .old/plasma.inp --format-version 2 -o plasma.toml
 ```
 

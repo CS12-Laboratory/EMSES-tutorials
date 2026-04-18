@@ -51,7 +51,7 @@ In this repository, `job.sh` uses only `plasma.toml` as the runtime input. The `
 If `emu` is not on your `PATH`, you can invoke it from the `MPIEMSES3D` development repository like this:
 
 ```bash
-PYTHONPATH=~/large0/Github/MPIEMSES3D \
+PYTHONPATH=~/large1/Github/MPIEMSES3D \
 python -m mpiemses3d_tools.cli.emses_unit apply plasma.toml
 ```
 
