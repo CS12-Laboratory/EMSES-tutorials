@@ -1,0 +1,37 @@
+---
+title: EMSES tutorials
+description: Tutorials for getting started with the MPIEMSES3D / EMSES electromagnetic particle code
+template: splash
+hero:
+  tagline: Tutorials for getting started with the MPIEMSES3D / EMSES electromagnetic particle code
+  actions:
+    - text: Open the Quick Start
+      link: /en/quick-start/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub repository
+      link: https://github.com/CS12-Laboratory/EMSES-tutorials
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Overview
+
+This site collects tutorials for running MPIEMSES3D / EMSES on Kyoto University's *camphor* supercomputer.
+
+<CardGrid>
+  <Card title="Getting started" icon="rocket">
+    The [Quick Start](/en/quick-start/) walks you through running `dshield*` end-to-end.
+  </Card>
+  <Card title="Parameters and inputs" icon="document">
+    `dshield*` uses `plasma.toml` as the primary input. After editing `[meta.physical]`, run `emu apply plasma.toml` before submitting jobs.
+  </Card>
+  <Card title="Helper tools" icon="setting">
+    `pip install -r requirements.txt` installs MPIEMSES3D itself plus helpers such as `emu`, `inp2toml`, and `emses-cp`.
+  </Card>
+  <Card title="Advanced examples" icon="open-book">
+    The former `advance/` examples have moved to MPIEMSES3D's [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples).
+  </Card>
+</CardGrid>

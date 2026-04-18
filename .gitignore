@@ -15,3 +15,13 @@
 !**/plasma.toml
 !.vscode/*
 !**/.logs
+
+# Starlight site (allowlist sources, ignore build output & deps)
+!site/**
+site/node_modules/
+site/dist/
+site/.astro/
+
+# GitHub Actions workflows
+!.github/
+!.github/**

@@ -1,0 +1,37 @@
+---
+title: EMSES tutorials
+description: 電磁粒子コード MPIEMSES3D / EMSES のチュートリアル集
+template: splash
+hero:
+  tagline: 電磁粒子コード MPIEMSES3D / EMSES を使い始めるためのチュートリアル集
+  actions:
+    - text: 初回チュートリアルを開く
+      link: /quick-start/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub リポジトリ
+      link: https://github.com/CS12-Laboratory/EMSES-tutorials
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 概要
+
+このサイトは、京大スパコン *camphor* 上で MPIEMSES3D / EMSES を動かすためのチュートリアルをまとめたものです。
+
+<CardGrid>
+  <Card title="はじめに" icon="rocket">
+    [初回チュートリアル](/quick-start/) で `dshield*` を動かす手順を順を追って確認できます。
+  </Card>
+  <Card title="パラメータと入力ファイル" icon="document">
+    `dshield*` は `plasma.toml` を標準入力として使います。`[meta.physical]` を編集したら、投入前に `emu apply plasma.toml` を実行してください。
+  </Card>
+  <Card title="補助ツール" icon="setting">
+    `pip install -r requirements.txt` で `MPIEMSES3D` 本体と `emu` / `inp2toml` / `emses-cp` などの補助コマンドが入ります。
+  </Card>
+  <Card title="上級例" icon="open-book">
+    旧 `advance/` の例は、`MPIEMSES3D` 側の [`parameter_examples`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/parameter_examples) に移行しました。
+  </Card>
+</CardGrid>
