@@ -28,7 +28,18 @@ export default defineConfig({
         {
           label: 'Getting started',
           translations: { ja: 'はじめに' },
-          autogenerate: { directory: '.' },
+          items: [
+            {
+              label: 'Quick Start',
+              translations: { ja: '初回チュートリアル' },
+              link: '/quick-start/',
+            },
+          ],
+        },
+        {
+          label: 'Tips',
+          translations: { ja: 'Tips' },
+          autogenerate: { directory: 'tips' },
         },
         {
           label: 'References',

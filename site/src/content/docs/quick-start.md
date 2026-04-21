@@ -17,6 +17,10 @@ description: 京大スパコン camphor 上で dshield* を動かすまでの手
 
   ![terminal](../../assets/imgs/3.png)
 
+:::tip
+接続のたびに SSH パスフレーズを聞かれて煩わしい場合は、[`ssh-agent` でパスフレーズ入力を自動化する](./tips/ssh-agent/) を参照してください（Windows は管理者 PowerShell が必要）。
+:::
+
 ## 2. 作業領域と Python 環境を準備する
 
 以下のサブステップを上から順に実行してください。

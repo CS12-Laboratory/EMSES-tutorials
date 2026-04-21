@@ -16,6 +16,8 @@ Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
   
   ![terminal](../imgs/3.png)
 
+> TIP: 接続のたびに SSH パスフレーズを聞かれて煩わしい場合は、[`ssh-agent` でパスフレーズ入力を自動化する](Tips_SSH_Agent.md) を参照してください（Windows は管理者 PowerShell が必要）。
+
 ## 2. 作業領域と Python 環境を準備する
 
 以下のサブステップを上から順に実行してください。

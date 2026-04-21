@@ -17,6 +17,10 @@ Follow the steps below to get the `dshield*` tutorials running on Kyoto Universi
 
   ![terminal](../../../assets/imgs/3.png)
 
+:::tip
+If VS Code asks for your SSH passphrase on every connect, see [Skip the SSH passphrase prompt with `ssh-agent`](./tips/ssh-agent/) (the Windows setup needs an elevated PowerShell).
+:::
+
 ## 2. Prepare your workspace and Python environment
 
 Run the substeps below in order.
