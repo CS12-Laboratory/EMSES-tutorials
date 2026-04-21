@@ -7,8 +7,6 @@
 
 # set -x
 module load intel/2023.2 intelmpi/2023.2
-module load hdf5/1.12.2_intel-2023.2-impi
-module load fftw/3.3.10_intel-2022.3-impi
 module list
 
 input_file=./plasma.toml

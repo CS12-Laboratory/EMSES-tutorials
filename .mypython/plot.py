@@ -6,10 +6,11 @@ from typing import List
 import emout
 import matplotlib.pyplot as plt
 import numpy as np
+from emout.core.units import wpit_unit
 from emout.utils import Group
 
 # t軸をwpi*tで規格化(use_si=Trueのとき)
-emout.Emout.name2unit["t"] = emout.data.wpit_unit
+emout.Emout.name2unit["t"] = wpit_unit
 
 
 def parse_args():
