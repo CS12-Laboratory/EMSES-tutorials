@@ -2,6 +2,6 @@ matplotlib
 numpy
 scipy
 emout>=2.3.4
-camptools
+camptools>=0.14.0
 git+https://github.com/Nkzono99/mypython.git
 fpm
