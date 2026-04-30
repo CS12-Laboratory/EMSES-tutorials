@@ -115,9 +115,13 @@ pip install mpiemses3d-tools
 
 ```bash
 cd ~/large1/Github/EMSES-tutorials
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+cpem dshield0
+cpem dshield1
+cpem dshield2
+
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` uses `plasma.toml` as the only runtime input. Legacy `plasma.inp` / `plasma.preinp` files are kept under each case's `.old/` directory as archived references.
