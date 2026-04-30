@@ -108,6 +108,10 @@ pip install mpiemses3d-tools
 
 ```bash
 cd ~/large1/Github/EMSES-tutorials
+cpem dshield0/
+cpem dshield1/
+cpem dshield2/
+
 cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
 cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
 cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
