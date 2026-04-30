@@ -76,7 +76,7 @@ code --reuse-window ~/large1/Github/EMSES-tutorials
 
 ## 3. MPIEMSES3D の導入方法
 
-推奨は pip からのインストールです。ただ、今回は下の開発・コード編集を行う人向けのmake OPENMP=1でビルドするようにしてください。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp`）も依存として一緒に入ります。
+推奨は pip からのインストールです。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp`）も依存として一緒に入ります。
 
 ```bash
 MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
@@ -108,9 +108,13 @@ pip install mpiemses3d-tools
 
 ```bash
 cd ~/large1/Github/EMSES-tutorials
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
-cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
+cpem dshield0/
+cpem dshield1/
+cpem dshield2/
+
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield0/
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield1/
+# cp ~/large1/Github/MPIEMSES3D/bin/mpiemses3D dshield2/
 ```
 
 `job.sh` は `plasma.toml` のみを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は各ケースの `.old/` 配下に参照用として置いてあります。
