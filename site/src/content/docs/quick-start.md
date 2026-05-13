@@ -86,7 +86,7 @@ code --reuse-window ~/large1/Github/EMSES-tutorials
 推奨は pip からのインストールです。OpenMP 有効でビルドされ、`mpiemses3d-tools`（`emu` / `inp2toml` / `emses-cp`）も依存として一緒に入ります。
 
 ```bash
-MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.10.0
+MPIEMSES3D_OPENMP=1 pip install git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.11.1
 ```
 
 <details>
