@@ -75,7 +75,7 @@ emflag = 0
 
 [jobcon]
 jobnum = [0, 1]
-nstep = 20
+nstep = 20000
 
 [digcon]
 hdfdigstart = 0
