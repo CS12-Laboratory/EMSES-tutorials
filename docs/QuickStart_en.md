@@ -201,5 +201,17 @@ Questions to check:
 
 - [Kyoto University supercomputer manual (restricted)](http://web.kudpc.kyoto-u.ac.jp/manual-new/ja)
 - [Kobe University supercomputer manual](http://www.eccse.kobe-u.ac.jp/pi-computer/)
-- [MPIEMSES3D Parameters](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.en.md)
-- [MPIEMSES3D Customization](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.en.md)
+
+The `MPIEMSES3D` repository is private, so the GitHub links below require repository access. If you have a local clone, the same documents live under `MPIEMSES3D/docs/`.
+
+- Editing input files:
+  - [Input parameter reference](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.en.md) - details for `plasma.toml` / `plasma.inp` parameters, units, and namelist groups
+  - [TOML `format_version = 2`](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/FormatV2.en.md) - structured TOML sections such as `[[species]]` and `[[ptcond.objects]]`
+  - [`plasma.toml` customization guide](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.en.md) - `[meta.physical]`, `emu apply`, and Python-based case generation
+- Checking and analyzing output:
+  - [Output file reference](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/OutputFiles.en.md) - text diagnostics, HDF5 files, snapshots, and `emout` usage under `data/`
+  - [Analysis guide](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/agent-analysis-guide.md) - `emout` / Python analysis, SI-unit conversion, and typical workflows
+- Understanding the internals:
+  - [Algorithm documentation](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Algorithms.md) - PIC, FDTD, Poisson solver, Boris pusher, and surface interactions
+  - [Architecture](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/ARCHITECTURE.md) - code organization, one-step data flow, and MPI synchronization points
+  - [cookbook](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) - input examples and the former advanced `advance/` cases

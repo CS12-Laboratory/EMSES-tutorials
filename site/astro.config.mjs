@@ -50,8 +50,28 @@ export default defineConfig({
               link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md',
             },
             {
+              label: 'MPIEMSES3D Format v2',
+              link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/FormatV2.md',
+            },
+            {
               label: 'MPIEMSES3D Customization',
               link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.md',
+            },
+            {
+              label: 'MPIEMSES3D Output Files',
+              link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/OutputFiles.md',
+            },
+            {
+              label: 'MPIEMSES3D Algorithms',
+              link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Algorithms_ja.md',
+            },
+            {
+              label: 'MPIEMSES3D Architecture',
+              link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/ARCHITECTURE.md',
+            },
+            {
+              label: 'MPIEMSES3D cookbook',
+              link: 'https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook',
             },
             {
               label: 'emout',

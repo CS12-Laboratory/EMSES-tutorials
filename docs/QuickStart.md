@@ -201,5 +201,17 @@ latestjob
 
 - [京大スパコン利用マニュアル（要認証）](http://web.kudpc.kyoto-u.ac.jp/manual-new/ja)
 - [神大スパコン利用マニュアル](http://www.eccse.kobe-u.ac.jp/pi-computer/)
-- [MPIEMSES3D Parameters](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md)
-- [MPIEMSES3D Customization](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.md)
+
+MPIEMSES3D 本体リポジトリは private なので、以下の GitHub リンクを開くにはアクセス権が必要です。ローカルに clone 済みの場合は `MPIEMSES3D/docs/` 以下にも同じドキュメントがあります。
+
+- 入力ファイルを編集する:
+  - [入力パラメータリファレンス](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.md) - `plasma.toml` / `plasma.inp` の各パラメータ、単位系、namelist の詳細
+  - [TOML 新形式 `format_version = 2`](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/FormatV2.md) - `[[species]]` や `[[ptcond.objects]]` などの構造化 TOML の書き方
+  - [`plasma.toml` カスタマイズガイド](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.md) - `[meta.physical]`、`emu apply`、Python でのケース生成
+- 出力を確認・解析する:
+  - [出力ファイルリファレンス](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/OutputFiles.md) - `data/` 配下のテキスト診断、HDF5、snapshot、`emout` での読み方
+  - [解析ガイド](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/agent-analysis-guide.md) - `emout` / Python 解析、SI 単位変換、典型的な解析ワークフロー
+- 仕組みを詳しく追う:
+  - [アルゴリズム仕様](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Algorithms_ja.md) - PIC、FDTD、Poisson solver、Boris pusher、表面相互作用
+  - [アーキテクチャ](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/ARCHITECTURE.md) - コード構成、1 ステップのデータフロー、MPI 同期ポイント
+  - [cookbook](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) - 入力例集と旧 `advance/` の上級例
