@@ -25,3 +25,5 @@ site/.astro/
 # GitHub Actions workflows
 !.github/
 !.github/**
+
+.venv/
