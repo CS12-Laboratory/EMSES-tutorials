@@ -80,8 +80,8 @@ nstep = 20000
 [digcon]
 hdfdigstart = 0
 intfoc = 10
-ifdiag = 5
-ijdiag = 5
+ifdiag = 2000
+ijdiag = 2000
 daverg = 1
 ifxyz = [1, 1, 1, 1, 1, 1, 1]
 ijxyz = [1, 1, 1]
