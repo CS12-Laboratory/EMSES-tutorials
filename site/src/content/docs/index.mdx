@@ -29,7 +29,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     `dshield*` は `plasma.toml` を標準入力として使います。`[meta.physical]` を編集したら、投入前に `emu apply plasma.toml` を実行してください。
   </Card>
   <Card title="補助ツール" icon="setting">
-    `pip install -r requirements.txt` で `MPIEMSES3D` 本体と `emu` / `inp2toml` / `emses-cp` などの補助コマンドが入ります。
+    `uvx ... emses-tutorials setup` で教材を展開し、ローカル `.venv/` に可視化・解析パッケージと `mysbatch` などを導入します。`MPIEMSES3D` 本体も同じ `.venv/` に導入します。
   </Card>
   <Card title="上級例" icon="open-book">
     旧 `advance/` の例は、`MPIEMSES3D` 側の [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) に移行しました。

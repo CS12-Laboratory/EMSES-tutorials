@@ -2,10 +2,14 @@
 !*/
 
 !LICENSE
+!AGENTS.md
+!pyproject.toml
 !job.sh
 !plot_example.ipynb
 !*.py
 !requirements.txt
+!src/
+!src/**
 !imgs/*.png
 !**/*.xlsx
 !**/*.md
@@ -15,6 +19,13 @@
 !**/plasma.toml
 !.vscode/*
 !**/.logs
+build/
+*.egg-info/
+src/*.egg-info
+src/*.egg-info/
+**/__pycache__/
+**/__pycache__
+*.pyc
 
 # Starlight site (allowlist sources, ignore build output & deps)
 !site/**

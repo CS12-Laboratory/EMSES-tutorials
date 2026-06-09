@@ -29,7 +29,7 @@ This site collects tutorials for running MPIEMSES3D / EMSES on Kyoto University'
     `dshield*` uses `plasma.toml` as the primary input. After editing `[meta.physical]`, run `emu apply plasma.toml` before submitting jobs.
   </Card>
   <Card title="Helper tools" icon="setting">
-    `pip install -r requirements.txt` installs MPIEMSES3D itself plus helpers such as `emu`, `inp2toml`, and `emses-cp`.
+    `uvx ... emses-tutorials setup` expands the tutorials and installs visualization / analysis packages plus helpers such as `mysbatch` into the local `.venv/`. Install `MPIEMSES3D` into the same `.venv/` in the Quick Start.
   </Card>
   <Card title="Advanced examples" icon="open-book">
     The former `advance/` examples have moved to MPIEMSES3D's [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook).
