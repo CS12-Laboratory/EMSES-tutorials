@@ -29,11 +29,14 @@ if [ ! -f "$input_file" ]; then
     exit 1
 fi
 
-if [ ! -x ./mpiemses3D ]; then
-    echo "mpiemses3D executable is missing: $case_dir/mpiemses3D" >&2
-    echo "Run cpem $case_dir from the tutorial root before submitting." >&2
+mpiemses3d_bin=$(command -v mpiemses3D || true)
+if [ -z "$mpiemses3d_bin" ]; then
+    echo "mpiemses3D is not available in the repository-local venv." >&2
+    echo "Install MPIEMSES3D in $repo_dir/.venv before submitting." >&2
     exit 1
 fi
+echo "Using mpiemses3D: $mpiemses3d_bin"
+"$mpiemses3d_bin" --version
 
 export EMSES_DEBUG=no
 
@@ -45,7 +48,7 @@ emu lint --mpi-size "$mpi_size" "$input_file"
 emu inspect "$input_file" | tee inspect.log
 
 rm -f *_0000.h5
-srun ./mpiemses3D "$input_file"
+srun "$mpiemses3d_bin" "$input_file"
 
 date
 

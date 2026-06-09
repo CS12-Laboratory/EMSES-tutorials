@@ -22,7 +22,7 @@ Lang: [日本語](README.md) | [English](README_en.md)
 
 ## 補助ツール
 
-初回セットアップでは `uvx ... emses-tutorials setup` で教材ファイルを展開し、教材ディレクトリ直下の `.venv/` に可視化・解析パッケージと `mysbatch` / `latestjob` などのジョブ補助コマンドを導入します。`MPIEMSES3D` 本体と `emu` / `inp2toml` / `emses-cp` / `cpem` は、[初回チュートリアル](docs/QuickStart.md) の手順で同じ `.venv/` に別途インストールします。
+初回セットアップでは `uvx ... emses-tutorials setup` で教材ファイルを展開し、教材ディレクトリ直下の `.venv/` に可視化・解析パッケージと `mysbatch` / `latestjob` などのジョブ補助コマンドを導入します。`MPIEMSES3D` 本体と `emu` / `inp2toml` / `emses-cp` は、[初回チュートリアル](docs/QuickStart.md) の手順で同じ `.venv/` に別途インストールします。
 
 ## 上級例
 

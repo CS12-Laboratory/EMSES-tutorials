@@ -19,8 +19,8 @@ Lang: [日本語](QuickStart.md) | [English](QuickStart_en.md)
 ```text
 uvx ... emses-tutorials setup で教材を展開
   -> plasma.toml を確認・編集
-  -> cpem で mpiemses3D 実行ファイルをケースへ配置
   -> job.sh 内の emu apply / lint / inspect で入力を確認
+  -> .venv の mpiemses3D を計算ノードで実行
   -> mysbatch job.sh で計算ノードへ投入
   -> stdout/stderr と data/ の図を確認
 ```
@@ -175,10 +175,11 @@ python -c 'import sys; print(sys.executable)'
 
 ## 6. MPIEMSES3D をインストールする
 
-通常は pip からインストールします。OpenMP 有効でビルドし、`mpiemses3d-tools` 由来の `emu` / `inp2toml` / `emses-cp` / `cpem` も一緒に入ります。
+Step 5 で `.venv` が有効になっていることを確認した、新しい TERMINAL のまま実行します。
+
+通常は pip からインストールします。OpenMP 有効でビルドし、`mpiemses3d-tools` 由来の `emu` / `inp2toml` / `emses-cp` なども一緒に入ります。
 
 ```bash
-cd "$HOME/large1/Github/EMSES-tutorials"
 MPIEMSES3D_OPENMP=1 python -m pip install \
   "git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.16.6"
 ```
@@ -189,7 +190,7 @@ MPIEMSES3D_OPENMP=1 python -m pip install \
 command -v python
 command -v mysbatch
 command -v emu
-command -v cpem
+command -v mpiemses3D
 mpiemses3D --version
 ```
 
@@ -203,28 +204,17 @@ cd "$HOME/large1/Github"
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make OPENMP=1
+ln -sf "$PWD/bin/mpiemses3D" "$HOME/large1/Github/EMSES-tutorials/.venv/bin/mpiemses3D"
 python -m pip install mpiemses3d-tools==4.16.6
 ```
 
-この方法では、各ケースに置く実行ファイルとして `MPIEMSES3D/bin/mpiemses3D` を使います。`emu` / `inp2toml` / `emses-cp` / `cpem` は `mpiemses3d-tools` から入ります。
+この方法でも `job.sh` は `.venv/bin/mpiemses3D` を使います。上の `ln -sf` は、手元でビルドした `MPIEMSES3D/bin/mpiemses3D` を `.venv/bin/` から見えるようにします。`emu` / `inp2toml` / `emses-cp` は `mpiemses3d-tools` から入ります。
 
 </details>
 
-## 7. 実行ファイルを各ケースへ配置する
-
-`job.sh` はケースディレクトリ内の `./mpiemses3D` を実行します。pip で入れた実行ファイルを `cpem` で各ケースにコピーします。
-
-```bash
-cd "$HOME/large1/Github/EMSES-tutorials"
-cpem dshield0/
-cpem dshield1/
-cpem dshield2/
-ls -l dshield0/mpiemses3D dshield1/mpiemses3D dshield2/mpiemses3D
-```
-
 `job.sh` は `plasma.toml` だけを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は、各ケースの `.old/` 配下に参照用として置いてあります。
 
-## 8. dshield0 を実行する
+## 7. dshield0 を実行する
 
 まずは最短の確認として `dshield0` を投入します。
 
@@ -237,23 +227,24 @@ mysbatch job.sh
 
 `qgroup` では、自分のアカウントから使える resource group を確認します。`job.sh` の `#SBATCH -p ...` に書かれている group が使えない場合は、担当者に確認してください。
 
-ログインノードでは `bash job.sh` や `srun ./mpiemses3D ...` を直接実行しないでください。`mysbatch job.sh` が計算ノードへ投入します。
+ログインノードでは `bash job.sh` や `srun mpiemses3D ...` を直接実行しないでください。`mysbatch job.sh` が計算ノードへ投入します。
 
 このリポジトリの `job.sh` は、主に次の処理を行います。
 
 1. Camphor の Intel / Intel MPI module を読み込む
 2. 教材ディレクトリ直下の `.venv` を有効化する
-3. `plasma.toml` と `./mpiemses3D` があることを確認する
-4. `emu apply plasma.toml` で物理単位メタデータを反映する
-5. `emu lint --mpi-size 112 plasma.toml` で入力を検査する
-6. `emu inspect plasma.toml | tee inspect.log` で入力サマリを保存する
-7. 古い `*_0000.h5` を削除する
-8. `srun ./mpiemses3D plasma.toml` を実行する
-9. `.mypython/plot.py` により簡易図を生成する
+3. `plasma.toml` と `.venv/bin/mpiemses3D` が使えることを確認する
+4. `mpiemses3D --version` を標準出力ログへ残す
+5. `emu apply plasma.toml` で物理単位メタデータを反映する
+6. `emu lint --mpi-size 112 plasma.toml` で入力を検査する
+7. `emu inspect plasma.toml | tee inspect.log` で入力サマリを保存する
+8. 古い `*_0000.h5` を削除する
+9. `.venv/bin/mpiemses3D` を `srun` で実行する
+10. `.mypython/plot.py` により簡易図を生成する
 
 `emu apply plasma.toml --dry-run` は、投入前に変換内容を確認したいときのプレビューです。実際の反映と検査は `job.sh` の中でもう一度実行されます。
 
-## 9. ジョブとログを確認する
+## 8. ジョブとログを確認する
 
 ```bash
 qs
@@ -275,7 +266,7 @@ less stderr.*.log
 
 再実行すると同じケースディレクトリに新しいログや出力が書かれます。残したい結果がある場合は、別名のディレクトリへコピーしてから再投入してください。
 
-## 10. 可視化する
+## 9. 可視化する
 
 バッチ実行後は `.mypython/plot.py` により `data/*.png` や `data/gif/*.gif` が生成されます。
 
@@ -304,7 +295,7 @@ Step 5 で作ったローカル `.venv` をそのまま使えます。
 - [emout](https://github.com/Nkzono99/emout)
 - [emout のサンプル notebook](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-## 11. 条件を変えて試す
+## 10. 条件を変えて試す
 
 最初の実行が通ったら、次のように条件を変えて比較します。
 
@@ -320,7 +311,7 @@ emu apply plasma.toml --dry-run
 mysbatch job.sh
 ```
 
-## 12. 結果を考える
+## 11. 結果を考える
 
 | ケース | 物理設定 |
 | --- | --- |
@@ -344,7 +335,7 @@ mysbatch job.sh
 - `git ls-remote` や `pip install git+https://...MPIEMSES3D...` が失敗する: GitHub 認証、または private repository へのアクセス権を確認してください。
 - `command -v emu` が空になる: VS Code の window を reload し、Python interpreter に `.venv/bin/python` を選んでから新しい TERMINAL を開いてください。Step 6 の pip install が成功しているかも確認してください。
 - `mysbatch` が見つからない: 新しい VS Code TERMINAL で `.venv` が有効化されているか確認し、必要なら `uvx ... emses-tutorials setup ...` を再実行してください。
-- `./mpiemses3D` がないと言われる: 教材ディレクトリ root で `cpem dshield0/` などを再実行してください。
+- `mpiemses3D` が見つからない: Step 6 の pip install が成功しているか確認してください。開発用に `make` した実行ファイルを使う場合は、`.venv/bin/mpiemses3D` から見えるようにしてください。
 - resource group のエラーで投入できない: `qgroup` と `job.sh` の `#SBATCH -p ...` を確認し、使える group を担当者に確認してください。
 
 ## 参考資料

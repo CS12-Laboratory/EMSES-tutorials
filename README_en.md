@@ -22,7 +22,7 @@ The `dshield*` cases in this repository use `plasma.toml` as the primary input f
 
 ## Helper Tools
 
-The first setup uses `uvx ... emses-tutorials setup` to expand the tutorial files and install visualization / analysis packages plus job helpers such as `mysbatch` and `latestjob` into the tutorial-local `.venv/`. Install `MPIEMSES3D` itself and helper commands such as `emu`, `inp2toml`, `emses-cp`, and `cpem` into the same `.venv/` by following the [Quick Start](docs/QuickStart_en.md).
+The first setup uses `uvx ... emses-tutorials setup` to expand the tutorial files and install visualization / analysis packages plus job helpers such as `mysbatch` and `latestjob` into the tutorial-local `.venv/`. Install `MPIEMSES3D` itself and helper commands such as `emu`, `inp2toml`, and `emses-cp` into the same `.venv/` by following the [Quick Start](docs/QuickStart_en.md).
 
 ## Advanced Examples
 

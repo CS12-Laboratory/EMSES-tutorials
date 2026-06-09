@@ -15,7 +15,7 @@ uvx --no-cache \
   emses-tutorials doctor "$PWD"
 ```
 
-`mpiemses3D`, `emu`, and `cpem` become available after installing MPIEMSES3D in Step 6. Warnings about them are expected right after Step 5.
+`mpiemses3D` and `emu` become available after installing MPIEMSES3D in Step 6. Warnings about them are expected right after Step 5.
 
 ## Repair managed tutorial files
 

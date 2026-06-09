@@ -16,7 +16,7 @@ uvx --no-cache \
   emses-tutorials doctor "$PWD"
 ```
 
-`mpiemses3D` / `emu` / `cpem` は Step 6 の MPIEMSES3D インストール後に見えるようになります。Step 5 直後に警告が出る場合がありますが、その時点ではまだ正常です。
+`mpiemses3D` / `emu` は Step 6 の MPIEMSES3D インストール後に見えるようになります。Step 5 直後に警告が出る場合がありますが、その時点ではまだ正常です。
 
 ## 教材ファイルだけ修復したい
 

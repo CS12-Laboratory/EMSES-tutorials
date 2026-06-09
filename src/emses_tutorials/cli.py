@@ -81,7 +81,7 @@ REQUIRED_WORKSPACE_PATHS = [
 ]
 REQUIRED_PYTHON_MODULES = ["numpy", "emout"]
 SETUP_COMMANDS = ["mysbatch", "latestjob"]
-MPIEMSES_COMMANDS = ["emu", "cpem", "mpiemses3D"]
+MPIEMSES_COMMANDS = ["emu", "mpiemses3D"]
 VSCODE_EXTENSIONS = [
     "ms-python.python",
     "ms-toolsai.jupyter",

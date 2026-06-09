@@ -19,8 +19,8 @@ The basic workflow is:
 ```text
 Expand files with uvx ... emses-tutorials setup
   -> check or edit plasma.toml
-  -> run cpem to copy mpiemses3D into each case directory
   -> let job.sh run emu apply / lint / inspect checks
+  -> run mpiemses3D from .venv on compute nodes
   -> submit with mysbatch job.sh
   -> inspect stdout/stderr and plots under data/
 ```
@@ -175,10 +175,11 @@ If the Python path is not `.../EMSES-tutorials/.venv/bin/python`, reload the VS 
 
 ## 6. Install MPIEMSES3D
 
-The normal path is to install through pip. This builds with OpenMP enabled and also installs `mpiemses3d-tools`, which provides `emu`, `inp2toml`, `emses-cp`, and `cpem`.
+Continue in the new TERMINAL where Step 5 confirmed that `.venv` is active.
+
+The normal path is to install through pip. This builds with OpenMP enabled and also installs `mpiemses3d-tools`, which provides `emu`, `inp2toml`, `emses-cp`, and related helpers.
 
 ```bash
-cd "$HOME/large1/Github/EMSES-tutorials"
 MPIEMSES3D_OPENMP=1 python -m pip install \
   "git+https://github.com/CS12-Laboratory/MPIEMSES3D.git@v4.16.6"
 ```
@@ -189,7 +190,7 @@ Check that the commands are visible:
 command -v python
 command -v mysbatch
 command -v emu
-command -v cpem
+command -v mpiemses3D
 mpiemses3D --version
 ```
 
@@ -203,28 +204,17 @@ cd "$HOME/large1/Github"
 git clone https://github.com/CS12-Laboratory/MPIEMSES3D.git
 cd MPIEMSES3D
 make OPENMP=1
+ln -sf "$PWD/bin/mpiemses3D" "$HOME/large1/Github/EMSES-tutorials/.venv/bin/mpiemses3D"
 python -m pip install mpiemses3d-tools==4.16.6
 ```
 
-With this path, use `MPIEMSES3D/bin/mpiemses3D` as the executable to place in each case. `emu`, `inp2toml`, `emses-cp`, and `cpem` come from `mpiemses3d-tools`.
+With this path, `job.sh` still uses `.venv/bin/mpiemses3D`. The `ln -sf` command above makes your locally built `MPIEMSES3D/bin/mpiemses3D` visible from `.venv/bin/`. `emu`, `inp2toml`, and `emses-cp` come from `mpiemses3d-tools`.
 
 </details>
 
-## 7. Copy the Executable into Each Case
-
-`job.sh` runs `./mpiemses3D` inside the case directory. Use `cpem` to copy the pip-installed executable into each case.
-
-```bash
-cd "$HOME/large1/Github/EMSES-tutorials"
-cpem dshield0/
-cpem dshield1/
-cpem dshield2/
-ls -l dshield0/mpiemses3D dshield1/mpiemses3D dshield2/mpiemses3D
-```
-
 `job.sh` uses only `plasma.toml` as the runtime input. Legacy `plasma.inp` / `plasma.preinp` files are kept under each case's `.old/` directory as references.
 
-## 8. Run dshield0
+## 7. Run dshield0
 
 Start with the shortest check case, `dshield0`.
 
@@ -237,23 +227,24 @@ mysbatch job.sh
 
 `qgroup` shows the resource groups available to your account. If the group named by `#SBATCH -p ...` in `job.sh` is not available, ask the instructor or maintainer.
 
-Do not run `bash job.sh` or `srun ./mpiemses3D ...` directly on the login node. `mysbatch job.sh` submits the work to compute nodes.
+Do not run `bash job.sh` or `srun mpiemses3D ...` directly on the login node. `mysbatch job.sh` submits the work to compute nodes.
 
 In this repository, `job.sh` mainly:
 
 1. loads Camphor's Intel / Intel MPI modules;
 2. activates the tutorial-local `.venv`;
-3. checks that `plasma.toml` and `./mpiemses3D` exist;
-4. runs `emu apply plasma.toml` to update solver-unit values;
-5. runs `emu lint --mpi-size 112 plasma.toml`;
-6. saves an input summary with `emu inspect plasma.toml | tee inspect.log`;
-7. removes old `*_0000.h5` files;
-8. runs `srun ./mpiemses3D plasma.toml`;
-9. generates quick plots through `.mypython/plot.py`.
+3. checks that `plasma.toml` exists and `.venv/bin/mpiemses3D` is available;
+4. writes `mpiemses3D --version` to the standard output log;
+5. runs `emu apply plasma.toml` to update solver-unit values;
+6. runs `emu lint --mpi-size 112 plasma.toml`;
+7. saves an input summary with `emu inspect plasma.toml | tee inspect.log`;
+8. removes old `*_0000.h5` files;
+9. runs `.venv/bin/mpiemses3D` through `srun`;
+10. generates quick plots through `.mypython/plot.py`.
 
 `emu apply plasma.toml --dry-run` is a preview you can run before submission. The actual update and checks run again inside `job.sh`.
 
-## 9. Monitor the Job and Logs
+## 8. Monitor the Job and Logs
 
 ```bash
 qs
@@ -275,7 +266,7 @@ less stderr.*.log
 
 Rerunning a case writes new logs and outputs in the same case directory. Copy results you want to keep before submitting the same case again.
 
-## 10. Visualize the Results
+## 9. Visualize the Results
 
 After the batch run, `.mypython/plot.py` generates files such as `data/*.png` and `data/gif/*.gif`.
 
@@ -304,7 +295,7 @@ References:
 - [emout](https://github.com/Nkzono99/emout)
 - [Sample notebook for emout](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-## 11. Try Different Conditions
+## 10. Try Different Conditions
 
 After the first run succeeds, compare cases and edit conditions:
 
@@ -320,7 +311,7 @@ emu apply plasma.toml --dry-run
 mysbatch job.sh
 ```
 
-## 12. Think about the Physics
+## 11. Think about the Physics
 
 | Case | Physical setup |
 | --- | --- |
@@ -344,7 +335,7 @@ See the [FAQ](FAQ_en.md) for setup diagnostics, managed file repair, and explici
 - `git ls-remote` or `pip install git+https://...MPIEMSES3D...` fails: check GitHub authentication and access to the private repository.
 - `command -v emu` prints nothing: reload the VS Code window, select `.venv/bin/python` as the interpreter, and open a new TERMINAL. Also check whether Step 6 completed successfully.
 - `mysbatch` is missing: check that `.venv` is active in a new VS Code TERMINAL, then rerun `uvx ... emses-tutorials setup ...` if needed.
-- `./mpiemses3D` is missing: rerun `cpem dshield0/` or the matching case command from the tutorial root.
+- `mpiemses3D` is missing: check whether the Step 6 pip install succeeded. If you use a locally built executable, make sure it is visible as `.venv/bin/mpiemses3D`.
 - Submission fails with a resource-group error: compare `qgroup` with `#SBATCH -p ...` in `job.sh`, then ask which group you should use.
 
 ## References
