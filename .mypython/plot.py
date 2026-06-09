@@ -1,16 +1,30 @@
 import math
 from argparse import ArgumentParser
+from collections.abc import Callable
 from pathlib import Path
 from typing import List
 
 import emout
 import matplotlib.pyplot as plt
-import numpy as np
-from emout.core.units import wpit_unit
-from emout.utils import Group
+from emout.core.units import ndp_unit, none_unit, t_unit, wpit_unit
 
-# t軸をwpi*tで規格化(use_si=Trueのとき)
-emout.Emout.name2unit["t"] = wpit_unit
+
+def tutorial_time_unit(out: emout.Emout):
+    """Use wpi*t when available, and plain t for wp=0 cases such as dshield0."""
+    if len(out.inp.wp) < 2 or out.inp.wp[1] == 0:
+        return t_unit(out)
+    return wpit_unit(out)
+
+
+def tutorial_ndp_unit(out: emout.Emout):
+    """Use raw grid density when wp=0 prevents conversion to /cc."""
+    if not out.inp.wp or out.inp.wp[0] == 0:
+        return none_unit(out)
+    return ndp_unit(out)
+
+
+emout.Emout.name2unit["t"] = tutorial_time_unit
+emout.Emout.name2unit["nd[1-9]\\d*p"] = tutorial_ndp_unit
 
 
 def parse_args():
@@ -52,7 +66,7 @@ def main():
         datadir = (data.directory / args.datadir)
         datadir.mkdir(exist_ok=True)
         (datadir/"gif").mkdir(exist_ok=True)
-        
+
         names = (
             [f"nd{i}p" for i in range(1, data.inp.nspec + 1)]
             + [f"j{i}x" for i in range(1, data.inp.nspec + 1)]
@@ -63,33 +77,55 @@ def main():
         x_center = int(data.inp.nx // 2)
         y_center = int(data.inp.ny // 2)
         z_center = int(data.inp.nz // 2)
+        nplots = 0
         for name in names:
-            vals = getattr(data, name)
+            vals = get_diagnostic(data, name)
+            if vals is None:
+                continue
 
             # 1d plot
-            vals[args.istep, z_center, y_center, :].plot(
-                savefilename=datadir/f"{name}_1d_x.png"
+            nplots += save_plot(
+                f"{name}_1d_x",
+                lambda vals=vals, name=name: vals[args.istep, z_center, y_center, :].plot(
+                    savefilename=datadir/f"{name}_1d_x.png"
+                ),
             )
-            vals[args.istep, z_center, :, x_center].plot(
-                savefilename=datadir/f"{name}_1d_y.png"
+            nplots += save_plot(
+                f"{name}_1d_y",
+                lambda vals=vals, name=name: vals[args.istep, z_center, :, x_center].plot(
+                    savefilename=datadir/f"{name}_1d_y.png"
+                ),
             )
-            vals[args.istep, :, y_center, x_center].plot(
-                savefilename=datadir/f"{name}_1d_z.png"
+            nplots += save_plot(
+                f"{name}_1d_z",
+                lambda vals=vals, name=name: vals[args.istep, :, y_center, x_center].plot(
+                    savefilename=datadir/f"{name}_1d_z.png"
+                ),
             )
 
             # 2d map plot
-            vals[args.istep, z_center, :, :].plot(
-                mode="cmap+cont", savefilename=datadir/f"{name}_2d_xy.png"
+            nplots += save_plot(
+                f"{name}_2d_xy",
+                lambda vals=vals, name=name: vals[args.istep, z_center, :, :].plot(
+                    mode="cmap+cont", savefilename=datadir/f"{name}_2d_xy.png"
+                ),
             )
-            vals[args.istep, :, y_center, :].plot(
-                mode="cmap+cont", savefilename=datadir/f"{name}_2d_zx.png"
+            nplots += save_plot(
+                f"{name}_2d_zx",
+                lambda vals=vals, name=name: vals[args.istep, :, y_center, :].plot(
+                    mode="cmap+cont", savefilename=datadir/f"{name}_2d_zx.png"
+                ),
             )
-            vals[args.istep, :, :, x_center].plot(
-                mode="cmap+cont", savefilename=datadir/f"{name}_2d_yz.png"
+            nplots += save_plot(
+                f"{name}_2d_yz",
+                lambda vals=vals, name=name: vals[args.istep, :, :, x_center].plot(
+                    mode="cmap+cont", savefilename=datadir/f"{name}_2d_yz.png"
+                ),
             )
 
             # 1d Animation plot
-            tslice = slice(None, None, math.ceil((data.inp.nstep//data.inp.ifdiag)/10))
+            tstep = max(1, math.ceil((data.inp.nstep // data.inp.ifdiag) / 10))
+            tslice = slice(None, None, tstep)
             # vals[tslice, z_center, y_center, :].gifplot(
             #     action="save", filename=datadir/"gif"/f"{name}_1d_x.gif"
             # )
@@ -101,8 +137,11 @@ def main():
             # )
 
             # 2d map plot
-            vals[tslice, z_center, :, :].gifplot(
-                action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_xy.gif"
+            nplots += save_plot(
+                f"{name}_2d_xy.gif",
+                lambda vals=vals, name=name: vals[tslice, z_center, :, :].gifplot(
+                    action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_xy.gif"
+                ),
             )
             # vals[tslice, :, y_center, :].gifplot(
             #     action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_zx.gif"
@@ -110,6 +149,26 @@ def main():
             # vals[tslice, :, :, x_center].gifplot(
             #     action="save", mode="cmap+cont", filename=datadir/"gif"/f"{name}_2d_yz.gif"
             # )
+        if nplots == 0:
+            raise RuntimeError(f"no plots were generated for {data.directory}")
+        print(f"generated {nplots} plot files under {datadir}")
+
+
+def get_diagnostic(data: emout.Emout, name: str):
+    try:
+        return getattr(data, name)
+    except Exception as exc:  # noqa: BLE001 - keep post-processing best-effort.
+        print(f"[WARN] skip {name}: {exc}")
+        return None
+
+
+def save_plot(label: str, plotter: Callable[[], object]) -> int:
+    try:
+        plotter()
+    except Exception as exc:  # noqa: BLE001 - one bad diagnostic should not stop all plots.
+        print(f"[WARN] failed to plot {label}: {exc}")
+        return 0
+    return 1
 
 
 def search_dirs(patterns):
