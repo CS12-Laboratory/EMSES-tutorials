@@ -6,6 +6,8 @@
 #SBATCH -e stderr.%J.log
 
 # set -x
+set -euo pipefail
+
 module load intel/2023.2 intelmpi/2023.2
 module list
 
@@ -27,9 +29,20 @@ if [ ! -f "$input_file" ]; then
     exit 1
 fi
 
+if [ ! -x ./mpiemses3D ]; then
+    echo "mpiemses3D executable is missing: $case_dir/mpiemses3D" >&2
+    echo "Run cpem $case_dir from the tutorial root before submitting." >&2
+    exit 1
+fi
+
 export EMSES_DEBUG=no
 
 date
+
+mpi_size=112
+emu apply "$input_file"
+emu lint --mpi-size "$mpi_size" "$input_file"
+emu inspect "$input_file" | tee inspect.log
 
 rm -f *_0000.h5
 srun ./mpiemses3D "$input_file"

@@ -19,8 +19,8 @@ The basic workflow is:
 ```text
 Expand files with uvx ... emses-tutorials setup
   -> check or edit plasma.toml
-  -> run emu apply to update solver-unit values from physical metadata
   -> run cpem to copy mpiemses3D into each case directory
+  -> let job.sh run emu apply / lint / inspect checks
   -> submit with mysbatch job.sh
   -> inspect stdout/stderr and plots under data/
 ```
@@ -34,7 +34,7 @@ Have the following ready:
 - GitHub access to `CS12-Laboratory/MPIEMSES3D`
 - your SSH private key and its passphrase if you set one
 
-`MPIEMSES3D` is a private repository, so GitHub authentication may be required before the installation in Step 5.
+`MPIEMSES3D` is a private repository, so GitHub authentication may be required before the installation in Step 6.
 
 ## 1. Connect to camphor from VS Code
 
@@ -130,39 +130,41 @@ If the final `git ls-remote` still fails, check whether your GitHub account has 
 
 </details>
 
-## 4. Expand the Tutorials with the Setup Command
+## 4. Create the Tutorial Directory and Open It in VS Code
+
+Create the target directory first, then open it in VS Code.
+
+```bash
+mkdir -p "$HOME/large1/Github/EMSES-tutorials"
+code --reuse-window "$HOME/large1/Github/EMSES-tutorials"
+```
+
+Run the following commands in the TERMINAL of the VS Code remote window you just opened.
+
+## 5. Expand the Tutorials with the Setup Command
 
 Do not run `git clone` manually. Instead, use `emses-tutorials setup` through `uvx` to expand the tutorial files and directories. The setup command creates `docs/`, `dshield*/`, `imgs/`, `.mypython/`, `.vscode/`, and related files, then installs `requirements.txt` into the tutorial-local `.venv/`.
 
 When the `code` command is available, setup also installs the VS Code Python, Jupyter, and TOML extensions. Add `--no-extensions` if you want to skip extension installation.
 
 ```bash
-cd "$HOME/large1/Github"
-uvx --refresh \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$HOME/large1/Github/EMSES-tutorials"
 cd "$HOME/large1/Github/EMSES-tutorials"
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials setup "$PWD"
 ```
 
 If files already exist, the setup command keeps them by default instead of overwriting them. Add `--overwrite` only when you intentionally want to refresh tutorial files.
 
 ```bash
-uvx --refresh \
+uvx --no-cache \
   --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$HOME/large1/Github/EMSES-tutorials" --overwrite
+  emses-tutorials setup "$PWD" --overwrite
 ```
-
-Open the repository in VS Code:
-
-```bash
-code --reuse-window "$HOME/large1/Github/EMSES-tutorials"
-```
-
-Add `--open` to `setup` if you want the command to open VS Code after expansion.
 
 This workflow does not modify `~/.bashrc` to activate `.venv`.
 
-This repository's `.vscode/settings.json` points Python to `${workspaceFolder}/.venv/bin/python`. When the VS Code Python extension is installed, a new TERMINAL usually activates `.venv` automatically.
+After `setup`, this repository's `.vscode/settings.json` points Python to `${workspaceFolder}/.venv/bin/python`. Reload the VS Code window, then open a new TERMINAL with the Python extension installed; `.venv` usually activates automatically.
 
 Check this in a new TERMINAL:
 
@@ -173,7 +175,23 @@ python -c 'import sys; print(sys.executable)'
 
 If the Python path is not `.../EMSES-tutorials/.venv/bin/python`, reload the VS Code window, select `.venv/bin/python` with `Python: Select Interpreter`, and open a new TERMINAL.
 
-## 5. Install MPIEMSES3D
+Use `doctor` to check the setup in one pass.
+
+```bash
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials doctor "$PWD"
+```
+
+Use `repair` when you want to restore tutorial files. Start with `--dry-run` to see the selected files. By default, `repair` does not overwrite frequently edited files such as `plasma.toml` or notebooks.
+
+```bash
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials repair "$PWD" --dry-run
+```
+
+## 6. Install MPIEMSES3D
 
 The normal path is to install through pip. This builds with OpenMP enabled and also installs `mpiemses3d-tools`, which provides `emu`, `inp2toml`, `emses-cp`, and `cpem`.
 
@@ -210,7 +228,7 @@ With this path, use `MPIEMSES3D/bin/mpiemses3D` as the executable to place in ea
 
 </details>
 
-## 6. Copy the Executable into Each Case
+## 7. Copy the Executable into Each Case
 
 `job.sh` runs `./mpiemses3D` inside the case directory. Use `cpem` to copy the pip-installed executable into each case.
 
@@ -224,14 +242,13 @@ ls -l dshield0/mpiemses3D dshield1/mpiemses3D dshield2/mpiemses3D
 
 `job.sh` uses only `plasma.toml` as the runtime input. Legacy `plasma.inp` / `plasma.preinp` files are kept under each case's `.old/` directory as references.
 
-## 7. Run dshield0
+## 8. Run dshield0
 
 Start with the shortest check case, `dshield0`.
 
 ```bash
 cd "$HOME/large1/Github/EMSES-tutorials/dshield0"
 qgroup
-emu lint --mpi-size 112 plasma.toml
 emu apply plasma.toml --dry-run
 mysbatch job.sh
 ```
@@ -244,14 +261,17 @@ In this repository, `job.sh` mainly:
 
 1. loads Camphor's Intel / Intel MPI modules;
 2. activates the tutorial-local `.venv`;
-3. checks that `plasma.toml` exists;
-4. removes old `*_0000.h5` files;
-5. runs `srun ./mpiemses3D plasma.toml`;
-6. generates quick plots through `.mypython/plot.py`.
+3. checks that `plasma.toml` and `./mpiemses3D` exist;
+4. runs `emu apply plasma.toml` to update solver-unit values;
+5. runs `emu lint --mpi-size 112 plasma.toml`;
+6. saves an input summary with `emu inspect plasma.toml | tee inspect.log`;
+7. removes old `*_0000.h5` files;
+8. runs `srun ./mpiemses3D plasma.toml`;
+9. generates quick plots through `.mypython/plot.py`.
 
-> NOTE: The current `job.sh` does not run `emu apply` automatically. If you edit `[meta.physical]` or `[meta.unit_conversion]`, run `emu apply plasma.toml` yourself before submitting.
+`emu apply plasma.toml --dry-run` is a preview you can run before submission. The actual update and checks run again inside `job.sh`.
 
-## 8. Monitor the Job and Logs
+## 9. Monitor the Job and Logs
 
 ```bash
 qs
@@ -273,7 +293,7 @@ less stderr.*.log
 
 Rerunning a case writes new logs and outputs in the same case directory. Copy results you want to keep before submitting the same case again.
 
-## 9. Visualize the Results
+## 10. Visualize the Results
 
 After the batch run, `.mypython/plot.py` generates files such as `data/*.png` and `data/gif/*.gif`.
 
@@ -285,7 +305,7 @@ Example: `phisp_2d_xy.png`
 
 ### Set a Python Interpreter for Notebooks
 
-Reuse the local `.venv` created in Step 4.
+Reuse the local `.venv` created in Step 5.
 
 1. Open `Python: Select Interpreter` in VS Code
 
@@ -302,7 +322,7 @@ References:
 - [emout](https://github.com/Nkzono99/emout)
 - [Sample notebook for emout](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-## 10. Try Different Conditions
+## 11. Try Different Conditions
 
 After the first run succeeds, compare cases and edit conditions:
 
@@ -315,12 +335,10 @@ After editing `plasma.toml`, the basic loop is:
 
 ```bash
 emu apply plasma.toml --dry-run
-emu apply plasma.toml
-emu lint --mpi-size 112 plasma.toml
 mysbatch job.sh
 ```
 
-## 11. Think about the Physics
+## 12. Think about the Physics
 
 | Case | Physical setup |
 | --- | --- |
@@ -340,7 +358,7 @@ For the former `advance/` examples, see [`cookbook`](https://github.com/CS12-Lab
 
 - `uvx` is missing: run `export PATH="$HOME/.local/bin:$PATH"` and check whether the `uv` installation succeeded.
 - `git ls-remote` or `pip install git+https://...MPIEMSES3D...` fails: check GitHub authentication and access to the private repository.
-- `command -v emu` prints nothing: reload the VS Code window, select `.venv/bin/python` as the interpreter, and open a new TERMINAL. Also check whether Step 5 completed successfully.
+- `command -v emu` prints nothing: reload the VS Code window, select `.venv/bin/python` as the interpreter, and open a new TERMINAL. Also check whether Step 6 completed successfully.
 - `mysbatch` is missing: check that `.venv` is active in a new VS Code TERMINAL, then rerun `uvx ... emses-tutorials setup ...` if needed.
 - `./mpiemses3D` is missing: rerun `cpem dshield0/` or the matching case command from the tutorial root.
 - Submission fails with a resource-group error: compare `qgroup` with `#SBATCH -p ...` in `job.sh`, then ask which group you should use.

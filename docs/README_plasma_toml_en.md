@@ -43,10 +43,10 @@ peth = 2.422984430556998
 
 1. Open `dshield*/plasma.toml`.
 2. Edit `[meta.physical]` when you want to change physical conditions.
-3. Run `emu apply plasma.toml` after editing.
+3. Optionally preview the conversion with `emu apply plasma.toml --dry-run`.
 4. Submit the case with `mysbatch job.sh` or `sbatch job.sh`.
 
-In this repository, `job.sh` uses only `plasma.toml` as the runtime input. The `.old/` files are kept only for reference.
+In this repository, `job.sh` uses only `plasma.toml` as the runtime input and runs `emu apply`, `emu lint`, and `emu inspect` before execution. The `.old/` files are kept only for reference.
 
 If `emu` is not on your `PATH`, you can invoke it from the `MPIEMSES3D` development repository like this:
 

@@ -29,7 +29,7 @@ cases on Kyoto University's camphor supercomputer.
 - The participant-facing setup command is:
 
   ```bash
-  uvx --refresh \
+  uvx --no-cache \
     --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
     emses-tutorials setup "$HOME/large1/Github/EMSES-tutorials"
   ```
@@ -37,10 +37,15 @@ cases on Kyoto University's camphor supercomputer.
 - Keep the CLI small and standard-library-only where possible.
 - The setup CLI expands tutorial files from the GitHub archive. It should not
   require participants to clone this repository manually.
+- Keep participant expansion and repair allowlisted. Do not deploy maintainer
+  paths such as `.github/`, `site/`, `src/`, `pyproject.toml`, or `AGENTS.md`.
 - The setup CLI should create/use the tutorial-local `.venv/`; do not activate
   it by editing `~/.bashrc`.
 - Existing participant files are kept by default; overwrite behavior should
   require an explicit flag such as `--overwrite`.
+- `doctor` should diagnose local setup without modifying files. `repair`
+  should restore only managed tutorial files by default and require explicit
+  flags before touching `plasma.toml` or notebooks.
 
 ## Generated Files
 
@@ -70,7 +75,9 @@ After changing the setup CLI, run:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python -m py_compile src/emses_tutorials/cli.py
-uvx --from . emses-tutorials --help
+uvx --no-cache --from . emses-tutorials --help
+uvx --no-cache --from . emses-tutorials doctor --help
+uvx --no-cache --from . emses-tutorials repair --help
 ```
 
 For a non-mutating setup smoke test, use `--skip-install` and

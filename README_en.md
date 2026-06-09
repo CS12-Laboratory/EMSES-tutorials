@@ -17,7 +17,7 @@ Documentation site (GitHub Pages): <https://cs12-laboratory.github.io/EMSES-tuto
 - [Migration from legacy `plasma.inp` / `plasma.preinp` to `plasma.toml`](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Parameters.en.md)
 - [MPIEMSES3D TOML / `emu` guide](https://github.com/CS12-Laboratory/MPIEMSES3D/blob/main/docs/Customization.en.md)
 
-The `dshield*` cases in this repository use `plasma.toml` as the primary input file. If you edit `[meta.physical]`, run `emu apply plasma.toml` before submitting the job. Legacy `plasma.inp` / `plasma.preinp` files are archived under each case's `.old/` directory for reference only.
+The `dshield*` cases in this repository use `plasma.toml` as the primary input file. Each `job.sh` runs `emu apply`, `emu lint`, and `emu inspect` before starting `mpiemses3D`. Legacy `plasma.inp` / `plasma.preinp` files are archived under each case's `.old/` directory for reference only.
 
 ## Helper Tools
 

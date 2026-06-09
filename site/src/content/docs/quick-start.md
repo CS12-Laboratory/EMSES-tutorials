@@ -20,8 +20,8 @@ description: 京大スパコン camphor 上で dshield* を個人環境から動
 ```text
 uvx ... emses-tutorials setup で教材を展開
   -> plasma.toml を確認・編集
-  -> emu apply で物理単位メタデータを反映
   -> cpem で mpiemses3D 実行ファイルをケースへ配置
+  -> job.sh 内の emu apply / lint / inspect で入力を確認
   -> mysbatch job.sh で計算ノードへ投入
   -> stdout/stderr と data/ の図を確認
 ```
@@ -35,7 +35,7 @@ uvx ... emses-tutorials setup で教材を展開
 - `CS12-Laboratory/MPIEMSES3D` への GitHub アクセス権
 - SSH 秘密鍵と、設定している場合はそのパスフレーズ
 
-`MPIEMSES3D` は private repository なので、Step 5 のインストール前に GitHub 認証が必要になることがあります。
+`MPIEMSES3D` は private repository なので、Step 6 のインストール前に GitHub 認証が必要になることがあります。
 
 ## 1. VS Code から camphor に接続する
 
@@ -135,39 +135,41 @@ git ls-remote https://github.com/CS12-Laboratory/MPIEMSES3D.git >/dev/null
 
 </details>
 
-## 4. セットアップコマンドで教材を展開する
+## 4. 教材ディレクトリを作って VS Code で開く
+
+`setup` で中身を展開する先のディレクトリを先に作り、VS Code で開きます。
+
+```bash
+mkdir -p "$HOME/large1/Github/EMSES-tutorials"
+code --reuse-window "$HOME/large1/Github/EMSES-tutorials"
+```
+
+以降のコマンドは、開いた VS Code remote window の TERMINAL で実行します。
+
+## 5. セットアップコマンドで教材を展開する
 
 `git clone` は手で実行せず、`uvx` 経由の `emses-tutorials setup` で教材ファイルとディレクトリを展開します。セットアップコマンドは `docs/`、`dshield*/`、`imgs/`、`.mypython/`、`.vscode/` などを作成し、教材ディレクトリ直下の `.venv/` に `requirements.txt` もインストールします。
 
 `code` コマンドが使える場合は、VS Code の Python / Jupyter / TOML 拡張機能もインストールします。拡張機能の導入をスキップしたい場合は `--no-extensions` を付けてください。
 
 ```bash
-cd "$HOME/large1/Github"
-uvx --refresh \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$HOME/large1/Github/EMSES-tutorials"
 cd "$HOME/large1/Github/EMSES-tutorials"
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials setup "$PWD"
 ```
 
 既存ファイルがある場合、セットアップコマンドはデフォルトでは上書きせずに残します。教材ファイルを明示的に更新したい場合だけ `--overwrite` を付けて再実行してください。
 
 ```bash
-uvx --refresh \
+uvx --no-cache \
   --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$HOME/large1/Github/EMSES-tutorials" --overwrite
+  emses-tutorials setup "$PWD" --overwrite
 ```
-
-VS Code でリポジトリを開きます。
-
-```bash
-code --reuse-window "$HOME/large1/Github/EMSES-tutorials"
-```
-
-`setup` に `--open` を付けると、展開後に VS Code で開くところまで実行できます。
 
 この手順では、`.venv` の有効化のために `~/.bashrc` は変更しません。
 
-このリポジトリの `.vscode/settings.json` は `${workspaceFolder}/.venv/bin/python` を Python interpreter として指定しています。VS Code の Python 拡張機能が入った状態で新しい TERMINAL を開くと、通常は `.venv` が自動で有効化されます。
+`setup` 後に、このリポジトリの `.vscode/settings.json` が `${workspaceFolder}/.venv/bin/python` を Python interpreter として指定します。VS Code の window を reload し、Python 拡張機能が入った状態で新しい TERMINAL を開くと、通常は `.venv` が自動で有効化されます。
 
 新しい TERMINAL で次を確認してください。
 
@@ -178,7 +180,23 @@ python -c 'import sys; print(sys.executable)'
 
 表示される Python が `.../EMSES-tutorials/.venv/bin/python` でない場合は、VS Code の window を reload し、`Python: Select Interpreter` で `.venv/bin/python` を選んでから新しい TERMINAL を開き直してください。
 
-## 5. MPIEMSES3D をインストールする
+セットアップ状態をまとめて確認したい場合は `doctor` を使います。
+
+```bash
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials doctor "$PWD"
+```
+
+教材ファイルを戻したい場合は `repair` を使います。まず `--dry-run` で対象ファイルを確認してください。通常の `repair` は、編集することが多い `plasma.toml` と notebook は上書きしません。
+
+```bash
+uvx --no-cache \
+  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
+  emses-tutorials repair "$PWD" --dry-run
+```
+
+## 6. MPIEMSES3D をインストールする
 
 通常は pip からインストールします。OpenMP 有効でビルドし、`mpiemses3d-tools` 由来の `emu` / `inp2toml` / `emses-cp` / `cpem` も一緒に入ります。
 
@@ -215,7 +233,7 @@ python -m pip install mpiemses3d-tools==4.16.6
 
 </details>
 
-## 6. 実行ファイルを各ケースへ配置する
+## 7. 実行ファイルを各ケースへ配置する
 
 `job.sh` はケースディレクトリ内の `./mpiemses3D` を実行します。pip で入れた実行ファイルを `cpem` で各ケースにコピーします。
 
@@ -229,14 +247,13 @@ ls -l dshield0/mpiemses3D dshield1/mpiemses3D dshield2/mpiemses3D
 
 `job.sh` は `plasma.toml` だけを実行入力として使います。legacy な `plasma.inp` / `plasma.preinp` は、各ケースの `.old/` 配下に参照用として置いてあります。
 
-## 7. dshield0 を実行する
+## 8. dshield0 を実行する
 
 まずは最短の確認として `dshield0` を投入します。
 
 ```bash
 cd "$HOME/large1/Github/EMSES-tutorials/dshield0"
 qgroup
-emu lint --mpi-size 112 plasma.toml
 emu apply plasma.toml --dry-run
 mysbatch job.sh
 ```
@@ -249,16 +266,19 @@ mysbatch job.sh
 
 1. Camphor の Intel / Intel MPI module を読み込む
 2. 教材ディレクトリ直下の `.venv` を有効化する
-3. `plasma.toml` があることを確認する
-4. 古い `*_0000.h5` を削除する
-5. `srun ./mpiemses3D plasma.toml` を実行する
-6. `.mypython/plot.py` により簡易図を生成する
+3. `plasma.toml` と `./mpiemses3D` があることを確認する
+4. `emu apply plasma.toml` で物理単位メタデータを反映する
+5. `emu lint --mpi-size 112 plasma.toml` で入力を検査する
+6. `emu inspect plasma.toml | tee inspect.log` で入力サマリを保存する
+7. 古い `*_0000.h5` を削除する
+8. `srun ./mpiemses3D plasma.toml` を実行する
+9. `.mypython/plot.py` により簡易図を生成する
 
 :::note
-現在の `job.sh` は `emu apply` を自動実行しません。`[meta.physical]` や `[meta.unit_conversion]` を編集した場合は、投入前に自分で `emu apply plasma.toml` を実行してください。
+`emu apply plasma.toml --dry-run` は、投入前に変換内容を確認したいときのプレビューです。実際の反映と検査は `job.sh` の中でもう一度実行されます。
 :::
 
-## 8. ジョブとログを確認する
+## 9. ジョブとログを確認する
 
 ```bash
 qs
@@ -280,7 +300,7 @@ less stderr.*.log
 
 再実行すると同じケースディレクトリに新しいログや出力が書かれます。残したい結果がある場合は、別名のディレクトリへコピーしてから再投入してください。
 
-## 9. 可視化する
+## 10. 可視化する
 
 バッチ実行後は `.mypython/plot.py` により `data/*.png` や `data/gif/*.gif` が生成されます。
 
@@ -292,7 +312,7 @@ Notebook で確認する場合は、`dshield0/plot_example.ipynb` を開いて�
 
 ### Notebook 用の Python interpreter を設定する
 
-Step 4 で作ったローカル `.venv` をそのまま使えます。
+Step 5 で作ったローカル `.venv` をそのまま使えます。
 
 1. VS Code で `Python: Select Interpreter` を開く
 
@@ -309,7 +329,7 @@ Step 4 で作ったローカル `.venv` をそのまま使えます。
 - [emout](https://github.com/Nkzono99/emout)
 - [emout のサンプル notebook](https://nbviewer.org/github/Nkzono99/examples/blob/main/examples/emout/example.ipynb)
 
-## 10. 条件を変えて試す
+## 11. 条件を変えて試す
 
 最初の実行が通ったら、次のように条件を変えて比較します。
 
@@ -322,12 +342,10 @@ Step 4 で作ったローカル `.venv` をそのまま使えます。
 
 ```bash
 emu apply plasma.toml --dry-run
-emu apply plasma.toml
-emu lint --mpi-size 112 plasma.toml
 mysbatch job.sh
 ```
 
-## 11. 結果を考える
+## 12. 結果を考える
 
 | ケース | 物理設定 |
 | --- | --- |
@@ -347,7 +365,7 @@ mysbatch job.sh
 
 - `uvx` が見つからない: `export PATH="$HOME/.local/bin:$PATH"` を実行し、`uv` のインストールが成功しているか確認してください。
 - `git ls-remote` や `pip install git+https://...MPIEMSES3D...` が失敗する: GitHub 認証、または private repository へのアクセス権を確認してください。
-- `command -v emu` が空になる: VS Code の window を reload し、Python interpreter に `.venv/bin/python` を選んでから新しい TERMINAL を開いてください。Step 5 の pip install が成功しているかも確認してください。
+- `command -v emu` が空になる: VS Code の window を reload し、Python interpreter に `.venv/bin/python` を選んでから新しい TERMINAL を開いてください。Step 6 の pip install が成功しているかも確認してください。
 - `mysbatch` が見つからない: 新しい VS Code TERMINAL で `.venv` が有効化されているか確認し、必要なら `uvx ... emses-tutorials setup ...` を再実行してください。
 - `./mpiemses3D` がないと言われる: 教材ディレクトリ root で `cpem dshield0/` などを再実行してください。
 - resource group のエラーで投入できない: `qgroup` と `job.sh` の `#SBATCH -p ...` を確認し、使える group を担当者に確認してください。

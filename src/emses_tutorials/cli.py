@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import filecmp
+import fnmatch
 import os
 import re
 import shutil
@@ -10,6 +11,7 @@ import sys
 import tempfile
 import urllib.request
 import zipfile
+from datetime import datetime
 from pathlib import Path
 
 from . import __version__
@@ -19,6 +21,9 @@ DEFAULT_REPO_URL = "https://github.com/CS12-Laboratory/EMSES-tutorials.git"
 DEFAULT_REF = "main"
 DEFAULT_PYTHON = "/usr/bin/python3.12"
 DEFAULT_VENV = ".venv"
+
+# Participant-facing setup is intentionally allowlisted. Maintainer-only files
+# such as .github/, site/, src/, pyproject.toml, and AGENTS.md are not expanded.
 DEPLOY_PATHS = [
     ".gitignore",
     ".mypython",
@@ -33,6 +38,50 @@ DEPLOY_PATHS = [
     "imgs",
     "requirements.txt",
 ]
+MAINTAINER_ONLY_PATHS = [
+    ".github",
+    "AGENTS.md",
+    "pyproject.toml",
+    "site",
+    "src",
+]
+SAFE_REPAIR_PATTERNS = [
+    ".gitignore",
+    ".mypython/*.py",
+    ".vscode/*.json",
+    "LICENSE",
+    "README.md",
+    "README_en.md",
+    "docs/*.md",
+    "imgs/*",
+    "requirements.txt",
+    "dshield*/.logs",
+    "dshield*/job.sh",
+    "dshield*/tutorial_*.xlsx",
+]
+PARAMETER_REPAIR_PATTERNS = [
+    "dshield*/plasma.toml",
+    "dshield*/.old/*.inp",
+    "dshield*/.old/*.preinp",
+]
+NOTEBOOK_REPAIR_PATTERNS = [
+    "dshield*/plot_example.ipynb",
+]
+REQUIRED_WORKSPACE_PATHS = [
+    ".vscode/settings.json",
+    ".mypython/plot.py",
+    "requirements.txt",
+    "docs/QuickStart.md",
+    "dshield0/job.sh",
+    "dshield0/plasma.toml",
+    "dshield1/job.sh",
+    "dshield1/plasma.toml",
+    "dshield2/job.sh",
+    "dshield2/plasma.toml",
+]
+REQUIRED_PYTHON_MODULES = ["numpy", "emout"]
+SETUP_COMMANDS = ["mysbatch", "latestjob"]
+MPIEMSES_COMMANDS = ["emu", "cpem", "mpiemses3D"]
 VSCODE_EXTENSIONS = [
     "ms-python.python",
     "ms-toolsai.jupyter",
@@ -62,16 +111,32 @@ def run(
     *,
     cwd: Path | None = None,
     check: bool = True,
+    capture: bool = False,
     env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    prefix = f"(cd {cwd} && " if cwd else ""
-    suffix = ")" if cwd else ""
-    info(f"$ {prefix}{' '.join(cmd)}{suffix}")
+    if not capture:
+        prefix = f"(cd {cwd} && " if cwd else ""
+        suffix = ")" if cwd else ""
+        info(f"$ {prefix}{' '.join(cmd)}{suffix}")
+
     run_env = os.environ.copy()
     if env:
         run_env.update(env)
-    result = subprocess.run(cmd, cwd=cwd, env=run_env, text=True, check=False)
+    result = subprocess.run(
+        cmd,
+        cwd=cwd,
+        env=run_env,
+        text=True,
+        stdout=subprocess.PIPE if capture else None,
+        stderr=subprocess.PIPE if capture else None,
+        check=False,
+    )
     if check and result.returncode != 0:
+        if capture:
+            if result.stdout:
+                print(result.stdout, end="")
+            if result.stderr:
+                print(result.stderr, end="", file=sys.stderr)
         raise CommandError(f"command failed with exit code {result.returncode}: {cmd}")
     return result
 
@@ -94,6 +159,10 @@ def require_command(name: str) -> str:
         f"required command not found: {name} "
         f"(checked PATH and {Path.home() / '.local' / 'bin'})"
     )
+
+
+def resolve_workspace(path: str | Path | None) -> Path:
+    return Path(path or ".").expanduser().resolve()
 
 
 def github_archive_url(repo_url: str, ref: str) -> str:
@@ -252,6 +321,207 @@ def open_workspace(target: Path) -> None:
     run([code, "--reuse-window", str(target)], check=False)
 
 
+def uvx_source(repo_url: str, ref: str) -> str:
+    source = repo_url if repo_url.startswith("git+") else f"git+{repo_url}"
+    if "@" not in source.rsplit("/", 1)[-1]:
+        source = f"{source}@{ref}"
+    return source
+
+
+def emses_uvx_command(repo_url: str, ref: str) -> str:
+    uvx = find_command("uvx") or "uvx"
+    return f'{uvx} --no-cache --from "{uvx_source(repo_url, ref)}" emses-tutorials'
+
+
+def source_files(source_root: Path) -> list[str]:
+    files: list[str] = []
+    for current, _, filenames in os.walk(source_root):
+        current_path = Path(current)
+        for filename in filenames:
+            rel = (current_path / filename).relative_to(source_root).as_posix()
+            files.append(rel)
+    return sorted(files)
+
+
+def matches_any(path: str, patterns: list[str]) -> bool:
+    return any(fnmatch.fnmatch(path, pattern) for pattern in patterns)
+
+
+def managed_repair_files(
+    source_root: Path,
+    *,
+    include_parameters: bool,
+    include_notebooks: bool,
+) -> list[str]:
+    patterns = list(SAFE_REPAIR_PATTERNS)
+    if include_parameters:
+        patterns += PARAMETER_REPAIR_PATTERNS
+    if include_notebooks:
+        patterns += NOTEBOOK_REPAIR_PATTERNS
+    return [
+        path
+        for path in source_files(source_root)
+        if matches_any(path, patterns)
+        and not any(path == item or path.startswith(f"{item}/") for item in MAINTAINER_ONLY_PATHS)
+    ]
+
+
+def backup_changed_files(source_root: Path, target: Path, paths: list[str]) -> Path | None:
+    changed = [
+        rel
+        for rel in paths
+        if (target / rel).exists() and not same_file(source_root / rel, target / rel)
+    ]
+    if not changed:
+        return None
+
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    backup_dir = target / ".emses-tutorials" / "backups" / f"repair-{stamp}"
+    for rel in changed:
+        src = target / rel
+        dst = backup_dir / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+    info(f"backed up {len(changed)} changed files to {backup_dir}")
+    return backup_dir
+
+
+def repair_workspace(
+    source_root: Path,
+    target: Path,
+    *,
+    include_parameters: bool,
+    include_notebooks: bool,
+    dry_run: bool,
+) -> None:
+    paths = managed_repair_files(
+        source_root,
+        include_parameters=include_parameters,
+        include_notebooks=include_notebooks,
+    )
+    if not paths:
+        raise CommandError("no managed files found in the source archive")
+
+    info(f"managed files selected for repair: {len(paths)}")
+    if dry_run:
+        for path in paths:
+            print(path)
+        return
+
+    backup_changed_files(source_root, target, paths)
+    counts = {"copied": 0, "unchanged": 0, "kept": 0}
+    for rel in paths:
+        status = copy_file(source_root / rel, target / rel, overwrite=True)
+        counts[status] += 1
+    info(
+        "repair summary: "
+        f"{counts['copied']} copied, "
+        f"{counts['unchanged']} unchanged"
+    )
+
+
+def check_python_import(venv_python: Path, module: str) -> bool:
+    result = run(
+        [
+            str(venv_python),
+            "-c",
+            (
+                "import importlib.util, sys; "
+                f"sys.exit(0 if importlib.util.find_spec({module!r}) else 1)"
+            ),
+        ],
+        check=False,
+        capture=True,
+    )
+    if result.returncode == 0:
+        info(f"python import ok: {module}")
+        return True
+    warn(f"python import failed: {module}")
+    return False
+
+
+def check_executable(path: Path, *, optional: bool) -> bool:
+    if path.exists() and os.access(path, os.X_OK):
+        info(f"command ok: {path}")
+        return True
+    message = f"command not found in venv: {path}"
+    if optional:
+        warn(f"{message} (install MPIEMSES3D if you have not yet done so)")
+        return False
+    warn(message)
+    return False
+
+
+def doctor_workspace(target: Path, *, venv: Path, strict: bool) -> int:
+    failures = 0
+    warnings = 0
+
+    def issue(message: str) -> None:
+        nonlocal failures
+        warn(message)
+        failures += 1
+
+    def soft_warn(message: str) -> None:
+        nonlocal warnings
+        warn(message)
+        warnings += 1
+
+    info(f"workspace: {target}")
+    if not target.exists():
+        issue(f"workspace does not exist: {target}")
+        return 1
+
+    for rel in REQUIRED_WORKSPACE_PATHS:
+        if (target / rel).exists():
+            info(f"found: {rel}")
+        else:
+            issue(f"missing: {rel}")
+
+    for rel in MAINTAINER_ONLY_PATHS:
+        if (target / rel).exists():
+            soft_warn(f"maintainer-only path is present in this workspace: {rel}")
+
+    settings = target / ".vscode" / "settings.json"
+    if settings.exists():
+        text = settings.read_text(encoding="utf-8", errors="replace")
+        if "${workspaceFolder}/.venv/bin/python" in text:
+            info("VS Code interpreter points to ${workspaceFolder}/.venv/bin/python")
+        else:
+            soft_warn("VS Code interpreter setting does not point to .venv/bin/python")
+
+    for command in ["git", "uv"]:
+        path = find_command(command)
+        if path:
+            info(f"{command}: {path}")
+        else:
+            issue(f"required command not found: {command}")
+
+    venv_python = venv / "bin" / "python"
+    if not venv_python.exists():
+        issue(f"missing venv python: {venv_python}")
+    else:
+        result = run([str(venv_python), "-V"], capture=True, check=False)
+        info(result.stdout.strip() or result.stderr.strip())
+        for module in REQUIRED_PYTHON_MODULES:
+            if not check_python_import(venv_python, module):
+                failures += 1
+        for command in SETUP_COMMANDS:
+            if not check_executable(venv / "bin" / command, optional=False):
+                failures += 1
+        for command in MPIEMSES_COMMANDS:
+            if not check_executable(venv / "bin" / command, optional=True):
+                warnings += 1
+
+    if failures:
+        warn(f"doctor found {failures} setup issue(s)")
+    if warnings:
+        warn(f"doctor found {warnings} warning(s)")
+
+    if failures or (strict and warnings):
+        return 1
+    return 0
+
+
 def cmd_setup(args: argparse.Namespace) -> int:
     target = Path(args.target).expanduser().resolve()
     venv = resolve_venv_path(target, args.venv)
@@ -275,8 +545,44 @@ def cmd_setup(args: argparse.Namespace) -> int:
     print(f"  cd {target}")
     print("  code --reuse-window .")
     print("  # VS Code Python extension will use .venv/bin/python")
+    print(f"  {emses_uvx_command(args.repo_url, args.ref)} doctor .")
     print("  mpiemses3D --version  # after installing MPIEMSES3D in .venv")
     return 0
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    target = resolve_workspace(args.target)
+    venv = resolve_venv_path(target, args.venv)
+    return doctor_workspace(target, venv=venv, strict=args.strict)
+
+
+def cmd_repair(args: argparse.Namespace) -> int:
+    target = resolve_workspace(args.target)
+    venv = resolve_venv_path(target, args.venv)
+    with tempfile.TemporaryDirectory(prefix="emses-tutorials-repair-") as tmp:
+        source_root = download_archive(args.repo_url, args.ref, Path(tmp))
+        repair_workspace(
+            source_root,
+            target,
+            include_parameters=args.include_parameters,
+            include_notebooks=args.include_notebooks,
+            dry_run=args.dry_run,
+        )
+
+    if args.dry_run:
+        return 0
+    if not args.skip_install:
+        install_environment(target, python=args.python, venv=venv)
+    return doctor_workspace(target, venv=venv, strict=args.strict)
+
+
+def add_workspace_argument(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "target",
+        nargs="?",
+        default=".",
+        help="tutorial workspace directory (default: current directory)",
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -299,6 +605,33 @@ def build_parser() -> argparse.ArgumentParser:
     setup.add_argument("--no-extensions", action="store_true")
     setup.add_argument("--open", action="store_true", help="open the workspace in VS Code")
     setup.set_defaults(func=cmd_setup)
+
+    doctor = subparsers.add_parser("doctor", help="diagnose an existing workspace")
+    add_workspace_argument(doctor)
+    doctor.add_argument("--venv", default=DEFAULT_VENV)
+    doctor.add_argument("--strict", action="store_true", help="fail on warnings")
+    doctor.set_defaults(func=cmd_doctor)
+
+    repair = subparsers.add_parser("repair", help="restore managed tutorial files")
+    add_workspace_argument(repair)
+    repair.add_argument("--repo-url", default=DEFAULT_REPO_URL)
+    repair.add_argument("--ref", default=DEFAULT_REF, help="GitHub branch, tag, or SHA")
+    repair.add_argument("--python", default=DEFAULT_PYTHON)
+    repair.add_argument("--venv", default=DEFAULT_VENV)
+    repair.add_argument(
+        "--include-parameters",
+        action="store_true",
+        help="also repair plasma.toml and archived legacy input files",
+    )
+    repair.add_argument(
+        "--include-notebooks",
+        action="store_true",
+        help="also repair plot_example.ipynb files",
+    )
+    repair.add_argument("--skip-install", action="store_true")
+    repair.add_argument("--dry-run", action="store_true")
+    repair.add_argument("--strict", action="store_true", help="fail on doctor warnings")
+    repair.set_defaults(func=cmd_repair)
     return parser
 
 

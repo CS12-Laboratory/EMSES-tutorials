@@ -26,7 +26,7 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     [初回チュートリアル](./quick-start/) で `dshield*` を動かす手順を順を追って確認できます。
   </Card>
   <Card title="パラメータと入力ファイル" icon="document">
-    `dshield*` は `plasma.toml` を標準入力として使います。`[meta.physical]` を編集したら、投入前に `emu apply plasma.toml` を実行してください。
+    `dshield*` は `plasma.toml` を標準入力として使います。`job.sh` は `emu apply` / `emu lint` / `emu inspect` を実行してから `mpiemses3D` を起動します。
   </Card>
   <Card title="補助ツール" icon="setting">
     `uvx ... emses-tutorials setup` で教材を展開し、ローカル `.venv/` に可視化・解析パッケージと `mysbatch` などを導入します。`MPIEMSES3D` 本体も同じ `.venv/` に導入します。
