@@ -14,11 +14,15 @@ cases on Kyoto University's camphor supercomputer.
 
 ## Documentation Rules
 
-- Keep Japanese and English QuickStart pages in sync:
+- Keep Japanese and English QuickStart / FAQ pages in sync:
   - `docs/QuickStart.md`
   - `docs/QuickStart_en.md`
+  - `docs/FAQ.md`
+  - `docs/FAQ_en.md`
   - `site/src/content/docs/quick-start.md`
   - `site/src/content/docs/en/quick-start.md`
+  - `site/src/content/docs/faq.md`
+  - `site/src/content/docs/en/faq.md`
 - Keep this repository focused on its own individual tutorial workflow.
 - If setup steps change, update both the repository docs and the site docs.
 - The site pages need Starlight admonition syntax (`:::note`, `:::tip`), while

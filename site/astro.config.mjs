@@ -34,6 +34,11 @@ export default defineConfig({
               translations: { ja: '初回チュートリアル' },
               link: '/quick-start/',
             },
+            {
+              label: 'FAQ',
+              translations: { ja: 'FAQ' },
+              link: '/faq/',
+            },
           ],
         },
         {

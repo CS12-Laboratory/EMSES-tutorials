@@ -10,6 +10,7 @@ Documentation site (GitHub Pages): <https://cs12-laboratory.github.io/EMSES-tuto
 
 - Published site: [Quick Start](https://cs12-laboratory.github.io/EMSES-tutorials/en/quick-start/) / [初回チュートリアル (Japanese)](https://cs12-laboratory.github.io/EMSES-tutorials/quick-start/)
 - In-repo Markdown: [docs/QuickStart_en.md](docs/QuickStart_en.md) / [docs/QuickStart.md](docs/QuickStart.md)
+- Supplement: [FAQ](docs/FAQ_en.md) / [FAQ (Japanese)](docs/FAQ.md)
 
 ## Parameters and Input Files
 

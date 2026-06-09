@@ -150,26 +150,24 @@ code --reuse-window "$HOME/large1/Github/EMSES-tutorials"
 
 `git clone` は手で実行せず、`uvx` 経由の `emses-tutorials setup` で教材ファイルとディレクトリを展開します。セットアップコマンドは `docs/`、`dshield*/`、`imgs/`、`.mypython/`、`.vscode/` などを作成し、教材ディレクトリ直下の `.venv/` に `requirements.txt` もインストールします。
 
-`code` コマンドが使える場合は、VS Code の Python / Jupyter / TOML 拡張機能もインストールします。拡張機能の導入をスキップしたい場合は `--no-extensions` を付けてください。
-
 ```bash
 cd "$HOME/large1/Github/EMSES-tutorials"
 uvx --no-cache \
   --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$PWD"
+  emses-tutorials setup "$PWD" --no-extensions
 ```
 
-既存ファイルがある場合、セットアップコマンドはデフォルトでは上書きせずに残します。教材ファイルを明示的に更新したい場合だけ `--overwrite` を付けて再実行してください。
+VS Code の Python / Jupyter / TOML 拡張機能をインストールします。
 
 ```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$PWD" --overwrite
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+code --install-extension tamasfe.even-better-toml
 ```
 
-この手順では、`.venv` の有効化のために `~/.bashrc` は変更しません。
+拡張機能のインストール後、Command Palette を `Ctrl+Shift+P` で開き、`reload` と入力して **Developer: Reload Window** を実行します。
 
-`setup` 後に、このリポジトリの `.vscode/settings.json` が `${workspaceFolder}/.venv/bin/python` を Python interpreter として指定します。VS Code の window を reload し、Python 拡張機能が入った状態で新しい TERMINAL を開くと、通常は `.venv` が自動で有効化されます。
+この手順では、`.venv` の有効化のために `~/.bashrc` は変更しません。`setup` 後に、このリポジトリの `.vscode/settings.json` が `${workspaceFolder}/.venv/bin/python` を Python interpreter として指定します。
 
 新しい TERMINAL で次を確認してください。
 
@@ -179,22 +177,6 @@ python -c 'import sys; print(sys.executable)'
 ```
 
 表示される Python が `.../EMSES-tutorials/.venv/bin/python` でない場合は、VS Code の window を reload し、`Python: Select Interpreter` で `.venv/bin/python` を選んでから新しい TERMINAL を開き直してください。
-
-セットアップ状態をまとめて確認したい場合は `doctor` を使います。
-
-```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials doctor "$PWD"
-```
-
-教材ファイルを戻したい場合は `repair` を使います。まず `--dry-run` で対象ファイルを確認してください。通常の `repair` は、編集することが多い `plasma.toml` と notebook は上書きしません。
-
-```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials repair "$PWD" --dry-run
-```
 
 ## 6. MPIEMSES3D をインストールする
 
@@ -362,6 +344,8 @@ mysbatch job.sh
 旧 `advance/` の例は、`MPIEMSES3D` 側の [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) を参照してください。
 
 ## よくあるつまずき
+
+セットアップ状態の診断、教材ファイルの修復、明示的な上書き更新は [FAQ](../faq/) にまとめています。
 
 - `uvx` が見つからない: `export PATH="$HOME/.local/bin:$PATH"` を実行し、`uv` のインストールが成功しているか確認してください。
 - `git ls-remote` や `pip install git+https://...MPIEMSES3D...` が失敗する: GitHub 認証、または private repository へのアクセス権を確認してください。

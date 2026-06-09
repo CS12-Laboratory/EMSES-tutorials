@@ -150,26 +150,24 @@ Run the following commands in the TERMINAL of the VS Code remote window you just
 
 Do not run `git clone` manually. Instead, use `emses-tutorials setup` through `uvx` to expand the tutorial files and directories. The setup command creates `docs/`, `dshield*/`, `imgs/`, `.mypython/`, `.vscode/`, and related files, then installs `requirements.txt` into the tutorial-local `.venv/`.
 
-When the `code` command is available, setup also installs the VS Code Python, Jupyter, and TOML extensions. Add `--no-extensions` if you want to skip extension installation.
-
 ```bash
 cd "$HOME/large1/Github/EMSES-tutorials"
 uvx --no-cache \
   --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$PWD"
+  emses-tutorials setup "$PWD" --no-extensions
 ```
 
-If files already exist, the setup command keeps them by default instead of overwriting them. Add `--overwrite` only when you intentionally want to refresh tutorial files.
+Install the VS Code Python, Jupyter, and TOML extensions.
 
 ```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials setup "$PWD" --overwrite
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+code --install-extension tamasfe.even-better-toml
 ```
 
-This workflow does not modify `~/.bashrc` to activate `.venv`.
+After installing the extensions, open the Command Palette with `Ctrl+Shift+P`, type `reload`, and run **Developer: Reload Window**.
 
-After `setup`, this repository's `.vscode/settings.json` points Python to `${workspaceFolder}/.venv/bin/python`. Reload the VS Code window, then open a new TERMINAL with the Python extension installed; `.venv` usually activates automatically.
+This workflow does not modify `~/.bashrc` to activate `.venv`. After `setup`, this repository's `.vscode/settings.json` points Python to `${workspaceFolder}/.venv/bin/python`.
 
 Check this in a new TERMINAL:
 
@@ -179,22 +177,6 @@ python -c 'import sys; print(sys.executable)'
 ```
 
 If the Python path is not `.../EMSES-tutorials/.venv/bin/python`, reload the VS Code window, select `.venv/bin/python` with `Python: Select Interpreter`, and open a new TERMINAL.
-
-Use `doctor` to check the setup in one pass.
-
-```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials doctor "$PWD"
-```
-
-Use `repair` when you want to restore tutorial files. Start with `--dry-run` to see the selected files. By default, `repair` does not overwrite frequently edited files such as `plasma.toml` or notebooks.
-
-```bash
-uvx --no-cache \
-  --from "git+https://github.com/CS12-Laboratory/EMSES-tutorials.git@main" \
-  emses-tutorials repair "$PWD" --dry-run
-```
 
 ## 6. Install MPIEMSES3D
 
@@ -362,6 +344,8 @@ Questions to check:
 For the former `advance/` examples, see [`cookbook`](https://github.com/CS12-Laboratory/MPIEMSES3D/tree/main/cookbook) in the `MPIEMSES3D` repository.
 
 ## Common Pitfalls
+
+See the [FAQ](../faq/) for setup diagnostics, managed file repair, and explicit overwrite updates.
 
 - `uvx` is missing: run `export PATH="$HOME/.local/bin:$PATH"` and check whether the `uv` installation succeeded.
 - `git ls-remote` or `pip install git+https://...MPIEMSES3D...` fails: check GitHub authentication and access to the private repository.
